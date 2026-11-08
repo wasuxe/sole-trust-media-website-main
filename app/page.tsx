@@ -416,27 +416,20 @@ export default function Page() {
   return (
     <main className="site-shell">
       {/* Navigation */}
-      <nav className="nav" aria-label="Main Navigation">
+      <nav className="nav home-nav" aria-label="Main Navigation">
         <a className="wordmark" href="#top" aria-label="Sole Trust Media home">
           <span>STM</span>
-          <small>SOLE TRUST MEDIA</small>
+          <small>SOLE TRUST MEDIA<sup>®</sup></small>
         </a>
+        <span className="nav-rule" aria-hidden="true" />
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <a href="#services" onClick={() => setMenuOpen(false)}>
-            Services
-          </a>
-          <a href="/work" onClick={() => setMenuOpen(false)}>
-            Work
-          </a>
-          <a href="#process" onClick={() => setMenuOpen(false)}>
-            Process
-          </a>
-          <a href="#case-studies" onClick={() => setMenuOpen(false)}>
-            Case Studies
-          </a>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </a>
+          <a href="#services" onClick={() => setMenuOpen(false)}>Creative</a>
+          <span aria-hidden="true">/</span>
+          <a href="#services" onClick={() => setMenuOpen(false)}>Branding</a>
+          <span aria-hidden="true">/</span>
+          <a href="/work" onClick={() => setMenuOpen(false)}>Digital</a>
+          <span aria-hidden="true">/</span>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>Growth</a>
         </div>
         <button
           className="menu-button"
@@ -452,32 +445,91 @@ export default function Page() {
           ==================================================================== */}
       <section className="hero" id="top">
         <div className="hero-copy reveal">
-          <p className="eyebrow">Independent creative agency · Bengaluru / Worldwide</p>
           <h1>
-            We Create <em>Brands</em> That People Remember.
+            We Create
+            <br />
+            <em>Brands</em> That
+            <br />
+            People
+            <br />
+            Remember<span className="hero-period">.</span>
           </h1>
           <p className="hero-sub">
-            We combine strategy, creativity and technology to help businesses build stronger brands,
-            meaningful digital experiences and sustainable growth.
+            A full-service marketing agency that blends creativity, strategy and technology to build
+            powerful brands, drive real growth, and create lasting digital experiences.
           </p>
           <div className="hero-actions">
             <a className="button button-dark" href="#contact">
-              Let&apos;s Build Something Together <ArrowUpRight data-icon="inline-end" />
+              Start Your Project <ArrowUpRight data-icon="inline-end" />
             </a>
             <a className="text-link" href="/work">
-              Explore Our Work <ArrowUpRight data-icon="inline-end" />
+              See Our Work
             </a>
           </div>
+          <div className="hero-stats" aria-label="Agency milestones">
+            <div><strong>50+</strong><span>Brands</span></div>
+            <div><strong>100+</strong><span>Projects</span></div>
+            <div><strong>3+</strong><span>Years</span></div>
+            <div><strong>∞</strong><span>Growth focus</span></div>
+          </div>
         </div>
-        <div className="hero-image reveal">
-          <img
-            src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1800&q=85"
-            alt="Sole Trust Media abstract architectural art installation"
-          />
-        </div>
-        <div className="hero-meta">
-          <span>01 / 09 · Independent Agency</span>
-          <span>Scroll to explore ↓</span>
+        <div className="hero-art reveal" aria-hidden="true">
+          <svg className="hero-ribbon" viewBox="0 0 900 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="hero-disc" cx="0" cy="0" r="1" gradientTransform="matrix(460 0 0 460 485 372)" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#321723" />
+                <stop offset="1" stopColor="#100D12" />
+              </radialGradient>
+              <linearGradient id="ribbon-fire" x1="128" y1="557" x2="760" y2="158" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#FFB567" />
+                <stop offset=".25" stopColor="#FF5D22" />
+                <stop offset=".52" stopColor="#3B1935" />
+                <stop offset=".72" stopColor="#A62558" />
+                <stop offset=".9" stopColor="#FF8A35" />
+                <stop offset="1" stopColor="#FFCF87" />
+              </linearGradient>
+              <linearGradient id="ribbon-blue" x1="144" y1="634" x2="887" y2="290" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#F17A45" />
+                <stop offset=".26" stopColor="#431C3D" />
+                <stop offset=".54" stopColor="#171D3C" />
+                <stop offset=".72" stopColor="#69317A" />
+                <stop offset="1" stopColor="#F27D8E" />
+              </linearGradient>
+              <linearGradient id="ribbon-highlight" x1="176" y1="596" x2="758" y2="200" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#FFE0A4" />
+                <stop offset=".35" stopColor="#FF6A35" />
+                <stop offset=".67" stopColor="#A23B81" />
+                <stop offset="1" stopColor="#FFB780" />
+              </linearGradient>
+              <filter id="ribbon-glow" x="0" y="0" width="100%" height="100%">
+                <feGaussianBlur stdDeviation="13" />
+              </filter>
+            </defs>
+            <circle cx="500" cy="375" r="306" fill="url(#hero-disc)" />
+            <circle cx="500" cy="375" r="365" stroke="#B77B5E" strokeOpacity=".55" />
+            <path d="M75 594C207 346 348 715 512 497C638 330 718 455 865 104" stroke="url(#ribbon-fire)" strokeWidth="158" strokeLinecap="round" />
+            <path d="M120 695C264 445 390 729 546 535C678 371 758 501 908 181" stroke="url(#ribbon-blue)" strokeWidth="122" strokeLinecap="round" />
+            <path d="M40 536C208 369 317 623 471 430C630 229 740 398 885 109" stroke="url(#ribbon-fire)" strokeWidth="90" strokeLinecap="round" opacity=".8" />
+            <path d="M80 591C219 369 346 686 512 489C646 330 733 441 869 146" stroke="url(#ribbon-highlight)" strokeWidth="10" strokeLinecap="round" opacity=".9" />
+            <path d="M157 677C301 454 405 691 553 517C685 362 766 483 904 198" stroke="url(#ribbon-highlight)" strokeWidth="7" strokeLinecap="round" opacity=".72" />
+            <path d="M371 91l8 17 18 7-18 8-8 18-8-18-18-8 18-7 8-17Z" fill="#9A5133" />
+          </svg>
+          <div className="art-card art-card-strategy">
+            <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
+            <span>Brand<br />Strategy</span>
+          </div>
+          <div className="art-card art-card-content">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8Z"/></svg>
+            <span>Content<br />&amp; Media</span>
+          </div>
+          <div className="art-card art-card-build">
+            <svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 5l-4 14"/></svg>
+            <span>Web &amp; App<br />Development</span>
+          </div>
+          <div className="art-card art-card-growth">
+            <svg viewBox="0 0 24 24"><path d="M4 20v-6h4v6H4ZM10 20V9h4v11h-4ZM16 20V4h4v16h-4Z"/></svg>
+            <span>Performance<br />Marketing</span>
+          </div>
         </div>
       </section>
 
