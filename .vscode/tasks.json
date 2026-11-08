@@ -2,14 +2,47 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Production build",
+			"label": "Copy 13ISU creative images",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-c",
+				"from pathlib import Path; import shutil; srcs = [Path(r'c:\\Users\\HP\\AppData\\Roaming\\Code\\agentSessionData\\c40fa7e8-b2c5-4219-b86d-ac2636b63211\\attachments\\5ab43e37-d41d-445a-ad69-dd94bba95249\\Pasted Image.png'), Path(r'c:\\Users\\HP\\AppData\\Roaming\\Code\\agentSessionData\\c40fa7e8-b2c5-4219-b86d-ac2636b63211\\attachments\\c3b1123f-9b53-421d-ba01-0d621c2d4778\\Pasted Image 2.png'), Path(r'c:\\Users\\HP\\AppData\\Roaming\\Code\\agentSessionData\\c40fa7e8-b2c5-4219-b86d-ac2636b63211\\attachments\\83d49300-f7ff-4903-9ec8-0d877c6db709\\Pasted Image 3.png')]; dsts = ['13isu-creative-1.png','13isu-creative-2.png','13isu-creative-3.png']; out = Path(r'c:\\Users\\HP\\Downloads\\sole-trust-media-website-main\\public'); out.mkdir(exist_ok=True); \nfor src, name in zip(srcs, dsts):\n    dst = out / name\n    shutil.copy2(src, dst)\n    print(f'Copied {src} -> {dst}')\n    print(dst.exists(), dst.stat().st_size)\n"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Copy 13ISU event images",
+			"type": "shell",
+			"command": "cmd",
+			"args": [
+				"/c",
+				"python -c \"from pathlib import Path; import shutil; srcs = [Path(r'c:\\Users\\HP\\AppData\\Roaming\\Code\\agentSessionData\\c40fa7e8-b2c5-4219-b86d-ac2636b63211\\attachments\\5ab43e37-d41d-445a-ad69-dd94bba95249\\Pasted Image.png'), Path(r'c:\\Users\\HP\\AppData\\Roaming\\Code\\agentSessionData\\c40fa7e8-b2c5-4219-b86d-ac2636b63211\\attachments\\c3b1123f-9b53-421d-ba01-0d621c2d4778\\Pasted Image 2.png'), Path(r'c:\\Users\\HP\\AppData\\Roaming\\Code\\agentSessionData\\c40fa7e8-b2c5-4219-b86d-ac2636b63211\\attachments\\83d49300-f7ff-4903-9ec8-0d877c6db709\\Pasted Image 3.png')]; dsts = ['13isu-creative-1.png','13isu-creative-2.png','13isu-creative-3.png']; out = Path(r'c:\\Users\\HP\\Downloads\\sole-trust-media-website-main\\public'); out.mkdir(exist_ok=True); [shutil.copy2(src, out / name) for src, name in zip(srcs, dsts)]; print('Copied', *[str(out / n) for n in dsts], sep='\\n')\""
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run 13ISU copy script",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"c:\\Users\\HP\\.copilot\\session-state\\df8ccbb3-8646-46e6-946a-bdfe63f86256\\files\\copy_13isu_creative.py"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build site after creative image update",
 			"type": "shell",
 			"command": "npm",
 			"args": [
 				"run",
 				"build"
 			],
-			"isBackground": false
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

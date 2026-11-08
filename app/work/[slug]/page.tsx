@@ -66,7 +66,19 @@ const staticData: Record<string, CaseStudyData> = {
     gallery: [
       {
         image_url: "/13isu-logo.svg",
-        caption: "13ISU logo treatment used as the project identity mark.",
+        caption: "13ISU logo artwork used as the project identity mark.",
+      },
+      {
+        image_url: "/13isu-creative-1.png",
+        caption: "Night-market activation setup for the 13ISU tiramisu launch.",
+      },
+      {
+        image_url: "/13isu-creative-2.png",
+        caption: "Product packaging and presentation detail from the 13ISU launch materials.",
+      },
+      {
+        image_url: "/13isu-creative-3.png",
+        caption: "The large-format display board used to create a memorable event presence.",
       },
       {
         image_url: "https://drive.google.com/uc?export=download&id=1A9zZZC_4OP9RA_u-HndFTgrhKSaSjXC6",
