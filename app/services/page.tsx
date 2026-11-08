@@ -15,7 +15,7 @@ const serviceCategories = [
     index: '01',
     heading: 'Brand Strategy & Identity',
     description:
-      'We build the foundations that everything else stands on. A clear brand strategy means you know exactly who you are, who you serve, and why you're the obvious choice.',
+      'We build the foundations that everything else stands on. A clear brand strategy means you know exactly who you are, who you serve, and why you are the obvious choice.',
     services: [
       'Brand Strategy & Positioning',
       'Visual Identity & Logo Design',
@@ -25,7 +25,7 @@ const serviceCategories = [
       'Creative Direction',
     ],
     value:
-      'A brand that's impossible to ignore — and impossible to replace.',
+      'A brand that is impossible to ignore — and impossible to replace.',
   },
   {
     index: '02',
@@ -95,7 +95,7 @@ const serviceCategories = [
     index: '06',
     heading: 'Custom Web Applications',
     description:
-      'When off-the-shelf doesn't cut it, we build it. Custom applications that solve your specific operational problems — designed cleanly, built to scale.',
+      'When off-the-shelf does not cut it, we build it. Custom applications that solve your specific operational problems — designed cleanly, built to scale.',
     services: [
       'Custom SaaS Products',
       'Client & Partner Portals',

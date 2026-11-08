@@ -795,6 +795,89 @@ footer { background:var(--dark); color:var(--cream); padding:45px 4vw 25px; bord
   padding-top: 10px;
   text-transform: uppercase;
 }
+.case-approach {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.case-approach span,
+.case-source-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  background: rgba(75, 53, 40, 0.025);
+}
+.case-approach span {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 15px;
+  color: var(--dark);
+}
+.case-approach small,
+.case-source-card small,
+.case-asset-row .eyebrow {
+  font: 10px 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.case-assets-list,
+.case-source-grid {
+  display: grid;
+  gap: 12px;
+}
+.case-asset-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.case-asset-row h4 {
+  margin: 8px 0 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+.case-asset-actions {
+  display: flex;
+  gap: 18px;
+  flex-shrink: 0;
+}
+.case-asset-actions a,
+.case-source-card small {
+  font: 10px 'DM Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.case-asset-actions a {
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 4px;
+}
+.case-source-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.case-source-card {
+  display: flex;
+  min-height: 160px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.case-source-card:hover {
+  background: rgba(75, 53, 40, 0.07);
+  transform: translateY(-2px);
+}
+.case-source-card > span {
+  font-size: 16px;
+  font-weight: 600;
+}
+.case-source-card p {
+  margin: 12px 0;
+  font-size: 13px;
+}
 .portfolio-card-meta .portfolio-card-desc {
   font: 13px/1.6 'Manrope', sans-serif;
   text-transform: none;
@@ -898,6 +981,21 @@ footer { background:var(--dark); color:var(--cream); padding:45px 4vw 25px; bord
   }
   .case-section {
     padding: 75px 5vw;
+  }
+  .case-gallery {
+    grid-template-columns: 1fr;
+    padding: 0 5vw 60px;
+  }
+  .case-approach,
+  .case-source-grid {
+    grid-template-columns: 1fr;
+  }
+  .case-asset-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .case-asset-actions {
+    padding-top: 6px;
   }
   .case-next {
     padding: 90px 5vw;

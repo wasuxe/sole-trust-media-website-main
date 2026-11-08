@@ -9,15 +9,20 @@ interface CaseStudyData {
   category: string
   type: string
   cover_image: string
+  industry?: string
+  location?: string
   client_introduction: string
   business_challenge: string
   objectives: string
   strategy: string
   creative_direction: string
   execution: string
+  approach?: string[]
   services_delivered: string[]
   results: string
   gallery: Array<{ image_url: string; caption?: string }>
+  sources?: Array<{ title: string; description: string; href: string }>
+  assets?: Array<{ title: string; fileId: string }>
 }
 
 const staticData: Record<string, CaseStudyData> = {
@@ -25,33 +30,101 @@ const staticData: Record<string, CaseStudyData> = {
     title: "13ISU",
     client_name: "13ISU",
     category: "Branding & Identity",
-    type: "Branding / Packaging / Marketing",
-    cover_image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1800&q=85",
-    client_introduction: "13ISU is a contemporary brand exploring the intersection of culture, identity and self-expression through considered product design.",
-    business_challenge: "The brand needed a visual identity and packaging system that could communicate its point of view clearly — something that felt distinctive on shelf and resonant with a culturally aware audience.",
-    objectives: "Develop a full brand identity system including logo, visual language and packaging that reflects the brand's values and stands out in a competitive market.",
-    strategy: "We began with brand discovery sessions to understand the audience, the competitive landscape and the story 13ISU wanted to tell. The strategy centred on creating a visual identity grounded in clarity and character.",
-    creative_direction: "The creative direction drew on editorial minimalism — clean typographic treatments balanced with considered use of colour and texture to communicate quality without excess.",
-    execution: "We developed the full identity system: logo mark, typographic system, colour palette, packaging templates and brand guidelines — delivered as a comprehensive brand toolkit.",
-    services_delivered: ["Brand Strategy", "Logo Design", "Visual Identity", "Packaging Design", "Brand Guidelines"],
-    results: "Results not yet documented.",
-    gallery: [],
+    type: "Brand identity / Creative direction / Packaging / Social media marketing",
+    cover_image: "/13isu-logo.svg",
+    industry: "Food & Beverage",
+    location: "Vadodara, Gujarat, India",
+    client_introduction:
+      "13ISU is a speciality dessert brand built around one product: tiramisu. The project brought brand identity and creative communication together to build a distinctive presence in the local dessert market.",
+    business_challenge:
+      "The brand needed to make a single-speciality dessert memorable: establish a recognisable identity and personality, present the product attractively, communicate consistently on social media, and build awareness with a local audience.",
+    objectives:
+      "Create a distinctive brand experience around tiramisu, make the product visually appealing, and give audiences a memorable reason to connect with the brand.",
+    strategy:
+      "The documented approach connected four areas: brand building (name, personality, positioning and visual direction), product presentation, social media communication, and digital visibility through Instagram.",
+    creative_direction:
+      "The name combines 13 (Terah in Hindi) with I-S-U; the identity further interprets the number 3 as an M. A lavender-and-purple palette, distinctive typography and dessert-focused visuals support the playful line, “Your sweetest saviour for tough days.”",
+    execution:
+      "The supplied project overview describes opening announcements, product promotions, brand-introduction creatives, dessert-focused content, occasion-led communication and product-focused video direction.",
+    approach: [
+      "Brand building",
+      "Product presentation",
+      "Social media communication",
+      "Instagram visibility",
+    ],
+    services_delivered: [
+      "Brand concept and positioning",
+      "Brand identity",
+      "Creative direction",
+      "Packaging design",
+      "Social media creatives",
+      "Content direction",
+      "Digital marketing",
+    ],
+    results:
+      "The 13ISU Instagram account recorded 100K+ views in three days, based on the account dashboard shared with STM. Views are not unique reach, conversions or sales; no additional performance metrics are claimed.",
+    gallery: [
+      {
+        image_url: "/13isu-logo.svg",
+        caption: "13ISU logo treatment used as the project identity mark.",
+      },
+      {
+        image_url: "https://drive.google.com/uc?export=download&id=1A9zZZC_4OP9RA_u-HndFTgrhKSaSjXC6",
+        caption: "13ISU QR sticker artwork — “Scan to get some tea.”",
+      },
+    ],
+    sources: [
+      {
+        title: "Project overview",
+        description: "Read the supplied 13ISU case document.",
+        href: "https://docs.google.com/document/d/1lcA5zLsCh9Ka1HP9ijshWWAp-RHuOarEHs4ABrc0U34/edit",
+      },
+    ],
   },
   "lumora-beauty": {
     title: "Lumora Beauty",
     client_name: "Lumora Beauty",
-    category: "Branding & Identity",
-    type: "Beauty branding / Product marketing",
-    cover_image: "https://images.unsplash.com/photo-1556229010-6c3f2c9c5c9d?auto=format&fit=crop&w=1800&q=85",
-    client_introduction: "Lumora Beauty is a modern beauty brand built around everyday rituals, designed for a generation that values simplicity, quality and self-care.",
-    business_challenge: "The brand needed to establish a clear identity in a crowded beauty market — one that communicated quality and approachability without competing on price.",
-    objectives: "Create a brand world that feels personal and premium — an identity that communicates confidence, clarity and care across all brand touchpoints.",
-    strategy: "The strategy began with understanding the target audience and the gap in the market. We identified an opportunity to position Lumora as a trusted everyday beauty companion rather than an aspirational luxury.",
-    creative_direction: "Soft, expressive and tactile. The creative direction prioritised warmth and familiarity — drawing on natural tones, clean typographic hierarchy and an editorial approach to product presentation.",
-    execution: "We developed the complete brand identity, packaging system and product marketing materials — creating a cohesive brand experience across all physical and digital touchpoints.",
-    services_delivered: ["Brand Strategy", "Visual Identity", "Packaging Design", "Product Marketing", "Brand Guidelines"],
-    results: "Results not yet documented.",
-    gallery: [],
+    category: "Packaging Design",
+    type: "Product packaging artwork",
+    cover_image: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
+    client_introduction:
+      "The supplied Lumora Beauty folder contains product packaging artwork for body butter, cream, serum, sheet mask and soap. No separate project brief or brand background was included in the accessible materials.",
+    business_challenge: "",
+    objectives: "",
+    strategy: "",
+    creative_direction: "",
+    execution:
+      "The available deliverables are product artwork PDFs and PNG previews. The supplied materials do not document the design process, launch, performance or business outcomes.",
+    services_delivered: ["Product packaging artwork"],
+    results: "No performance or business outcomes were included in the supplied materials.",
+    gallery: [
+      {
+        image_url: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
+        caption: "Lumi Glow 15 radiant glow serum packaging artwork supplied for Lumora Beauty.",
+      },
+      {
+        image_url: "https://drive.google.com/uc?export=download&id=16qHaTxhx1omhhG2E48W9RBnOCp0K2HFK",
+        caption: "Sheet mask packaging preview.",
+      },
+      {
+        image_url: "https://drive.google.com/uc?export=download&id=16o9V6U-StYcVzmybmFxFnYgwOZCOZ7ct",
+        caption: "Soap packaging preview.",
+      },
+      {
+        image_url: "https://drive.google.com/uc?export=download&id=1zHJ555ZbafXXYGcz41g2uDNnnXwgbQFf",
+        caption: "Second soap packaging preview.",
+      },
+    ],
+    assets: [
+      { title: "Body butter", fileId: "1yZZioG2-YVcuJKMAXddR5z4i3PQlRKRD" },
+      { title: "Cream", fileId: "1O8FFaTWhZMEq0Wu3ugqCfP2vaO3QwHiW" },
+      { title: "Serum", fileId: "1e54n_qq9ehFg53jvtD1DLfM7sFSObcKk" },
+      { title: "Serum bottle", fileId: "1k_D1UTDUMYTjSe7jfjgpt_in2cjAxmWP" },
+      { title: "Sheet mask", fileId: "1gatT8rriQ7YinV8egj6UUuMWWUfkG2P2" },
+      { title: "Soap 1", fileId: "12g98h-pZf0lq6VayYY2OlclrvlSRDXfB" },
+      { title: "Soap 2", fileId: "1O5WamBxcWmY5pZ6i9UExUnUYBHedkW5-" },
+      { title: "Soap 2 — alternate artwork", fileId: "18hADgp7KdwhQ7DZUjMwvSABJUTwzCIMt" },
+    ],
   },
   "sole-trust-media": {
     title: "Sole Trust Media",
@@ -161,6 +234,8 @@ export default async function CaseStudyPage({
   const galleryItems: Array<{ image_url: string; caption?: string }> = Array.isArray(rawGallery)
     ? rawGallery
     : []
+  const projectSources = staticProject?.sources ?? []
+  const projectAssets = staticProject?.assets ?? []
 
   const project: CaseStudyData = {
     title: String(dbProject?.title ?? dbProject?.name ?? staticProject?.title ?? ""),
@@ -179,6 +254,8 @@ export default async function CaseStudyPage({
       staticProject?.cover_image ??
       "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1800&q=85"
     ),
+    industry: staticProject?.industry,
+    location: staticProject?.location,
     client_introduction: String(
       caseStudyRel?.client_introduction ??
       dbProject?.client_introduction ??
@@ -225,6 +302,8 @@ export default async function CaseStudyPage({
       "Results not yet documented."
     ),
     gallery: galleryItems,
+    sources: projectSources,
+    assets: projectAssets,
   }
 
   return (
@@ -267,14 +346,21 @@ export default async function CaseStudyPage({
           </h2>
           <p>{project.client_introduction}</p>
           <div className="case-facts">
+            {project.industry && (
+              <span>
+                Industry<strong>{project.industry}</strong>
+              </span>
+            )}
+            {project.location && (
+              <span>
+                Location<strong>{project.location}</strong>
+              </span>
+            )}
             <span>
               Scope<strong>{project.type || project.category}</strong>
             </span>
             <span>
               Studio<strong>Sole Trust Media</strong>
-            </span>
-            <span>
-              Status<strong>Published</strong>
             </span>
           </div>
         </div>
@@ -335,6 +421,23 @@ export default async function CaseStudyPage({
         </section>
       )}
 
+      {staticProject?.approach && (
+        <section className="case-section section-grid">
+          <div className="section-label">Project approach</div>
+          <div>
+            <h3>Four connected parts.</h3>
+            <div className="case-approach">
+              {staticProject.approach.map((item, index) => (
+                <span key={item}>
+                  <small>0{index + 1}</small>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 11. Services Delivered: horizontal tags */}
       {project.services_delivered.length > 0 && (
         <section className="case-section section-grid">
@@ -368,10 +471,87 @@ export default async function CaseStudyPage({
         <section className="case-gallery">
           {project.gallery.map((item, idx) => (
             <figure key={idx} className="case-gallery-item">
-              <img src={item.image_url} alt={item.caption || `${project.title} detail ${idx + 1}`} />
+              <img
+                src={item.image_url}
+                alt={item.caption || `${project.title} detail ${idx + 1}`}
+                loading="lazy"
+              />
               {item.caption && <figcaption>{item.caption}</figcaption>}
             </figure>
           ))}
+        </section>
+      )}
+
+      {project.assets && project.assets.length > 0 && (
+        <section className="case-section section-grid">
+          <div className="section-label">Supplied artwork</div>
+          <div>
+            <h3>Packaging files.</h3>
+            <p>
+              Preview the supplied PDFs in Google Drive or download them. Editable ZIP archives are
+              intentionally not published here.
+            </p>
+            <div className="case-assets-list">
+              {project.assets.map((asset) => {
+                const previewUrl = `https://drive.google.com/file/d/${asset.fileId}/preview`
+                const downloadUrl = `https://drive.google.com/uc?export=download&id=${asset.fileId}`
+                return (
+                  <article className="case-asset-row" key={asset.fileId}>
+                    <div>
+                      <span className="eyebrow">PDF artwork</span>
+                      <h4>{asset.title}</h4>
+                    </div>
+                    <div className="case-asset-actions">
+                      <a href={previewUrl} target="_blank" rel="noopener noreferrer">
+                        Preview
+                      </a>
+                      <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
+                        Download
+                      </a>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {project.sources && project.sources.length > 0 && (
+        <section className="case-section section-grid">
+          <div className="section-label">Source material</div>
+          <div>
+            <h3>From the project files.</h3>
+            <p>
+              Selected campaign artwork is shown above. The original photography and video folders
+              were reviewed but are not published as bulk archives.
+            </p>
+            <div className="case-source-grid">
+              {project.sources.map((source) => (
+                <a
+                  className="case-source-card"
+                  href={source.href}
+                  key={source.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>{source.title}</span>
+                  <p>{source.description}</p>
+                  <small>Open in Google Drive ↗</small>
+                </a>
+              ))}
+              <a
+                className="case-source-card"
+                href="https://docs.google.com/document/d/1lcA5zLsCh9Ka1HP9ijshWWAp-RHuOarEHs4ABrc0U34/export?format=pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Download project overview</span>
+                <p>PDF export of the supplied 13ISU case document.</p>
+                <small>Download PDF ↗</small>
+              </a>
+            </div>
+          </div>
         </section>
       )}
 

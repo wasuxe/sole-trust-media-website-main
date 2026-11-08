@@ -231,16 +231,16 @@ const featuredCaseStudies = [
     client: "13ISU",
     category: "Branding & Identity / Packaging",
     description:
-      "A considered identity and packaging system designed to make a contemporary lifestyle brand feel unmistakable on shelf and across digital channels.",
-    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1200&q=85",
+      "A speciality tiramisu brand brought to life through a playful identity and product-led social creative — including 100K+ Instagram views in three days, as reported from the account dashboard.",
+    image: "/13isu-logo.svg",
     slug: "13isu",
   },
   {
     client: "Lumora Beauty",
-    category: "Packaging Design & Product Marketing",
+    category: "Packaging Design",
     description:
-      "A soft, tactile beauty universe shaped around clarity, ritual, and high-converting visual storytelling tailored for modern beauty consumers.",
-    image: "https://images.unsplash.com/photo-1556229010-6c3f2c9c5c9d?auto=format&fit=crop&w=1200&q=85",
+      "Product packaging artwork supplied for a beauty range spanning body butter, cream, serum, sheet masks and soap.",
+    image: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
     slug: "lumora-beauty",
   },
   {
@@ -257,13 +257,13 @@ const workPreviewProjects = [
   {
     name: "13ISU",
     type: "Branding / Packaging / Marketing",
-    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1200&q=85",
+    image: "/13isu-logo.svg",
     slug: "13isu",
   },
   {
     name: "Lumora Beauty",
-    type: "Beauty branding / Product marketing",
-    image: "https://images.unsplash.com/photo-1556229010-6c3f2c9c5c9d?auto=format&fit=crop&w=1200&q=85",
+    type: "Product packaging artwork",
+    image: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
     slug: "lumora-beauty",
   },
   {
