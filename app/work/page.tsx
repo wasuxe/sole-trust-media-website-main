@@ -4,68 +4,67 @@ import { useState, useEffect } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
 import SiteNav from "@/components/site-nav"
+import { PROJECTS } from "@/lib/data/projects"
 
 interface Project {
   slug: string
   title: string
+  name?: string
   client_name?: string
+  type?: string
   category: string
   short_description?: string
-  cover_image?: string
+  description?: string
+  note?: string
+  services?: string[]
+  cover_image: string
+  marker?: string
+  tag?: string
+  cta?: string
+  link?: string
+  website?: string
+  tags?: string[]
   featured?: boolean
   status?: string
   display_order?: number
 }
 
-const STATIC_PROJECTS: Project[] = [
-  {
-    slug: "13isu",
-    title: "13ISU",
-    client_name: "13ISU",
-    category: "Branding & Identity",
-    short_description: "A speciality tiramisu brand shaped through identity, product-led creative and social communication.",
-    cover_image: "/13isu-logo.svg",
-    featured: true,
-    status: "published",
-  },
-  {
-    slug: "lumora-beauty",
-    title: "Lumora Beauty",
-    client_name: "Lumora Beauty",
-    category: "Packaging Design",
-    short_description: "Product packaging artwork supplied for body butter, cream, serum, sheet mask and soap.",
-    cover_image: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
-    featured: true,
-    status: "published",
-  },
-  {
-    slug: "sole-trust-media",
-    title: "Sole Trust Media",
-    client_name: "Sole Trust Media",
-    category: "Website Development",
-    short_description: "Our own brand system: a digital home for strategy, creativity, marketing and technology.",
-    cover_image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1200&q=85",
-    featured: true,
-    status: "published",
-  },
-]
-
 const CATEGORIES = [
   "All Projects",
+  "Web / Digital",
   "Branding & Identity",
   "Packaging Design",
-  "Website Development",
-  "Application Development",
-  "Digital Marketing",
+  "Concepts",
+  "AI & Technology",
   "Creative & Content",
-  "Technology & Automation",
 ] as const
 
-const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1200&q=85"
+const INITIAL_PROJECTS: Project[] = PROJECTS.map((p) => ({
+  slug: p.slug,
+  title: p.name,
+  name: p.name,
+  client_name: p.client_name,
+  type: p.type,
+  category: p.category,
+  short_description: p.description,
+  description: p.description,
+  note: p.note,
+  services: p.services,
+  cover_image: p.cover_image,
+  marker: p.marker,
+  tag: p.tag,
+  cta: p.cta,
+  link: p.link,
+  website: p.website,
+  tags: p.tags,
+  featured: p.featured,
+  status: p.status,
+  display_order: p.display_order,
+}))
 
 export default function WorkPage() {
   const [activeCategory, setActiveCategory] = useState<string>("All Projects")
-  const [projects, setProjects] = useState<Project[]>(STATIC_PROJECTS)
+  const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS)
 
   useEffect(() => {
     let isMounted = true
@@ -78,7 +77,7 @@ export default function WorkPage() {
           process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 
         if (!supabaseUrl || !supabaseKey) {
-          if (isMounted) setProjects(STATIC_PROJECTS)
+          if (isMounted) setProjects(INITIAL_PROJECTS)
           return
         }
 
@@ -90,23 +89,42 @@ export default function WorkPage() {
           .order("display_order", { ascending: true })
 
         if (!error && data && data.length > 0) {
-          const mapped: Project[] = data.map((item: Record<string, unknown>) => ({
-            slug: String(item.slug || ""),
-            title: String(item.title || item.name || ""),
-            client_name: String(item.client_name || item.title || item.name || ""),
-            category: String(item.category || "Branding & Identity"),
-            short_description: String(item.short_description || item.overview || item.description || ""),
-            cover_image: String(item.cover_image || item.image || FALLBACK_IMAGE),
-            featured: Boolean(item.featured),
-            status: String(item.status || "published"),
-            display_order: typeof item.display_order === "number" ? item.display_order : undefined,
-          }))
+          const mapped: Project[] = data.map((item: Record<string, unknown>) => {
+            const staticMatch = PROJECTS.find((sp) => sp.slug === String(item.slug || ""))
+            return {
+              slug: String(item.slug || ""),
+              title: String(item.title || item.name || staticMatch?.name || ""),
+              name: String(item.name || item.title || staticMatch?.name || ""),
+              client_name: String(item.client_name || staticMatch?.client_name || ""),
+              type: String(item.type || staticMatch?.type || ""),
+              category: String(item.category || staticMatch?.category || "Selected Work"),
+              short_description: String(
+                item.short_description || item.description || staticMatch?.description || ""
+              ),
+              description: String(item.description || staticMatch?.description || ""),
+              note: String(item.note || staticMatch?.note || ""),
+              services: Array.isArray(item.services)
+                ? (item.services as string[])
+                : staticMatch?.services ?? [],
+              cover_image: String(item.cover_image || staticMatch?.cover_image || "/placeholder.jpg"),
+              marker: String(item.marker || staticMatch?.marker || ""),
+              tag: String(item.tag || staticMatch?.tag || "CLIENT WORK"),
+              cta: String(item.cta || staticMatch?.cta || "VIEW PROJECT"),
+              link: String(item.link || item.website || staticMatch?.link || ""),
+              website: String(item.website || staticMatch?.website || ""),
+              tags: Array.isArray(item.tags) ? (item.tags as string[]) : staticMatch?.tags ?? [],
+              featured: Boolean(item.featured),
+              status: String(item.status || "published"),
+              display_order:
+                typeof item.display_order === "number" ? item.display_order : staticMatch?.display_order,
+            }
+          })
           if (isMounted) setProjects(mapped)
         } else {
-          if (isMounted) setProjects(STATIC_PROJECTS)
+          if (isMounted) setProjects(INITIAL_PROJECTS)
         }
       } catch {
-        if (isMounted) setProjects(STATIC_PROJECTS)
+        if (isMounted) setProjects(INITIAL_PROJECTS)
       }
     }
 
@@ -120,10 +138,23 @@ export default function WorkPage() {
   const filteredProjects =
     activeCategory === "All Projects"
       ? projects
-      : projects.filter(
-          (project) =>
-            project.category.trim().toLowerCase() === activeCategory.trim().toLowerCase()
-        )
+      : projects.filter((project) => {
+          const filterLower = activeCategory.trim().toLowerCase()
+          const catLower = project.category.trim().toLowerCase()
+          const typeLower = (project.type || "").trim().toLowerCase()
+          const tagsLower = (project.tags || []).map((t) => t.toLowerCase())
+
+          if (catLower === filterLower || catLower.includes(filterLower) || filterLower.includes(catLower)) {
+            return true
+          }
+          if (typeLower.includes(filterLower)) {
+            return true
+          }
+          if (tagsLower.some((t) => t.includes(filterLower) || filterLower.includes(t))) {
+            return true
+          }
+          return false
+        })
 
   return (
     <main className="site-shell">
@@ -137,7 +168,7 @@ export default function WorkPage() {
           <i>Distinctive thinking.</i>
         </h1>
         <p>
-          Real work, thoughtful systems and creative direction built to help ambitious businesses move forward.
+          Live digital flagships, conceptual brand systems, and performance architectures built to help ambitious businesses command attention and grow.
         </p>
       </section>
 
@@ -162,33 +193,57 @@ export default function WorkPage() {
             <p>No projects published under &ldquo;{activeCategory}&rdquo; yet.</p>
           </div>
         ) : (
-          <div className="portfolio-grid">
+          <div className="selected-work-grid">
             {filteredProjects.map((project) => {
-              const coverUrl = project.cover_image || FALLBACK_IMAGE
+              const isExternal = Boolean(project.link)
+              const targetUrl =
+                project.link ||
+                (project.slug === "13isu" ? "/work/13isu" : `/work/${project.slug}`)
+
               return (
-                <a
-                  className="portfolio-card"
-                  href={`/work/${project.slug}`}
-                  key={project.slug}
-                >
-                  <div className="portfolio-card-image">
+                <div className="selected-card" key={project.slug}>
+                  <div className="selected-card-image">
                     <img
-                      src={coverUrl}
+                      src={project.cover_image}
                       alt={`${project.title} — ${project.category}`}
                       loading="lazy"
                     />
+                    {project.tag && <span className="selected-card-tag">{project.tag}</span>}
+                    {project.marker && <span className="selected-card-marker">{project.marker}</span>}
                   </div>
-                  <div className="portfolio-card-meta">
+                  <div className="selected-card-body">
                     <div>
-                      <p>{project.category}</p>
-                      <h2>{project.title}</h2>
+                      <div className="selected-card-type">{project.type || project.category}</div>
+                      <h2 className="selected-card-title">{project.title}</h2>
                       {project.short_description && (
-                        <p className="portfolio-card-desc">{project.short_description}</p>
+                        <p className="selected-card-desc">{project.short_description}</p>
+                      )}
+                      {project.services && project.services.length > 0 && (
+                        <div className="selected-card-services">
+                          {project.services.slice(0, 4).map((s) => (
+                            <span className="selected-card-service-pill" key={s}>
+                              {s}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
-                    <ArrowUpRight aria-hidden="true" />
+                    {isExternal ? (
+                      <a
+                        className="selected-card-cta"
+                        href={targetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {project.cta || "OPEN WEBSITE"} <ArrowUpRight size={14} />
+                      </a>
+                    ) : (
+                      <a className="selected-card-cta" href={targetUrl}>
+                        {project.cta || "VIEW PROJECT"} <ArrowUpRight size={14} />
+                      </a>
+                    )}
                   </div>
-                </a>
+                </div>
               )
             })}
           </div>
