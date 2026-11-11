@@ -224,10 +224,13 @@ export default function WorkPage() {
         ) : (
           <div className="selected-work-grid">
             {filteredProjects.map((project) => {
-              const isExternal = Boolean(project.link)
+              const isExternal = Boolean(project.link && project.slug !== "13isu" && project.slug !== "trends-are-a-tool")
               const targetUrl =
-                project.link ||
-                (project.slug === "13isu" ? "/work/13isu" : `/work/${project.slug}`)
+                project.slug === "13isu"
+                  ? "/work/13isu"
+                  : project.slug === "trends-are-a-tool" || project.slug === "trends"
+                  ? "/work/trends-are-a-tool"
+                  : project.link || `/work/${project.slug}`
 
               return (
                 <div className="selected-card" key={project.slug}>
