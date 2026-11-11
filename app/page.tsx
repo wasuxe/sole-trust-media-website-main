@@ -3,6 +3,7 @@
 import { ArrowUpRight, ArrowRight, Menu, X, Mail, MapPin, Plus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
+import { PROJECTS } from "@/lib/data/projects"
 
 // ============================================================================
 // DATA STRUCTURES
@@ -223,54 +224,6 @@ const pillars = [
     title: "Business-Focused Execution",
     description:
       "We focus on solving real problems and unlocking genuine opportunities. Everything we build is judged by its enduring contribution to your bottom line.",
-  },
-]
-
-const featuredCaseStudies = [
-  {
-    client: "13ISU",
-    category: "Branding & Identity / Packaging",
-    description:
-      "A speciality tiramisu brand brought to life through a playful identity and product-led social creative — including 100K+ Instagram views in three days, as reported from the account dashboard.",
-    image: "/13isu-logo.svg",
-    slug: "13isu",
-  },
-  {
-    client: "Lumora Beauty",
-    category: "Packaging Design",
-    description:
-      "Product packaging artwork supplied for a beauty range spanning body butter, cream, serum, sheet masks and soap.",
-    image: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
-    slug: "lumora-beauty",
-  },
-  {
-    client: "Sole Trust Media",
-    category: "Website Development & Digital Experience",
-    description:
-      "Our own brand system and digital flagship: an editorial space where strategic clarity, creative craft, and technical engineering meet.",
-    image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1200&q=85",
-    slug: "sole-trust-media",
-  },
-]
-
-const workPreviewProjects = [
-  {
-    name: "13ISU",
-    type: "Branding / Packaging / Marketing",
-    image: "/13isu-logo.svg",
-    slug: "13isu",
-  },
-  {
-    name: "Lumora Beauty",
-    type: "Product packaging artwork",
-    image: "https://drive.google.com/uc?export=download&id=163Z7B0H5mx0OqzKJ-r2oGQZ4AQspqdDf",
-    slug: "lumora-beauty",
-  },
-  {
-    name: "Sole Trust Media",
-    type: "Agency identity / Digital experience",
-    image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1200&q=85",
-    slug: "sole-trust-media",
   },
 ]
 
@@ -722,10 +675,85 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION 06: FEATURED CASE STUDIES
+          SECTION 06: SELECTED WORK (PLACED FIRST)
+          ==================================================================== */}
+      <section className="work-preview-section section-grid" id="work">
+        <div className="section-label">06 / Selected Work</div>
+        <div className="work-content">
+          <div className="section-heading reveal">
+            <h2>
+              Made to<br />
+              <i>matter.</i>
+            </h2>
+            <p>
+              Live digital platforms, concept directions, and brand systems engineered to elevate ambitious businesses.
+            </p>
+          </div>
+
+          <div className="selected-work-grid reveal">
+            {PROJECTS.map((project) => {
+              const isExternal = Boolean(project.link)
+              const targetUrl =
+                project.link ||
+                (project.slug === "13isu" ? "/work/13isu" : `/work/${project.slug}`)
+
+              return (
+                <div className="selected-card" key={project.slug}>
+                  <div className="selected-card-image">
+                    <img
+                      src={project.cover_image}
+                      alt={`${project.name} preview`}
+                      loading="lazy"
+                    />
+                    <span className="selected-card-tag">{project.tag}</span>
+                    <span className="selected-card-marker">{project.marker}</span>
+                  </div>
+                  <div className="selected-card-body">
+                    <div>
+                      <div className="selected-card-type">{project.type}</div>
+                      <h3 className="selected-card-title">{project.name}</h3>
+                      <p className="selected-card-desc">{project.description}</p>
+                      <div className="selected-card-services">
+                        {project.services.slice(0, 4).map((s) => (
+                          <span className="selected-card-service-pill" key={s}>
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    {isExternal ? (
+                      <a
+                        className="selected-card-cta"
+                        href={targetUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {project.cta} <ArrowUpRight size={14} />
+                      </a>
+                    ) : (
+                      <a className="selected-card-cta" href={targetUrl}>
+                        {project.cta} <ArrowUpRight size={14} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="work-preview-cta reveal">
+            <a className="button button-dark" href="/work">
+              Explore Complete Portfolio ({PROJECTS.length} Projects) <ArrowUpRight data-icon="inline-end" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          SECTION 07: FEATURED CASE STUDIES (PLACED AFTER SELECTED WORK)
           ==================================================================== */}
       <section className="featured-studies section-grid" id="case-studies">
-        <div className="section-label">06 / Case Studies</div>
+        <div className="section-label">07 / Case Studies</div>
         <div className="intro-content">
           <div className="section-heading reveal">
             <h2>
@@ -733,86 +761,94 @@ export default function Page() {
               <i>Real Results.</i>
             </h2>
             <p>
-              Deep dives into how we examine challenges, architect identities, build digital tools, and
-              ignite meaningful brand momentum.
+              In-depth examination of challenges, brand architecture, execution craft, and verified commercial momentum.
             </p>
           </div>
 
-          <div className="featured-grid reveal">
-            {featuredCaseStudies.map((study) => (
-              <div className="featured-card" key={study.client}>
-                <div className="featured-card-image">
-                  <img
-                    src={study.image}
-                    alt={`${study.client} editorial case study preview`}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="featured-card-body">
-                  <div>
-                    <span className="featured-card-category">{study.category}</span>
-                    <h3>{study.client}</h3>
-                    <p>{study.description}</p>
-                  </div>
-                  <a className="featured-card-link" href={`/work/${study.slug}`}>
-                    View case study <ArrowUpRight size={14} />
-                  </a>
+          {/* Flagship Documented Case Study 01: 13ISU */}
+          <div className="case-study-spotlight reveal">
+            <div className="case-study-spotlight-visual">
+              <div className="spotlight-image-grid">
+                <img
+                  src="/13isu-creative-1.png"
+                  alt="13ISU Case Study - Night Market Activation"
+                  className="spotlight-primary-img"
+                />
+                <div className="spotlight-thumb-row">
+                  <img src="/13isu-creative-2.png" alt="13ISU Packaging Detail" />
+                  <img src="/13isu-creative-3.png" alt="13ISU Event Presence" />
                 </div>
               </div>
-            ))}
+            </div>
+            <div className="case-study-spotlight-content">
+              <div className="spotlight-badge">VERIFIED CLIENT CASE STUDY</div>
+              <span className="selected-card-type">DESSERT / BRAND IDENTITY &amp; VIRAL SOCIAL</span>
+              <h3>13ISU Speciality Tiramisu</h3>
+              <div className="spotlight-metric">
+                <strong>100,000+</strong>
+                <span>Organic Instagram Views in 3 Days</span>
+              </div>
+              <p>
+                A single-speciality dessert brand brought to life through playful naming, lavender-accented identity, bespoke packaging, and product-led social creative that captivated local dessert culture on launch.
+              </p>
+              <div className="spotlight-actions">
+                <a className="button button-dark" href="/work/13isu">
+                  Read Case Study <ArrowUpRight size={14} />
+                </a>
+                <a
+                  className="text-link"
+                  href="/13ISU.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Case PDF <ArrowUpRight size={12} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Strategic Case Study 02: Trends Are a Tool, Not a Strategy */}
+          <div className="case-study-spotlight reveal" style={{ marginTop: "36px" }}>
+            <div className="case-study-spotlight-visual">
+              <img
+                src="/assets/work/trends-are-a-tool/trends-cover.svg"
+                alt="Trends Are a Tool, Not a Strategy Framework"
+                className="spotlight-primary-img"
+                style={{ width: "100%", height: "auto", aspectRatio: "16/10" }}
+              />
+            </div>
+            <div className="case-study-spotlight-content">
+              <div className="spotlight-badge" style={{ background: "var(--brown)" }}>
+                STRATEGIC FRAMEWORK &amp; ESSAY
+              </div>
+              <span className="selected-card-type">CONTENT ARCHITECTURE &amp; SOCIAL COMMERCE</span>
+              <h3>Trends Are a Tool, Not a Strategy</h3>
+              <div className="spotlight-metric">
+                <strong>Enquiries &gt; Views</strong>
+                <span>Customer Before Content · Relationships Before Reach</span>
+              </div>
+              <p>
+                People are watching your posts, so why aren&apos;t they buying? A strategic examination of the vanity-reach paradox: why Store A&apos;s 100K trending views fail to convert while Store B&apos;s 8K customer-centric views drive predictable sales.
+              </p>
+              <div className="spotlight-actions">
+                <a className="button button-dark" href="/work/trends-are-a-tool">
+                  Read Framework <ArrowUpRight size={14} />
+                </a>
+                <a
+                  className="text-link"
+                  href="/Trends Are a Tool, Not a Strategy.docx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download Docx <ArrowUpRight size={12} />
+                </a>
+              </div>
+            </div>
           </div>
 
           <p className="featured-note reveal">
-            Results are project-specific and documented honestly. We do not publish fabricated outcomes.
+            Results are project-specific and documented honestly. We do not publish fabricated client outcomes. Proprietary growth frameworks, revenue telemetry, and confidential client case studies are shared under NDA upon consultation.
           </p>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION 07: OUR WORK PREVIEW
-          ==================================================================== */}
-      <section className="work-preview-section section-grid" id="work">
-        <div className="section-label">07 / Selected Work</div>
-        <div className="work-content">
-          <div className="section-heading reveal">
-            <h2>
-              Made to<br />
-              <i>matter.</i>
-            </h2>
-            <p>Concepts, identities and experiences designed to move brands forward.</p>
-          </div>
-
-          <div className="project-list reveal">
-            {workPreviewProjects.map((project, i) => (
-              <a
-                href={`/work/${project.slug}`}
-                className="project-card"
-                key={project.name}
-              >
-                <div className="project-image">
-                  <img
-                    src={project.image}
-                    alt={`${project.name} project showcase`}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="project-info">
-                  <span>0{i + 1}</span>
-                  <div>
-                    <h3>{project.name}</h3>
-                    <p>{project.type}</p>
-                  </div>
-                  <ArrowUpRight />
-                </div>
-              </a>
-            ))}
-          </div>
-
-          <div className="work-preview-cta reveal">
-            <a className="button button-dark" href="/work">
-              Explore All Projects <ArrowUpRight data-icon="inline-end" />
-            </a>
-          </div>
         </div>
       </section>
 
