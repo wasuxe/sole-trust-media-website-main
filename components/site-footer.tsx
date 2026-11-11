@@ -29,8 +29,8 @@ export default function SiteFooter() {
         <span>© 2026 Sole Trust Media</span>
         <span>Not Just Seen. Remembered.</span>
         <div>
-          <Link href="#">Privacy</Link>
-          <Link href="#">Terms</Link>
+          <Link href="/contact">Privacy</Link>
+          <Link href="/contact">Terms</Link>
         </div>
       </div>
     </footer>

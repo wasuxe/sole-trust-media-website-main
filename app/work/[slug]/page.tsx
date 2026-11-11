@@ -3,6 +3,8 @@ import { redirect } from "next/navigation"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
 import { PROJECTS, getProjectBySlug } from "@/lib/data/projects"
+import SiteNav from "@/components/site-nav"
+import SiteFooter from "@/components/site-footer"
 
 interface CaseStudyData {
   title: string
@@ -1174,24 +1176,18 @@ export default async function CaseStudyPage({
     cta_label: fallbackProject?.cta_label || fallbackProject?.cta || "OPEN LIVE WEBSITE",
   }
 
+  const currentIndex = PROJECTS.findIndex(
+    (p) => p.slug === slug || (p.aliases && p.aliases.includes(slug))
+  )
+  const nextProject =
+    currentIndex >= 0 && currentIndex < PROJECTS.length - 1
+      ? PROJECTS[currentIndex + 1]
+      : PROJECTS[0]
+
   return (
     <main className="site-shell">
-      {/* 1. Nav (server-rendered bar) */}
-      <nav className="nav">
-        <a className="wordmark brand-logo" href="/" aria-label="Sole Trust Media home">
-          <img
-            src="/assets/logo/logo-brown.png"
-            alt="Sole Trust Media"
-            className="brand-logo-img"
-          />
-        </a>
-        <div className="nav-links">
-          <a href="/work">Work</a>
-          <a href="/#services">Capabilities</a>
-          <a href="/#about">About</a>
-          <a href="/#contact">Contact</a>
-        </div>
-      </nav>
+      {/* 1. Nav */}
+      <SiteNav />
 
       {/* 2. Hero section */}
       <section className="case-hero">
@@ -1394,6 +1390,51 @@ export default async function CaseStudyPage({
         </section>
       )}
 
+      {/* Next Case Study Navigation */}
+      {nextProject && (
+        <section
+          style={{
+            padding: "80px var(--pad)",
+            borderTop: "1px solid var(--border)",
+            background: "rgba(230, 220, 207, 0.25)",
+          }}
+        >
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <p className="eyebrow" style={{ marginBottom: 16 }}>Next Case Study</p>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 24,
+              }}
+            >
+              <div>
+                <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--muted)" }}>
+                  {nextProject.type || nextProject.category}
+                </span>
+                <h3 style={{ fontSize: "clamp(24px, 3.5vw, 44px)", margin: "8px 0 12px", fontFamily: "var(--font-serif)" }}>
+                  <a href={`/work/${nextProject.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+                    {nextProject.name}
+                  </a>
+                </h3>
+                <p style={{ maxWidth: 560, color: "var(--muted)", margin: 0 }}>
+                  {nextProject.description || nextProject.note}
+                </p>
+              </div>
+              <a
+                href={`/work/${nextProject.slug}`}
+                className="button button-outline"
+                style={{ alignSelf: "center" }}
+              >
+                View Case Study <ArrowUpRight data-icon="inline-end" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 13. Statement / Contact CTA banner */}
       <section className="statement">
         <div className="statement-inner">
@@ -1402,44 +1443,14 @@ export default async function CaseStudyPage({
             Let&apos;s build something<br />
             <i>that endures.</i>
           </h2>
-          <a className="button button-dark" href="/#contact">
+          <a className="button button-dark" href="/contact">
             Start a conversation <ArrowUpRight data-icon="inline-end" />
           </a>
         </div>
       </section>
 
       {/* 14. Footer */}
-      <footer>
-        <div className="footer-top">
-          <a className="wordmark footer-mark brand-logo" href="/" aria-label="Sole Trust Media home">
-            <img
-              src="/assets/logo/logo-white.png"
-              alt="Sole Trust Media"
-              className="footer-brand-logo-img"
-            />
-          </a>
-          <p>
-            Brand building, creative,<br />
-            marketing &amp; technology.
-          </p>
-          <div className="socials">
-            <a href="/#contact" aria-label="Instagram">
-              IG
-            </a>
-            <a href="/#contact" aria-label="LinkedIn">
-              IN
-            </a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>&copy; 2026 Sole Trust Media</span>
-          <span>Not Just Seen. Remembered.</span>
-          <div>
-            <a href="/#contact">Privacy</a>
-            <a href="/#contact">Terms</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }

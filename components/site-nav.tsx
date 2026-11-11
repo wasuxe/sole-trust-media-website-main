@@ -8,7 +8,7 @@ export default function SiteNav() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <nav className="nav" style={{ position: 'fixed' }}>
+    <nav className="nav" style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 50, background: 'rgba(242, 236, 227, 0.94)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(75, 53, 40, 0.1)' }}>
       <Link className="wordmark brand-logo" href="/" aria-label="Sole Trust Media home">
         <img
           src="/assets/logo/logo-brown.png"

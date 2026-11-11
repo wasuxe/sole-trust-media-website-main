@@ -379,13 +379,13 @@ export default function Page() {
         </a>
         <span className="nav-rule" aria-hidden="true" />
         <div id="home-navigation" className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <a href="#services" onClick={() => setMenuOpen(false)}>Creative</a>
+          <a href="/work" onClick={() => setMenuOpen(false)}>Work</a>
           <span aria-hidden="true">/</span>
-          <a href="#services" onClick={() => setMenuOpen(false)}>Branding</a>
+          <a href="#services" onClick={() => setMenuOpen(false)}>Capabilities</a>
           <span aria-hidden="true">/</span>
-          <a href="/work" onClick={() => setMenuOpen(false)}>Digital</a>
+          <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
           <span aria-hidden="true">/</span>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>Growth</a>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>
         <button
           className="menu-button"
@@ -649,9 +649,10 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION 05: WHY WORK WITH US (5 PILLARS)
+          SECTION 05: WHY WORK WITH US / ABOUT (5 PILLARS)
           ==================================================================== */}
-      <section className="pillars-section section-grid" id="pillars">
+      <section className="pillars-section section-grid" id="about">
+        <span id="pillars" style={{ position: "relative", top: "-100px", visibility: "hidden" }} />
         <div className="section-label">05 / Why Work With Us</div>
         <div className="intro-content">
           <div className="section-heading reveal">
@@ -704,7 +705,12 @@ export default function Page() {
 
               return (
                 <div className="selected-card" key={project.slug}>
-                  <div className="selected-card-image">
+                  <a
+                    href={targetUrl}
+                    className="selected-card-image"
+                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    aria-label={`View ${project.name}`}
+                  >
                     <img
                       src={project.cover_image}
                       alt={`${project.name} preview`}
@@ -712,11 +718,19 @@ export default function Page() {
                     />
                     <span className="selected-card-tag">{project.tag}</span>
                     <span className="selected-card-marker">{project.marker}</span>
-                  </div>
+                  </a>
                   <div className="selected-card-body">
                     <div>
                       <div className="selected-card-type">{project.type}</div>
-                      <h3 className="selected-card-title">{project.name}</h3>
+                      <h3 className="selected-card-title">
+                        <a
+                          href={targetUrl}
+                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          style={{ color: "inherit", textDecoration: "none" }}
+                        >
+                          {project.name}
+                        </a>
+                      </h3>
                       <p className="selected-card-desc">{project.description}</p>
                       <div className="selected-card-services">
                         {project.services.slice(0, 4).map((s) => (
@@ -1099,8 +1113,8 @@ export default function Page() {
           <span>© 2026 Sole Trust Media</span>
           <span>Not Just Seen. Remembered.</span>
           <div>
-            <a href="#contact">Privacy</a>
-            <a href="#contact">Terms</a>
+            <a href="/contact">Privacy</a>
+            <a href="/contact">Terms</a>
           </div>
         </div>
       </footer>
