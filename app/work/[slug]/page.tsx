@@ -737,13 +737,7 @@ const staticData: Record<string, CaseStudyData> = {
         caption: "The large-format display board used to create a memorable event presence.",
       },
     ],
-    sources: [
-      {
-        title: "Official 13ISU Case Study Document",
-        description: "Download or view the official 13ISU Case Study document (PDF).",
-        href: "/13ISU.pdf",
-      },
-    ],
+    sources: [],
   },
   "trends-are-a-tool": {
     title: "Trends Are a Tool, Not a Strategy",
@@ -1175,6 +1169,7 @@ export default async function CaseStudyPage({
     slug === "trends-are-a-tool" ||
     slug === "trends-are-a-tool-not-a-strategy" ||
     slug === "trends"
+  const is13isu = slug === "13isu"
 
   return (
     <main className="site-shell">
@@ -1789,6 +1784,629 @@ export default async function CaseStudyPage({
               <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--beige)", margin: 0 }}>
                 This is how I want to work at Sole Trust Media.
               </p>
+            </div>
+          </section>
+        </article>
+      ) : is13isu ? (
+        <article className="13isu-full-paper">
+          {/* Section 01: Project Overview */}
+          <section className="case-overview section-grid">
+            <div className="section-label">01 / Overview</div>
+            <div>
+              <p
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--brown)",
+                  marginBottom: "16px",
+                  fontWeight: 600,
+                }}
+              >
+                Featured Client · 13ISU
+              </p>
+              <h2 style={{ fontSize: "clamp(38px, 5.5vw, 76px)", lineHeight: 0.95, margin: "0 0 24px" }}>
+                Turning a dessert <br />
+                <i>into a brand experience.</i>
+              </h2>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 20px" }}>
+                13ISU is a speciality dessert brand built around one product: Tiramisu. The ambition was to create more than another dessert business. The brand needed a distinctive identity, an engaging digital presence and a recognisable personality that customers could connect with.
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--muted)", maxWidth: "680px", margin: "0 0 32px" }}>
+                Sole Trust Media worked on bringing the brand&apos;s identity and creative communication together, helping establish its presence in the local dessert market. Our approach combined brand thinking, visual creativity and social media marketing to create a consistent brand experience.
+              </p>
+
+              <div className="case-facts" style={{ marginTop: "24px" }}>
+                <span>
+                  Client<strong>13ISU</strong>
+                </span>
+                <span>
+                  Industry<strong>Food &amp; Beverage (Speciality Dessert)</strong>
+                </span>
+                <span>
+                  Location<strong>Vadodara, Gujarat, India</strong>
+                </span>
+                <span>
+                  Scope<strong>Identity · Creative · Packaging · Social</strong>
+                </span>
+                <span>
+                  Key Highlight<strong>100K+ Instagram views in 3 days</strong>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 02: The Challenge */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">02 / The Challenge</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                More than simply offering something <i>delicious.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 32px" }}>
+                Entering the food and beverage market with a speciality product requires more than great taste. The brand needed to capture attention, communicate its speciality and give people a reason to remember it.
+              </p>
+
+              <div
+                style={{
+                  background: "var(--brown)",
+                  color: "var(--cream)",
+                  padding: "24px 30px",
+                  borderRadius: "16px",
+                  maxWidth: "760px",
+                  fontSize: "clamp(18px, 2.2vw, 24px)",
+                  fontFamily: "'Playfair Display', serif",
+                  lineHeight: 1.4,
+                  marginBottom: "40px",
+                }}
+              >
+                &ldquo;How do we make a speciality dessert brand stand out and become memorable?&rdquo;
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "18px",
+                  maxWidth: "840px",
+                }}
+              >
+                {[
+                  "Building a recognisable identity around a single speciality product.",
+                  "Creating a distinctive brand personality.",
+                  "Making the product visually appealing through creative presentation.",
+                  "Developing consistent social media communication.",
+                  "Generating awareness and interest around the brand.",
+                  "Establishing a connection with the local audience.",
+                ].map((challenge, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "14px",
+                      padding: "20px 22px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                      display: "flex",
+                      gap: "14px",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", color: "var(--brown)", fontWeight: 700 }}>
+                      0{idx + 1}
+                    </span>
+                    <span style={{ fontSize: "14px", lineHeight: 1.5, color: "var(--dark)" }}>{challenge}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 03: The Concept Behind the Name */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">03 / Brand Concept</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                The idea behind <i>13ISU.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 32px" }}>
+                Every memorable brand begins with an idea. For 13ISU, the idea started with the number 13, known as <em>Terah</em> in Hindi. We combined this number with the letters I-S-U to create the distinctive name 13ISU.
+              </p>
+
+              {/* Typographic formula card */}
+              <div
+                style={{
+                  border: "2px solid var(--brown)",
+                  borderRadius: "20px",
+                  padding: "36px 32px",
+                  background: "var(--cream-deep)",
+                  maxWidth: "800px",
+                  marginBottom: "36px",
+                }}
+              >
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
+                  <span style={{ fontSize: "clamp(26px, 3.8vw, 40px)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "var(--brown)" }}>
+                    13 (Terah)
+                  </span>
+                  <span style={{ fontSize: "24px", color: "var(--muted)" }}>+</span>
+                  <span style={{ fontSize: "clamp(26px, 3.8vw, 40px)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "var(--brown)" }}>
+                    ISU
+                  </span>
+                  <span style={{ fontSize: "24px", color: "var(--muted)" }}>=</span>
+                  <span style={{ fontSize: "clamp(26px, 3.8vw, 40px)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "var(--dark)", fontStyle: "italic" }}>
+                    13ISU (Tiramisu)
+                  </span>
+                </div>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--dark)", margin: "0 0 16px" }}>
+                  The creative identity takes the concept further through typography, where the number <strong>3</strong> is visually interpreted as an <strong>M</strong>, creating a unique connection between numbers and lettering. This gives the name a distinctive visual character while keeping its connection to the dessert category.
+                </p>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--brown)", fontWeight: 600 }}>
+                  A name built around numbers, letters and creative thinking.
+                </span>
+              </div>
+
+              {/* Emotional Hook */}
+              <div
+                style={{
+                  borderLeft: "4px solid var(--brown)",
+                  padding: "20px 28px",
+                  background: "rgba(242, 236, 227, 0.5)",
+                  maxWidth: "800px",
+                  borderRadius: "0 14px 14px 0",
+                }}
+              >
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
+                  Emotional Positioning Anchor
+                </span>
+                <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "22px", margin: "0 0 10px", fontStyle: "italic" }}>
+                  &ldquo;Your sweetest saviour for tough days.&rdquo;
+                </h4>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--muted)" }}>
+                  Rather than positioning Tiramisu as just another dessert, the brand presented it as a little moment of happiness during a difficult day. This became the foundation of its creative direction.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 04: Brand Identity & Visual Direction */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">04 / Visual Direction</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Identity &amp; visual <i>character.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 36px" }}>
+                The visual identity needed to communicate the brand&apos;s playful personality while remaining consistent across digital and physical touchpoints.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "20px",
+                  maxWidth: "840px",
+                  marginBottom: "36px",
+                }}
+              >
+                {[
+                  { title: "Distinctive Typography", desc: "Custom interplay where the number 3 interprets as an M in brand wordmarks." },
+                  { title: "Recognisable Logo Treatment", desc: "A clean, playful mark designed to work across packaging, digital, and event signage." },
+                  { title: "Lavender & Purple Palette", desc: "A modern, tactile color universe differentiating the brand from traditional bakery neutrals." },
+                  { title: "Dessert-Focused Communication", desc: "Macro visual appetite appeal highlighting creamy mascarpone and cocoa layers." },
+                  { title: "Consistent Promotional Layouts", desc: "Unified grid structures and typography hierarchy across all social touchpoints." },
+                  { title: "Youthful Personality", desc: "Approachable, warm tone of voice built for connection with local food lovers." },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      padding: "24px 22px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "10px", color: "var(--brown)", fontWeight: 700, textTransform: "uppercase" }}>
+                      PILLAR 0{idx + 1}
+                    </span>
+                    <h4 style={{ fontSize: "17px", margin: "8px 0 8px" }}>{item.title}</h4>
+                    <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.6, color: "var(--muted)" }}>{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: "15px", color: "var(--brown)", fontWeight: 600, fontStyle: "italic" }}>
+                The objective: to make the brand recognisable even before customers read its name.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 05: Creative Strategy (4 Connected Areas) */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">05 / Strategy</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Four connected <i>strategic pillars.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 36px" }}>
+                We approached the project through four connected disciplines to establish a cohesive brand foundation:
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "22px",
+                  maxWidth: "840px",
+                }}
+              >
+                {[
+                  {
+                    pillar: "A",
+                    title: "Brand Building",
+                    desc: "We focused on the brand name, personality, positioning and visual direction to establish a consistent foundation.",
+                  },
+                  {
+                    pillar: "B",
+                    title: "Product Presentation",
+                    desc: "Tiramisu was the centre of the brand experience. The creative direction focused on presenting the product in an attractive and appetising way.",
+                  },
+                  {
+                    pillar: "C",
+                    title: "Social Media Communication",
+                    desc: "We developed promotional creatives and content concepts to communicate the product, introduce the brand and encourage audience interest.",
+                  },
+                  {
+                    pillar: "D",
+                    title: "Digital Visibility",
+                    desc: "We used Instagram as a key platform for brand communication, focusing on content that could attract attention and increase visibility.",
+                  },
+                ].map((card) => (
+                  <div
+                    key={card.pillar}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "18px",
+                      padding: "28px 24px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: "20px",
+                        fontWeight: 700,
+                        color: "var(--brown)",
+                        display: "block",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      Pillar {card.pillar}
+                    </span>
+                    <h4 style={{ fontSize: "19px", margin: "0 0 10px" }}>{card.title}</h4>
+                    <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--muted)" }}>{card.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 06: Creative Execution & Launch Visual Evidence */}
+          <section className="case-execution section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">06 / Execution</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Creative execution &amp; <i>deliverables.</i>
+              </h3>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "20px",
+                  maxWidth: "840px",
+                  marginBottom: "48px",
+                }}
+              >
+                {[
+                  {
+                    tag: "Brand Communication",
+                    body: "Developed creative messaging to introduce the brand and communicate its identity.",
+                  },
+                  {
+                    tag: "Promotional Campaigns",
+                    body: "Opening announcements and product-led promotional creatives helped introduce 13MISU to its audience.",
+                  },
+                  {
+                    tag: "Social Media Creatives",
+                    body: "Opening designs, product promotional posts, brand introduction collateral, dessert-focused visuals, and occasion-based communication.",
+                  },
+                  {
+                    tag: "Content Direction",
+                    body: "Product presentation and customer-facing video content designed to make the brand feel engaging and relatable.",
+                  },
+                ].map((exec, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px 22px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "14px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
+                      {exec.tag}
+                    </span>
+                    <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.6, color: "var(--dark)" }}>{exec.body}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Gallery visual proof */}
+              <h4 style={{ fontSize: "20px", marginBottom: "20px" }}>Visual Evidence &amp; Activation</h4>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "20px",
+                  maxWidth: "960px",
+                }}
+              >
+                {[
+                  {
+                    img: "/13isu-creative-1.png",
+                    caption: "Night-market activation setup and booth display for the 13ISU tiramisu launch in Vadodara.",
+                  },
+                  {
+                    img: "/13isu-creative-2.png",
+                    caption: "Custom packaging design and product presentation detail from the 13ISU launch.",
+                  },
+                  {
+                    img: "/13isu-creative-3.png",
+                    caption: "The large-format display board used to create a memorable event presence.",
+                  },
+                ].map((item, idx) => (
+                  <figure
+                    key={idx}
+                    style={{
+                      margin: 0,
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                      background: "var(--cream-deep)",
+                    }}
+                  >
+                    <img
+                      src={item.img}
+                      alt={item.caption}
+                      style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
+                    />
+                    <figcaption
+                      style={{
+                        padding: "14px 16px",
+                        fontSize: "12px",
+                        lineHeight: 1.5,
+                        color: "var(--muted)",
+                        fontFamily: "'DM Mono', monospace",
+                      }}
+                    >
+                      {item.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 07: Digital Marketing Result (100K+ Views in 3 Days) */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">07 / Digital Impact</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                100K+ views in <i>just 3 days.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 36px" }}>
+                One of the standout highlights of the project was the Instagram performance. The 13ISU Instagram account achieved over 100,000 views within three days, based on the account dashboard shared with STM.
+              </p>
+
+              {/* Verified Metrics Card */}
+              <div
+                style={{
+                  border: "2px solid var(--brown)",
+                  borderRadius: "20px",
+                  padding: "36px 32px",
+                  background: "var(--cream-deep)",
+                  maxWidth: "760px",
+                  marginBottom: "32px",
+                }}
+              >
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "24px", marginBottom: "24px" }}>
+                  <div>
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase" }}>
+                      PLATFORM
+                    </span>
+                    <strong style={{ fontSize: "20px", color: "var(--dark)", display: "block", marginTop: "4px" }}>Instagram</strong>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase" }}>
+                      REPORTED PERFORMANCE
+                    </span>
+                    <strong style={{ fontSize: "28px", color: "var(--brown)", fontFamily: "'Playfair Display', serif", display: "block", marginTop: "4px" }}>
+                      100,000+ views
+                    </strong>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase" }}>
+                      TIME PERIOD
+                    </span>
+                    <strong style={{ fontSize: "20px", color: "var(--dark)", display: "block", marginTop: "4px" }}>3 Days</strong>
+                  </div>
+                </div>
+
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  This created significant early digital visibility for the brand and demonstrated the value of creative content and consistent brand communication.
+                </p>
+              </div>
+
+              {/* Honest Performance Disclaimer */}
+              <div
+                style={{
+                  borderLeft: "3px solid var(--muted)",
+                  padding: "12px 20px",
+                  background: "rgba(75, 53, 40, 0.04)",
+                  maxWidth: "760px",
+                  borderRadius: "0 10px 10px 0",
+                }}
+              >
+                <p style={{ margin: 0, fontSize: "12px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", lineHeight: 1.5 }}>
+                  Transparency Note: Views are not the same as unique reach, conversions or sales. No additional performance metrics are claimed.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 08: The Brand Experience */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">08 / Brand Experience</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                A unified <i>creative foundation.</i>
+              </h3>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 20px" }}>
+                The goal was to make every customer-facing interaction feel connected to the same brand.
+              </p>
+              <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--muted)", maxWidth: "680px", margin: 0 }}>
+                From the visual identity to promotional communication, the creative direction aimed to create consistency across the brand&apos;s digital presence and customer experience. The result was a unified creative foundation that 13MISU could continue building upon.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 09: Services & Deliverables Matrix */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">09 / Deliverables</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 24px" }}>
+                Services &amp; <i>project contribution.</i>
+              </h3>
+
+              <div
+                style={{
+                  border: "1px solid var(--line)",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  maxWidth: "760px",
+                  background: "rgba(242, 236, 227, 0.4)",
+                }}
+              >
+                {[
+                  { service: "Brand concept", contribution: "Naming and positioning direction" },
+                  { service: "Brand identity", contribution: "Visual identity development" },
+                  { service: "Creative direction", contribution: "Brand visual language" },
+                  { service: "Packaging design", contribution: "Packaging concepts and presentation" },
+                  { service: "Social media creatives", contribution: "Promotional communication" },
+                  { service: "Content direction", contribution: "Product-focused storytelling" },
+                  { service: "Digital marketing", contribution: "Instagram visibility & viral reel launch" },
+                ].map((row, idx, arr) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "clamp(160px, 25vw, 220px) 1fr",
+                      gap: "20px",
+                      padding: "16px 22px",
+                      borderBottom: idx < arr.length - 1 ? "1px solid var(--line)" : "none",
+                      alignItems: "center",
+                    }}
+                  >
+                    <strong style={{ fontSize: "14px", color: "var(--dark)" }}>{row.service}</strong>
+                    <span style={{ fontSize: "14px", color: "var(--muted)" }}>{row.contribution}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 10: Project Impact */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">10 / Project Impact</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Measurable <i>early momentum.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 32px" }}>
+                The project brought brand identity and marketing communication together under one creative direction.
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "14px", maxWidth: "720px", marginBottom: "32px" }}>
+                {[
+                  "A distinctive brand concept rooted in linguistic and typographic wit.",
+                  "A consistent visual direction across physical and digital formats.",
+                  "Product-focused creative communication that stimulated appetite.",
+                  "A recognisable social media presence built for sustained engagement.",
+                  "100K+ Instagram views within three days of public release.",
+                ].map((highlight, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "flex",
+                      gap: "14px",
+                      alignItems: "center",
+                      padding: "16px 20px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "12px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ color: "var(--brown)", fontWeight: 700 }}>✓</span>
+                    <span style={{ fontSize: "14px", color: "var(--dark)" }}>{highlight}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ margin: 0, fontSize: "14px", color: "var(--muted)", lineHeight: 1.6 }}>
+                The project established a creative foundation for the brand and helped increase its early digital visibility.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 11: Behind the Work (Manifesto Banner) */}
+          <section
+            style={{
+              padding: "90px 4vw",
+              background: "var(--dark)",
+              color: "var(--cream)",
+              textAlign: "center",
+              borderTop: "1px solid rgba(242, 236, 227, 0.12)",
+            }}
+          >
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.65, marginBottom: "20px" }}>
+                Behind the Work · Sole Trust Media
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: "clamp(30px, 4.5vw, 56px)",
+                  lineHeight: 1.25,
+                  fontWeight: 500,
+                  fontStyle: "italic",
+                  margin: "0 0 24px",
+                }}
+              >
+                A brand is not built through a logo alone.<br />
+                It is built through the way people see it, experience it and remember it.
+              </h2>
+              <p style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.85, maxWidth: "600px", margin: "0 auto 28px" }}>
+                With 13ISU, our focus was to bring together brand thinking, creative execution and digital communication to create a distinctive dessert brand experience.
+              </p>
+              <div style={{ paddingTop: "20px", borderTop: "1px solid rgba(242, 236, 227, 0.15)" }}>
+                <strong style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.15em", textTransform: "uppercase", display: "block", marginBottom: "8px", color: "var(--cream)" }}>
+                  NOT JUST SEEN. REMEMBERED.
+                </strong>
+                <span style={{ fontSize: "13px", color: "var(--beige)" }}>
+                  Have a business worth building? Let&apos;s create a brand people remember.
+                </span>
+              </div>
             </div>
           </section>
         </article>

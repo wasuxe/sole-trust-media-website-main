@@ -814,14 +814,6 @@ export default function Page() {
                 <a className="button button-dark" href="/work/13isu">
                   Read Case Study <ArrowUpRight size={14} />
                 </a>
-                <a
-                  className="text-link"
-                  href="/13ISU.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Case PDF <ArrowUpRight size={12} />
-                </a>
               </div>
             </div>
           </div>
