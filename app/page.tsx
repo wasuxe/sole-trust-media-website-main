@@ -422,7 +422,7 @@ export default function Page() {
           <small>SOLE TRUST MEDIA<sup>®</sup></small>
         </a>
         <span className="nav-rule" aria-hidden="true" />
-        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <div id="home-navigation" className={`nav-links ${menuOpen ? "open" : ""}`}>
           <a href="#services" onClick={() => setMenuOpen(false)}>Creative</a>
           <span aria-hidden="true">/</span>
           <a href="#services" onClick={() => setMenuOpen(false)}>Branding</a>
@@ -435,6 +435,8 @@ export default function Page() {
           className="menu-button"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          aria-controls="home-navigation"
         >
           {menuOpen ? <X /> : <Menu />}
         </button>

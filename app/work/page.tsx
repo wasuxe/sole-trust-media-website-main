@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowUpRight, Menu, X } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
+import SiteNav from "@/components/site-nav"
 
 interface Project {
   slug: string
@@ -63,7 +64,6 @@ const CATEGORIES = [
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=1200&q=85"
 
 export default function WorkPage() {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string>("All Projects")
   const [projects, setProjects] = useState<Project[]>(STATIC_PROJECTS)
 
@@ -127,34 +127,7 @@ export default function WorkPage() {
 
   return (
     <main className="site-shell">
-      {/* Navigation */}
-      <nav className="nav">
-        <a className="wordmark" href="/" aria-label="Sole Trust Media home">
-          <span>STM</span>
-          <small>SOLE TRUST MEDIA</small>
-        </a>
-        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          <a href="/work" onClick={() => setMenuOpen(false)}>
-            Work
-          </a>
-          <a href="/#services" onClick={() => setMenuOpen(false)}>
-            Capabilities
-          </a>
-          <a href="/#about" onClick={() => setMenuOpen(false)}>
-            About
-          </a>
-          <a href="/#contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </a>
-        </div>
-        <button
-          className="menu-button"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle navigation"
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-      </nav>
+      <SiteNav />
 
       {/* Hero Header */}
       <section className="work-page-hero">

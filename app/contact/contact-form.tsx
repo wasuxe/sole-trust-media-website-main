@@ -72,32 +72,12 @@ export default function ContactForm() {
     <section className="contact" id="contact" style={{ paddingTop: 190 }}>
       <div className="contact-inner">
         <p className="eyebrow">Start a project</p>
-        <h1
-          style={{
-            fontSize: 'clamp(65px, 10vw, 140px)',
-            lineHeight: 0.88,
-            letterSpacing: '-0.08em',
-            fontWeight: 600,
-            margin: '25px 0 20px',
-            color: 'var(--cream)',
-          }}
-        >
+        <h1 className="contact-page-title">
           Tell us what
           <br />
-          <i style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500 }}>
-            you&apos;re building.
-          </i>
+          <i>you&apos;re building.</i>
         </h1>
-        <p
-          style={{
-            color: 'var(--beige)',
-            maxWidth: 480,
-            lineHeight: 1.7,
-            fontSize: 15,
-            margin: '0 0 60px',
-            fontFamily: 'Manrope, sans-serif',
-          }}
-        >
+        <p className="contact-page-description">
           Tell us about your business and what you want to build. We&apos;ll get back to you within
           one business day.
         </p>
@@ -177,19 +157,11 @@ export default function ContactForm() {
             </select>
 
             {/* Services */}
-            <div style={{ margin: '30px 0 0' }}>
-              <p
-                style={{
-                  font: "10px 'DM Mono', monospace",
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  color: 'var(--beige)',
-                  margin: '0 0 16px',
-                }}
-              >
+            <div className="contact-services">
+              <p className="contact-services-label">
                 Services required (optional)
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+              <div className="contact-service-options">
                 {allServices.map((service) => {
                   const active = selectedServices.includes(service)
                   return (
@@ -197,18 +169,8 @@ export default function ContactForm() {
                       key={service}
                       type="button"
                       onClick={() => toggleService(service)}
-                      style={{
-                        border: `1px solid ${active ? 'var(--cream)' : 'rgba(242,236,227,.3)'}`,
-                        borderRadius: 999,
-                        background: active ? 'var(--cream)' : 'transparent',
-                        color: active ? 'var(--dark)' : 'var(--beige)',
-                        padding: '10px 16px',
-                        font: "10px 'DM Mono', monospace",
-                        textTransform: 'uppercase',
-                        cursor: 'pointer',
-                        letterSpacing: '0.08em',
-                        transition: 'all 0.2s ease',
-                      }}
+                      className={`contact-service-option ${active ? 'selected' : ''}`}
+                      aria-pressed={active}
                     >
                       {service}
                     </button>

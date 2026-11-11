@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
+import SiteNav from "@/components/site-nav"
 
 interface CaseStudyData {
   title: string
@@ -320,19 +321,7 @@ export default async function CaseStudyPage({
 
   return (
     <main className="site-shell">
-      {/* 1. Nav (server-rendered bar) */}
-      <nav className="nav">
-        <a className="wordmark" href="/" aria-label="Sole Trust Media home">
-          <span>STM</span>
-          <small>SOLE TRUST MEDIA</small>
-        </a>
-        <div className="nav-links">
-          <a href="/work">Work</a>
-          <a href="/#services">Capabilities</a>
-          <a href="/#about">About</a>
-          <a href="/#contact">Contact</a>
-        </div>
-      </nav>
+      <SiteNav />
 
       {/* 2. Hero section */}
       <section className="case-hero">

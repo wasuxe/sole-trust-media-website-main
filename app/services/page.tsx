@@ -115,22 +115,14 @@ export default function ServicesPage() {
       <SiteNav />
 
       {/* Hero */}
-      <section style={{ padding: '190px 10vw 110px', borderBottom: '1px solid var(--line)' }}>
+      <section className="services-page-hero">
         <p className="eyebrow">04 / What we do</p>
-        <h1
-          style={{
-            fontSize: 'clamp(70px, 11vw, 150px)',
-            lineHeight: 0.88,
-            letterSpacing: '-0.08em',
-            margin: '30px 0',
-            fontWeight: 600,
-          }}
-        >
+        <h1 className="services-page-title">
           Many disciplines.
           <br />
-          <i style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500 }}>One point of view.</i>
+          <i>One point of view.</i>
         </h1>
-        <p style={{ color: 'var(--muted)', maxWidth: 460, lineHeight: 1.7, fontSize: 15, margin: 0 }}>
+        <p className="services-page-description">
           From the first spark to the final pixel, we build connected brand systems — creative, digital
           and operational — that work in the real world.
         </p>
@@ -145,24 +137,15 @@ export default function ServicesPage() {
         >
           <div className="section-label">{cat.index}</div>
           <div>
-            <h2
-              style={{
-                fontSize: 'clamp(42px, 5.5vw, 80px)',
-                lineHeight: 0.92,
-                letterSpacing: '-0.065em',
-                marginTop: 0,
-                marginBottom: 24,
-                fontWeight: 600,
-              }}
-            >
+            <h2 className="services-category-title">
               {cat.heading}
             </h2>
-            <p style={{ color: 'var(--muted)', maxWidth: 540, lineHeight: 1.75, fontSize: 15, margin: '0 0 50px' }}>
+            <p className="services-category-description">
               {cat.description}
             </p>
 
             {/* Service list */}
-            <div className="service-list" style={{ maxWidth: 700, marginBottom: 40 }}>
+            <div className="service-list">
               {cat.services.map((service, i) => (
                 <div className="service-row" key={service}>
                   <span>0{i + 1}</span>
@@ -173,36 +156,11 @@ export default function ServicesPage() {
             </div>
 
             {/* Value proposition */}
-            <div
-              style={{
-                borderTop: '1px solid var(--line)',
-                paddingTop: 28,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 16,
-              }}
-            >
-              <span
-                style={{
-                  font: "10px 'DM Mono', monospace",
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  color: 'var(--muted)',
-                  flexShrink: 0,
-                }}
-              >
+            <div className="service-value">
+              <span className="service-value-label">
                 The result
               </span>
-              <p
-                style={{
-                  margin: 0,
-                  fontStyle: 'italic',
-                  fontFamily: "'Playfair Display', serif",
-                  fontSize: 'clamp(18px, 2vw, 26px)',
-                  letterSpacing: '-0.03em',
-                  color: 'var(--brown)',
-                }}
-              >
+              <p className="service-value-copy">
                 {cat.value}
               </p>
             </div>
@@ -211,16 +169,13 @@ export default function ServicesPage() {
       ))}
 
       {/* CTA */}
-      <section
-        className="statement"
-        style={{ padding: '130px 4vw 115px' }}
-      >
+      <section className="statement services-cta">
         <p>Ready to build something?</p>
-        <h2 style={{ fontSize: 'clamp(72px, 10vw, 150px)', margin: '35px 0 0' }}>
+        <h2 className="services-cta-title">
           Let&apos;s make it{' '}
-          <i style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500 }}>real.</i>
+          <i>real.</i>
         </h2>
-        <div style={{ marginTop: 55, display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div className="services-cta-actions">
           <Link className="button button-light" href="/contact">
             Start a project <ArrowUpRight data-icon="inline-end" />
           </Link>
