@@ -370,9 +370,12 @@ export default function Page() {
     <main className="site-shell">
       {/* Navigation */}
       <nav className="nav home-nav" aria-label="Main Navigation">
-        <a className="wordmark" href="#top" aria-label="Sole Trust Media home">
-          <span>STM</span>
-          <small>SOLE TRUST MEDIA<sup>®</sup></small>
+        <a className="wordmark brand-logo" href="#top" aria-label="Sole Trust Media home">
+          <img
+            src="/assets/logo/logo-brown.png"
+            alt="Sole Trust Media"
+            className="brand-logo-img"
+          />
         </a>
         <span className="nav-rule" aria-hidden="true" />
         <div id="home-navigation" className={`nav-links ${menuOpen ? "open" : ""}`}>
@@ -1061,9 +1064,12 @@ export default function Page() {
           ==================================================================== */}
       <footer>
         <div className="footer-top">
-          <a className="wordmark footer-mark" href="#top">
-            <span>STM</span>
-            <small>SOLE TRUST MEDIA</small>
+          <a className="wordmark footer-mark brand-logo" href="#top" aria-label="Sole Trust Media home">
+            <img
+              src="/assets/logo/logo-white.png"
+              alt="Sole Trust Media"
+              className="footer-brand-logo-img"
+            />
           </a>
           <p>
             Brand building, creative,

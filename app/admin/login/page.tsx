@@ -119,13 +119,13 @@ export default function AdminLoginPage() {
       >
         {/* Header Branding */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <div className="wordmark" style={{ display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
-            <span style={{ fontSize: "30px", letterSpacing: "-0.11em", fontWeight: 800, color: "var(--dark, #302219)" }}>
-              STM
-            </span>
-            <small style={{ fontFamily: "'DM Mono', monospace", fontSize: "9px", letterSpacing: "0.14em", marginTop: "6px", color: "var(--muted, #806a58)" }}>
-              SOLE TRUST MEDIA
-            </small>
+          <div className="wordmark brand-logo" style={{ display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
+            <img
+              src="/assets/logo/logo-brown.png"
+              alt="Sole Trust Media"
+              className="brand-logo-img"
+              style={{ height: "42px" }}
+            />
           </div>
 
           <div

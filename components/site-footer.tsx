@@ -4,9 +4,12 @@ export default function SiteFooter() {
   return (
     <footer>
       <div className="footer-top">
-        <Link className="wordmark footer-mark" href="/">
-          <span>STM</span>
-          <small>SOLE TRUST MEDIA</small>
+        <Link className="wordmark footer-mark brand-logo" href="/" aria-label="Sole Trust Media home">
+          <img
+            src="/assets/logo/logo-white.png"
+            alt="Sole Trust Media"
+            className="footer-brand-logo-img"
+          />
         </Link>
         <p>
           Brand building, creative,

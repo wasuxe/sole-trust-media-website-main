@@ -1,10 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Menu, X } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
-import SiteNav from "@/components/site-nav"
-import { PROJECTS } from "@/lib/data/projects"
+import { PROJECTS, type Project as StaticProject } from "@/lib/data/projects"
 
 interface Project {
   slug: string
@@ -63,6 +62,7 @@ const INITIAL_PROJECTS: Project[] = PROJECTS.map((p) => ({
 }))
 
 export default function WorkPage() {
+  const [menuOpen, setMenuOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string>("All Projects")
   const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS)
 
@@ -158,7 +158,37 @@ export default function WorkPage() {
 
   return (
     <main className="site-shell">
-      <SiteNav />
+      {/* Navigation */}
+      <nav className="nav">
+        <a className="wordmark brand-logo" href="/" aria-label="Sole Trust Media home">
+          <img
+            src="/assets/logo/logo-brown.png"
+            alt="Sole Trust Media"
+            className="brand-logo-img"
+          />
+        </a>
+        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+          <a href="/work" onClick={() => setMenuOpen(false)}>
+            Work
+          </a>
+          <a href="/#services" onClick={() => setMenuOpen(false)}>
+            Capabilities
+          </a>
+          <a href="/#about" onClick={() => setMenuOpen(false)}>
+            About
+          </a>
+          <a href="/#contact" onClick={() => setMenuOpen(false)}>
+            Contact
+          </a>
+        </div>
+        <button
+          className="menu-button"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle navigation"
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+      </nav>
 
       {/* Hero Header */}
       <section className="work-page-hero">
@@ -267,9 +297,12 @@ export default function WorkPage() {
       {/* Footer */}
       <footer>
         <div className="footer-top">
-          <a className="wordmark footer-mark" href="/">
-            <span>STM</span>
-            <small>SOLE TRUST MEDIA</small>
+          <a className="wordmark footer-mark brand-logo" href="/" aria-label="Sole Trust Media home">
+            <img
+              src="/assets/logo/logo-white.png"
+              alt="Sole Trust Media"
+              className="footer-brand-logo-img"
+            />
           </a>
           <p>
             Brand building, creative,<br />

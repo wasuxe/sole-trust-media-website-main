@@ -453,9 +453,9 @@ export default function AdminDashboardPage() {
       if (savedProjectId && editingProjectId) {
         const servicesArray = csServicesDelivered
           ? csServicesDelivered
-              .split(",")
-              .map((s) => s.trim())
-              .filter(Boolean)
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
           : []
 
         const caseStudyPayload = {
@@ -888,13 +888,15 @@ export default function AdminDashboardPage() {
       {/* ------------------------------------------------------------------ */}
       <header className="admin-header">
         <div style={{ display: "flex", alignItems: "center", gap: "28px" }}>
-          {/* Brand Wordmark */}
-          <div className="wordmark" style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: "24px", letterSpacing: "-0.11em", fontWeight: 800 }}>STM</span>
-            <small style={{ fontFamily: "'DM Mono', monospace", fontSize: "8px", letterSpacing: "0.14em", marginTop: "4px", color: "var(--beige, #b9a38c)" }}>
-              SOLE TRUST MEDIA
-            </small>
-          </div>
+          {/* Brand Logo */}
+          <a href="/" className="brand-logo" aria-label="Sole Trust Media home">
+            <img
+              src="/assets/logo/logo-white.png"
+              alt="Sole Trust Media"
+              className="brand-logo-img"
+              style={{ height: "30px" }}
+            />
+          </a>
 
           <div style={{ width: "1px", height: "32px", backgroundColor: "rgba(242, 236, 227, 0.2)" }} />
 
@@ -1494,7 +1496,7 @@ export default function AdminDashboardPage() {
                             alt="Preview"
                             style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             onError={(e) => {
-                              ;(e.target as HTMLImageElement).style.display = "none"
+                              ; (e.target as HTMLImageElement).style.display = "none"
                             }}
                           />
                         </div>
@@ -1751,7 +1753,7 @@ export default function AdminDashboardPage() {
                                   flexShrink: 0,
                                 }}
                                 onError={(e) => {
-                                  ;(e.target as HTMLImageElement).style.display = "none"
+                                  ; (e.target as HTMLImageElement).style.display = "none"
                                 }}
                               />
                             ) : (

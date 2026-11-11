@@ -2,7 +2,6 @@ import { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
-import SiteNav from "@/components/site-nav"
 import { PROJECTS, getProjectBySlug } from "@/lib/data/projects"
 
 interface CaseStudyData {
@@ -1177,7 +1176,22 @@ export default async function CaseStudyPage({
 
   return (
     <main className="site-shell">
-      <SiteNav />
+      {/* 1. Nav (server-rendered bar) */}
+      <nav className="nav">
+        <a className="wordmark brand-logo" href="/" aria-label="Sole Trust Media home">
+          <img
+            src="/assets/logo/logo-brown.png"
+            alt="Sole Trust Media"
+            className="brand-logo-img"
+          />
+        </a>
+        <div className="nav-links">
+          <a href="/work">Work</a>
+          <a href="/#services">Capabilities</a>
+          <a href="/#about">About</a>
+          <a href="/#contact">Contact</a>
+        </div>
+      </nav>
 
       {/* 2. Hero section */}
       <section className="case-hero">
@@ -1397,9 +1411,12 @@ export default async function CaseStudyPage({
       {/* 14. Footer */}
       <footer>
         <div className="footer-top">
-          <a className="wordmark footer-mark" href="/">
-            <span>STM</span>
-            <small>SOLE TRUST MEDIA</small>
+          <a className="wordmark footer-mark brand-logo" href="/" aria-label="Sole Trust Media home">
+            <img
+              src="/assets/logo/logo-white.png"
+              alt="Sole Trust Media"
+              className="footer-brand-logo-img"
+            />
           </a>
           <p>
             Brand building, creative,<br />
