@@ -851,15 +851,7 @@ export default function Page() {
               </p>
               <div className="spotlight-actions">
                 <a className="button button-dark" href="/work/trends-are-a-tool">
-                  Read Framework <ArrowUpRight size={14} />
-                </a>
-                <a
-                  className="text-link"
-                  href="/Trends Are a Tool, Not a Strategy.docx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download Docx <ArrowUpRight size={12} />
+                  Read Strategic Framework <ArrowUpRight size={14} />
                 </a>
               </div>
             </div>

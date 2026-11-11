@@ -798,13 +798,7 @@ const staticData: Record<string, CaseStudyData> = {
         caption: "Trends Are a Tool, Not a Strategy — Strategic comparison of vanity reach vs. customer conversion.",
       },
     ],
-    sources: [
-      {
-        title: "Download Strategic Paper",
-        description: "Download the original strategic docx: 'Trends Are a Tool, Not a Strategy'.",
-        href: "/Trends Are a Tool, Not a Strategy.docx",
-      },
-    ],
+    sources: [],
   },
   "trends-are-a-tool-not-a-strategy": {
     title: "Trends Are a Tool, Not a Strategy",
@@ -859,13 +853,7 @@ const staticData: Record<string, CaseStudyData> = {
         caption: "Trends Are a Tool, Not a Strategy — Strategic comparison of vanity reach vs. customer conversion.",
       },
     ],
-    sources: [
-      {
-        title: "Download Strategic Paper",
-        description: "Download the original strategic docx: 'Trends Are a Tool, Not a Strategy'.",
-        href: "/Trends Are a Tool, Not a Strategy.docx",
-      },
-    ],
+    sources: [],
   },
   "stm-music": {
     title: "STM MUSIC GROUP",
@@ -1183,6 +1171,10 @@ export default async function CaseStudyPage({
     currentIndex >= 0 && currentIndex < PROJECTS.length - 1
       ? PROJECTS[currentIndex + 1]
       : PROJECTS[0]
+  const isTrendsStrategy =
+    slug === "trends-are-a-tool" ||
+    slug === "trends-are-a-tool-not-a-strategy" ||
+    slug === "trends"
 
   return (
     <main className="site-shell">
@@ -1232,137 +1224,709 @@ export default async function CaseStudyPage({
         <img src={project.cover_image} alt={`${project.title} cover`} />
       </div>
 
-      {/* 4. Project overview section & 5. Facts row */}
-      <section className="case-overview section-grid">
-        <div className="section-label">01 / Overview</div>
-        <div>
-          <h2>
-            Built with <i>intent.</i>
-          </h2>
-          <p>{project.client_introduction}</p>
-          <div className="case-facts">
-            {project.industry && (
-              <span>
-                Industry<strong>{project.industry}</strong>
-              </span>
-            )}
-            {project.location && (
-              <span>
-                Location<strong>{project.location}</strong>
-              </span>
-            )}
-            <span>
-              Year<strong>2026</strong>
-            </span>
-            <span>
-              Discipline<strong>{project.category}</strong>
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Challenge & Objectives section */}
-      {(project.business_challenge || project.objectives) && (
-        <section className="case-challenge section-grid">
-          <div className="section-label">02 / Challenge</div>
-          <div className="challenge-columns">
-            {project.business_challenge && (
-              <div>
-                <h3>The Challenge</h3>
-                <p>{project.business_challenge}</p>
-              </div>
-            )}
-            {project.objectives && (
-              <div>
-                <h3>The Objectives</h3>
-                <p>{project.objectives}</p>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* 7. Strategy section */}
-      {project.strategy && (
-        <section className="case-strategy section-grid">
-          <div className="section-label">03 / Strategy</div>
-          <div>
-            <h3>The Strategic Approach</h3>
-            <p>{project.strategy}</p>
-          </div>
-        </section>
-      )}
-
-      {/* 8. Creative Direction & Brand Personality section */}
-      {project.creative_direction && (
-        <section className="case-creative section-grid">
-          <div className="section-label">04 / Creative Direction</div>
-          <div>
-            <h3>Visual Direction &amp; Systems</h3>
-            <p>{project.creative_direction}</p>
-          </div>
-        </section>
-      )}
-
-      {/* 9. Execution & Services Delivered section */}
-      <section className="case-execution section-grid">
-        <div className="section-label">05 / Execution</div>
-        <div>
-          <h3>What We Built</h3>
-          <p>{project.execution || "Architected and delivered the complete creative and technical system."}</p>
-          {project.services_delivered.length > 0 && (
-            <div className="services-list">
-              <h4>Services Delivered</h4>
-              <ul>
-                {project.services_delivered.map((service, idx) => (
-                  <li key={idx}>{service}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* 10. Results section */}
-      <section className="case-results section-grid">
-        <div className="section-label">06 / Results</div>
-        <div className="results-box">
-          <h3>The Outcome</h3>
-          <p>{project.results}</p>
-          {project.live_url && (
-            <div style={{ marginTop: "24px" }}>
-              <a
-                className="button button-dark"
-                href={project.live_url}
-                target="_blank"
-                rel="noopener noreferrer"
+      {isTrendsStrategy ? (
+        <article className="trends-full-paper">
+          {/* Section 01: The Problem & Premise */}
+          <section className="case-overview section-grid">
+            <div className="section-label">01 / The Problem</div>
+            <div>
+              <p
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--brown)",
+                  marginBottom: "16px",
+                  fontWeight: 600,
+                }}
               >
-                {project.cta_label || "Open Live Website"} <ArrowUpRight data-icon="inline-end" />
-              </a>
+                Sole Trust Media · Creative Direction
+              </p>
+              <h2 style={{ fontSize: "clamp(38px, 5.5vw, 76px)", lineHeight: 0.95, margin: "0 0 24px" }}>
+                Views are coming. <br />
+                <i>Customers are not.</i>
+              </h2>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--muted)", maxWidth: "680px", margin: "0 0 20px" }}>
+                For any business that sells to customers. Based on two years of watching how businesses use social media. The examples are made up to explain the idea, not client results.
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 20px" }}>
+                Every business is making content now. Good cameras, good editing, trending audios. And still the owner says: <em>&ldquo;Views are coming. Customers are not.&rdquo;</em>
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 28px" }}>
+                Here is what I keep seeing. Businesses choose what to post by looking at what is trending, not at who they are posting for.
+              </p>
+              <div
+                style={{
+                  background: "var(--brown)",
+                  color: "var(--cream)",
+                  padding: "24px 30px",
+                  borderRadius: "16px",
+                  maxWidth: "680px",
+                  fontSize: "clamp(18px, 2.2vw, 24px)",
+                  fontFamily: "'Playfair Display', serif",
+                  lineHeight: 1.4,
+                }}
+              >
+                &ldquo;A trend is a good tool. It is a bad strategy.&rdquo;
+              </div>
             </div>
-          )}
-        </div>
-      </section>
+          </section>
 
-      {/* 11. Project Gallery section */}
-      {project.gallery.length > 0 && (
-        <section className="case-gallery">
-          <div className="section-label" style={{ padding: "0 4vw 40px" }}>
-            07 / Visual Evidence
-          </div>
-          <div className="gallery-grid">
-            {project.gallery.map((item, idx) => (
-              <figure key={idx} className="gallery-item">
-                <img
-                  src={item.image_url}
-                  alt={item.caption || `${project.title} preview ${idx + 1}`}
-                  loading="lazy"
-                />
-                {item.caption && <figcaption>{item.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
-        </section>
+          {/* Section 02: Views Are Not Customers (Store A vs Store B) */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">02 / Vanity vs. Value</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Views are not <i>customers.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 40px" }}>
+                Take two clothing stores. The numbers are made up, the idea is real.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "24px",
+                  maxWidth: "840px",
+                  marginBottom: "36px",
+                }}
+              >
+                {/* Store A Card */}
+                <div
+                  style={{
+                    border: "1px solid var(--line)",
+                    borderRadius: "20px",
+                    padding: "32px 28px",
+                    background: "rgba(242, 236, 227, 0.4)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'DM Mono', monospace",
+                      fontSize: "10px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    Direction 01
+                  </span>
+                  <h4 style={{ fontSize: "24px", margin: "8px 0 20px" }}>Store A</h4>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>THE POST</span>
+                      <strong style={{ fontSize: "15px", color: "var(--dark)" }}>Funny trending Reel</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>REACH</span>
+                      <strong style={{ fontSize: "28px", color: "var(--brown)", fontFamily: "'Playfair Display', serif" }}>100,000 views</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>WHO WATCHED</span>
+                      <p style={{ margin: 0, fontSize: "14px", color: "var(--muted)" }}>Mostly people far away or not interested</p>
+                    </div>
+                    <div style={{ paddingTop: "12px", borderTop: "1px solid var(--line)" }}>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>LIKELY OUTCOME</span>
+                      <span style={{ fontSize: "15px", fontWeight: 600, color: "var(--dark)" }}>Lots of likes, few enquiries</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Store B Card */}
+                <div
+                  style={{
+                    border: "2px solid var(--brown)",
+                    borderRadius: "20px",
+                    padding: "32px 28px",
+                    background: "var(--cream-deep)",
+                    position: "relative",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'DM Mono', monospace",
+                      fontSize: "10px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "var(--brown)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Recommended Strategy
+                  </span>
+                  <h4 style={{ fontSize: "24px", margin: "8px 0 20px" }}>Store B</h4>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>THE POST</span>
+                      <strong style={{ fontSize: "15px", color: "var(--dark)" }}>How to choose a comfortable outfit for a family function</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>REACH</span>
+                      <strong style={{ fontSize: "28px", color: "var(--brown)", fontFamily: "'Playfair Display', serif" }}>8,000 views</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>WHO WATCHED</span>
+                      <p style={{ margin: 0, fontSize: "14px", color: "var(--dark)" }}>Local women planning to buy</p>
+                    </div>
+                    <div style={{ paddingTop: "12px", borderTop: "1px solid rgba(75, 53, 40, 0.2)" }}>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>LIKELY OUTCOME</span>
+                      <span style={{ fontSize: "15px", fontWeight: 600, color: "var(--brown)" }}>Fewer views, more enquiries &amp; sales</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p style={{ fontSize: "17px", lineHeight: 1.6, maxWidth: "680px", color: "var(--dark)", fontStyle: "italic" }}>
+                &ldquo;So don’t only ask &lsquo;how many saw it?&rsquo; Ask: did the right people see it, understand it and message us?&rdquo;
+              </p>
+            </div>
+          </section>
+
+          {/* Section 03: The 5 Steps Framework */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">03 / The 5 Steps</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 20px" }}>
+                The 5-step <i>customer framework.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "620px", margin: "0 0 40px" }}>
+                Moving from random trend chasing to deliberate customer engagement.
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "760px", marginBottom: "40px" }}>
+                {[
+                  {
+                    step: "01",
+                    title: "Know the business",
+                    desc: "What it sells, what makes it different, what it wants.",
+                  },
+                  {
+                    step: "02",
+                    title: "Know the customer",
+                    desc: "Not “women aged 18 to 35”. What does she worry about? Who pays? Who influences her?",
+                  },
+                  {
+                    step: "03",
+                    title: "Decide what the brand should feel like",
+                    desc: "Warm, premium, funny, helpful. Then actually be that, in captions and in how you reply to messages.",
+                  },
+                  {
+                    step: "04",
+                    title: "Give every post a reason",
+                    desc: "Solve a problem, tell the story, explain the product, show real customers, and only then promote.",
+                  },
+                  {
+                    step: "05",
+                    title: "Make buying easy, then check the numbers",
+                    desc: "Remove friction from every touchpoint, test customer responses, and audit the results honestly.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.step}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "50px 1fr",
+                      gap: "20px",
+                      padding: "24px 28px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                      alignItems: "baseline",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: "18px",
+                        fontWeight: 600,
+                        color: "var(--brown)",
+                      }}
+                    >
+                      {item.step}
+                    </span>
+                    <div>
+                      <h4 style={{ fontSize: "19px", margin: "0 0 6px" }}>{item.title}</h4>
+                      <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--muted)" }}>{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Lean version tip */}
+              <div
+                style={{
+                  borderLeft: "3px solid var(--brown)",
+                  padding: "16px 24px",
+                  background: "rgba(185, 163, 140, 0.15)",
+                  maxWidth: "760px",
+                  borderRadius: "0 12px 12px 0",
+                }}
+              >
+                <strong style={{ fontSize: "12px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px", color: "var(--brown)" }}>
+                  No time for a big study?
+                </strong>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  Do the small version: one long talk with the owner, a look at five competitors, and ten conversations with real customers. Two weeks is enough to start.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 04: Cross-Industry Application ("Same idea, any business") */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">04 / Industry Matrix</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Same idea, <i>any business.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                Start with what the customer is wondering. Then bring the product in.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gap: "18px",
+                  maxWidth: "840px",
+                  marginBottom: "30px",
+                }}
+              >
+                {[
+                  {
+                    business: "Kashmiri kurta store",
+                    usual: "New kurta available.",
+                    instead: "Love traditional clothes but don’t know how to style them every day? Here are 3 ideas.",
+                  },
+                  {
+                    business: "Restaurant",
+                    usual: "Today’s special.",
+                    instead: "What to order when you bring the whole family.",
+                  },
+                  {
+                    business: "Coaching institute",
+                    usual: "Admissions open.",
+                    instead: "What a parent should ask before choosing an institute.",
+                  },
+                  {
+                    business: "Gym",
+                    usual: "Join now, offer ends soon.",
+                    instead: "What your first week at the gym looks like.",
+                  },
+                  {
+                    business: "Beauty brand",
+                    usual: "New serum launched.",
+                    instead: "Which product suits your skin, and which one you don’t need.",
+                  },
+                  {
+                    business: "Online brand",
+                    usual: "Sale is live.",
+                    instead: "How delivery, returns and exchange work, before you have to ask.",
+                  },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      padding: "22px 26px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "14px",
+                    }}
+                  >
+                    <div>
+                      <span style={{ fontSize: "10px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 700 }}>
+                        {item.business}
+                      </span>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
+                      <div style={{ padding: "12px 16px", background: "rgba(75, 53, 40, 0.04)", borderRadius: "10px" }}>
+                        <span style={{ fontSize: "9px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
+                          What it usually posts
+                        </span>
+                        <p style={{ margin: 0, fontSize: "13px", color: "var(--muted)", fontStyle: "italic" }}>
+                          &ldquo;{item.usual}&rdquo;
+                        </p>
+                      </div>
+                      <div style={{ padding: "12px 16px", background: "var(--cream-deep)", border: "1px solid rgba(75, 53, 40, 0.15)", borderRadius: "10px" }}>
+                        <span style={{ fontSize: "9px", fontFamily: "'DM Mono', monospace", color: "var(--brown)", textTransform: "uppercase", fontWeight: 700, display: "block", marginBottom: "4px" }}>
+                          What it could say instead
+                        </span>
+                        <p style={{ margin: 0, fontSize: "13px", color: "var(--dark)", fontWeight: 600 }}>
+                          &ldquo;{item.instead}&rdquo;
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: "15px", color: "var(--brown)", fontWeight: 600 }}>
+                The product is still being sold. The post just starts with the customer.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 05: The 4-Question Trend Filter */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">05 / Decision Gate</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Should we use <i>this trend?</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                Four quick questions before jumping on any trending format:
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "18px",
+                  maxWidth: "800px",
+                  marginBottom: "36px",
+                }}
+              >
+                {[
+                  { num: "01", q: "Does it fit our brand’s personality?" },
+                  { num: "02", q: "Will our customers understand it?" },
+                  { num: "03", q: "Can we connect it honestly to our product?" },
+                  { num: "04", q: "Does it support what we want to say?" },
+                ].map((gate) => (
+                  <div
+                    key={gate.num}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      padding: "24px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", color: "var(--brown)", fontWeight: 600 }}>
+                      GATE {gate.num}
+                    </span>
+                    <h4 style={{ fontSize: "17px", marginTop: "10px", lineHeight: 1.4 }}>{gate.q}</h4>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                style={{
+                  background: "var(--cream-deep)",
+                  border: "1px solid var(--line)",
+                  borderRadius: "16px",
+                  padding: "24px 30px",
+                  maxWidth: "800px",
+                }}
+              >
+                <p style={{ margin: "0 0 12px", fontSize: "16px", fontWeight: 600, color: "var(--dark)" }}>
+                  Four yeses, use it. Anything less, change it or skip it.
+                </p>
+                <p style={{ margin: 0, fontSize: "14px", color: "var(--muted)", fontStyle: "italic", lineHeight: 1.6 }}>
+                  If people only recognise your brand when it uses a viral audio, you don’t have an identity yet.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 06: Operational Readiness ("Make the next step easy") */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">06 / Readiness</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Make the next <i>step easy.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                A Reel is only the start. Before you post anything, check these:
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "760px", marginBottom: "32px" }}>
+                {[
+                  "Prices, location and a WhatsApp or call button are on your profile.",
+                  "Your Google Business Profile is up to date.",
+                  "Messages get a reply within an hour in working time, or whatever pace you can really keep.",
+                  "Common answers (size, delivery, price, care) are saved as quick replies.",
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "flex",
+                      gap: "16px",
+                      alignItems: "flex-start",
+                      padding: "18px 24px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "12px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ color: "var(--brown)", fontWeight: 700, fontSize: "16px" }}>✓</span>
+                    <span style={{ fontSize: "15px", lineHeight: 1.5, color: "var(--dark)" }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: "15px", color: "var(--brown)", fontWeight: 600, fontStyle: "italic" }}>
+                If enquiries come in and nobody replies, that is a bigger problem than any Reel.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 07: Telemetry & Measurement ("Measure what matters") */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">07 / Telemetry</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Measure what <i>matters.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                Follow the path from attention to sale and see where it breaks:
+              </p>
+
+              {/* Conversion Pipeline Flow */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "24px 28px",
+                  background: "var(--dark)",
+                  color: "var(--cream)",
+                  borderRadius: "18px",
+                  maxWidth: "840px",
+                  marginBottom: "32px",
+                }}
+              >
+                {["Reach", "Profile visits & saves", "DMs & calls per 1,000 reach", "Enquiries into sales", "Customers who return"].map((node, i, arr) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <span style={{ fontSize: "12px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase" }}>{node}</span>
+                    {i < arr.length - 1 && <span style={{ opacity: 0.4 }}>→</span>}
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "760px" }}>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--dark)", margin: 0 }}>
+                  Social media rarely gets full credit, so ask every buyer &ldquo;how did you find us?&rdquo; and use a simple offer code on posts. It is not perfect, but it beats guessing.
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--dark)", margin: 0 }}>
+                  Try this for six weeks: post a mix of trend-led and customer-led content, then compare enquiries per 1,000 reach. Let your own numbers decide.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 08: Reality Checks & Transparency */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">08 / Honest Reality</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Where this can <i>go wrong.</i>
+              </h3>
+
+              <ul style={{ margin: "0 0 36px", paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "12px", maxWidth: "680px" }}>
+                <li style={{ fontSize: "15px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  Content cannot fix a bad product, a high price or a business that doesn’t reply.
+                </li>
+                <li style={{ fontSize: "15px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  If every post teaches and none entertain, reach can drop. Keep trends in the mix.
+                </li>
+                <li style={{ fontSize: "15px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  Trust takes months. If you need sales this week, add an offer or an ad alongside.
+                </li>
+              </ul>
+
+              <div
+                style={{
+                  border: "1px solid var(--line)",
+                  borderRadius: "16px",
+                  padding: "24px 28px",
+                  maxWidth: "760px",
+                  background: "rgba(242, 236, 227, 0.4)",
+                }}
+              >
+                <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 600, display: "block", marginBottom: "8px" }}>
+                  What I haven’t proven yet
+                </span>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.65, color: "var(--muted)" }}>
+                  This is a reasoned approach from what I have seen, not a report of finished campaigns. I will add real results, including what didn’t work, once they are verified and the client agrees to share them.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 09: Manifesto Banner */}
+          <section
+            style={{
+              padding: "90px 4vw",
+              background: "var(--dark)",
+              color: "var(--cream)",
+              textAlign: "center",
+              borderTop: "1px solid rgba(242, 236, 227, 0.12)",
+            }}
+          >
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.65, marginBottom: "20px" }}>
+                The Sole Trust Media Standard
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: "clamp(30px, 4.5vw, 56px)",
+                  lineHeight: 1.2,
+                  fontWeight: 500,
+                  fontStyle: "italic",
+                  margin: "0 0 24px",
+                }}
+              >
+                Customer before content.<br />
+                Personality before production.<br />
+                Relationships before reach.
+              </h2>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--beige)", margin: 0 }}>
+                This is how I want to work at Sole Trust Media.
+              </p>
+            </div>
+          </section>
+        </article>
+      ) : (
+        <>
+          {/* 4. Project overview section & 5. Facts row */}
+          <section className="case-overview section-grid">
+            <div className="section-label">01 / Overview</div>
+            <div>
+              <h2>
+                Built with <i>intent.</i>
+              </h2>
+              <p>{project.client_introduction}</p>
+              <div className="case-facts">
+                {project.industry && (
+                  <span>
+                    Industry<strong>{project.industry}</strong>
+                  </span>
+                )}
+                {project.location && (
+                  <span>
+                    Location<strong>{project.location}</strong>
+                  </span>
+                )}
+                <span>
+                  Year<strong>2026</strong>
+                </span>
+                <span>
+                  Discipline<strong>{project.category}</strong>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* 6. Challenge & Objectives section */}
+          {(project.business_challenge || project.objectives) && (
+            <section className="case-challenge section-grid">
+              <div className="section-label">02 / Challenge</div>
+              <div className="challenge-columns">
+                {project.business_challenge && (
+                  <div>
+                    <h3>The Challenge</h3>
+                    <p>{project.business_challenge}</p>
+                  </div>
+                )}
+                {project.objectives && (
+                  <div>
+                    <h3>The Objectives</h3>
+                    <p>{project.objectives}</p>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* 7. Strategy section */}
+          {project.strategy && (
+            <section className="case-strategy section-grid">
+              <div className="section-label">03 / Strategy</div>
+              <div>
+                <h3>The Strategic Approach</h3>
+                <p>{project.strategy}</p>
+              </div>
+            </section>
+          )}
+
+          {/* 8. Creative Direction & Brand Personality section */}
+          {project.creative_direction && (
+            <section className="case-creative section-grid">
+              <div className="section-label">04 / Creative Direction</div>
+              <div>
+                <h3>Visual Direction &amp; Systems</h3>
+                <p>{project.creative_direction}</p>
+              </div>
+            </section>
+          )}
+
+          {/* 9. Execution & Services Delivered section */}
+          <section className="case-execution section-grid">
+            <div className="section-label">05 / Execution</div>
+            <div>
+              <h3>What We Built</h3>
+              <p>{project.execution || "Architected and delivered the complete creative and technical system."}</p>
+              {project.services_delivered.length > 0 && (
+                <div className="services-list">
+                  <h4>Services Delivered</h4>
+                  <ul>
+                    {project.services_delivered.map((service, idx) => (
+                      <li key={idx}>{service}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* 10. Results section */}
+          <section className="case-results section-grid">
+            <div className="section-label">06 / Results</div>
+            <div className="results-box">
+              <h3>The Outcome</h3>
+              <p>{project.results}</p>
+              {project.live_url && (
+                <div style={{ marginTop: "24px" }}>
+                  <a
+                    className="button button-dark"
+                    href={project.live_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.cta_label || "Open Live Website"} <ArrowUpRight data-icon="inline-end" />
+                  </a>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* 11. Project Gallery section */}
+          {project.gallery.length > 0 && (
+            <section className="case-gallery">
+              <div className="section-label" style={{ padding: "0 4vw 40px" }}>
+                07 / Visual Evidence
+              </div>
+              <div className="gallery-grid">
+                {project.gallery.map((item, idx) => (
+                  <figure key={idx} className="gallery-item">
+                    <img
+                      src={item.image_url}
+                      alt={item.caption || `${project.title} preview ${idx + 1}`}
+                      loading="lazy"
+                    />
+                    {item.caption && <figcaption>{item.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       {/* 12. Sources / External Links */}
