@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
 import CinematicPreloader from '@/components/cinematic-preloader'
 import './globals.css'
 
@@ -78,19 +79,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (sessionStorage.getItem('stm_preloader_seen') && !window.location.search.includes('intro=true')) {
-                  document.documentElement.classList.add('stm-skip-preloader');
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
-      </head>
+      <Script
+        id="stm-preloader-session-check"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            try {
+              if (sessionStorage.getItem('stm_preloader_seen') && !window.location.search.includes('intro=true')) {
+                document.documentElement.classList.add('stm-skip-preloader');
+              }
+            } catch (e) {}
+          `,
+        }}
+      />
       <body className="antialiased">
         <CinematicPreloader />
         {children}
