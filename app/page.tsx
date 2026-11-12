@@ -508,6 +508,31 @@ export default function Page() {
             <path d="M157 677C301 454 405 691 553 517C685 362 766 483 904 198" stroke="url(#ribbon-silk)" strokeWidth="7" strokeLinecap="round" opacity=".72" />
           </svg>
 
+          {/* Floating Real Project Badges */}
+          <div className="hero-floating-card hero-floating-card-1">
+            <img src="/assets/work/future-luxe/future-luxe-01.png" alt="Future Luxe Preview" />
+            <div>
+              <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--brown)", display: "block" }}>
+                Digital Flagship
+              </span>
+              <strong style={{ fontSize: "12px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                Future Luxe 3D Atelier
+              </strong>
+            </div>
+          </div>
+
+          <div className="hero-floating-card hero-floating-card-2">
+            <img src="/13isu-creative-1.png" alt="13ISU Preview" />
+            <div>
+              <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--brown)", display: "block" }}>
+                Viral Creative
+              </span>
+              <strong style={{ fontSize: "12px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                13ISU · 100K+ Views
+              </strong>
+            </div>
+          </div>
+
           {/* Floating Editorial Capabilities Badges */}
           <div className="art-card art-card-strategy">
             <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
@@ -524,6 +549,115 @@ export default function Page() {
           <div className="art-card art-card-growth">
             <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             <span>Systems &amp;<br />Automation</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          SECTION 03: STUDIO INTRODUCTION (EDITORIAL SPLIT & MANIFESTO)
+          ==================================================================== */}
+      <section className="studio-intro-section" id="about">
+        <div className="studio-intro-grid reveal">
+          <div>
+            <p
+              className="eyebrow"
+              style={{
+                fontFamily: "var(--font-utility)",
+                fontSize: "11px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "var(--brown)",
+                fontWeight: 600,
+                marginBottom: "16px",
+              }}
+            >
+              01 / Studio Manifesto
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(40px, 5.5vw, 80px)",
+                lineHeight: 0.96,
+                letterSpacing: "-0.045em",
+                margin: "0 0 28px",
+                fontFamily: "var(--font-display)",
+              }}
+            >
+              Good ideas deserve<br />
+              <i style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic", fontWeight: 400 }}>better execution.</i>
+            </h2>
+            <p
+              style={{
+                fontSize: "clamp(15px, 1.8vw, 18px)",
+                lineHeight: 1.65,
+                color: "var(--dark)",
+                marginBottom: "24px",
+                fontWeight: 400,
+              }}
+            >
+              Most ambitious businesses don&apos;t struggle because of poor products. They struggle because their brand execution is fragmented across disconnected silos — a social agency making temporary noise, an off-the-shelf website that leaks conversions, and manual sales bottlenecks.
+            </p>
+            <blockquote
+              style={{
+                borderLeft: "2px solid var(--brown)",
+                paddingLeft: "22px",
+                margin: "30px 0",
+                fontStyle: "italic",
+                color: "var(--muted)",
+                fontSize: "15px",
+                lineHeight: 1.7,
+              }}
+            >
+              &ldquo;We built Sole Trust Media to eliminate this divide. We combine strategic brand positioning, cinematic visual craft, bespoke digital engineering, and automated systems to build brands people genuinely remember and trust.&rdquo;
+            </blockquote>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+                gap: "20px",
+                paddingTop: "24px",
+                borderTop: "1px solid var(--line)",
+              }}
+            >
+              <div>
+                <strong style={{ display: "block", fontSize: "14px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                  01 · Strategy With Intent
+                </strong>
+                <span style={{ fontSize: "13px", color: "var(--muted)" }}>Clarity before aesthetic decoration</span>
+              </div>
+              <div>
+                <strong style={{ display: "block", fontSize: "14px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                  02 · Visceral Craft
+                </strong>
+                <span style={{ fontSize: "13px", color: "var(--muted)" }}>Commanding pricing power &amp; distinction</span>
+              </div>
+              <div>
+                <strong style={{ display: "block", fontSize: "14px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                  03 · Technology That Scales
+                </strong>
+                <span style={{ fontSize: "13px", color: "var(--muted)" }}>Fast flagships &amp; automated pipelines</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="studio-intro-visual-frame">
+            <img
+              src="/assets/work/twine/twine-01.jpeg"
+              alt="Sole Trust Media Craft & Visual Direction"
+              loading="lazy"
+            />
+            <div className="studio-intro-badge">
+              <div>
+                <span style={{ fontFamily: "var(--font-utility)", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--brown)", display: "block" }}>
+                  DISCIPLINED ATELIER
+                </span>
+                <strong style={{ fontSize: "14px", color: "var(--dark)" }}>
+                  Bengaluru Studio · Worldwide Execution
+                </strong>
+              </div>
+              <Link href="/work" className="button button-dark" style={{ padding: "8px 16px", fontSize: "10px" }}>
+                Explore Craft <ArrowUpRight size={12} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -865,6 +999,76 @@ export default function Page() {
               )
             })}
           </div>
+
+          {/* Social-First Content & Video Production Reel Strip */}
+          <div className="reveal" style={{ marginTop: "70px", paddingTop: "50px", borderTop: "1px solid var(--line)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "20px", marginBottom: "28px" }}>
+              <div>
+                <span style={{ fontFamily: "var(--font-utility)", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--brown)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
+                  High-Craft Media Production
+                </span>
+                <h3 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", margin: 0, fontFamily: "var(--font-display)" }}>
+                  Short-form storytelling &amp; <i>viral craft.</i>
+                </h3>
+              </div>
+              <p style={{ maxWidth: "420px", margin: 0, fontSize: "14px", color: "var(--muted)", lineHeight: 1.6 }}>
+                Real video production, culinary direction, and cultural campaign reels designed for sustained audience attention and organic reach.
+              </p>
+            </div>
+
+            <div className="video-reel-strip">
+              <div className="video-reel-card">
+                <video
+                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.08.31.mp4"
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                />
+                <div className="video-reel-overlay">
+                  <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>
+                    Culinary Direction
+                  </span>
+                  <strong style={{ fontSize: "13px", marginTop: "4px" }}>Dessert Craft &amp; Texture</strong>
+                </div>
+              </div>
+
+              <div className="video-reel-card">
+                <video
+                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.09.08.mp4"
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                />
+                <div className="video-reel-overlay">
+                  <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>
+                    Product Storytelling
+                  </span>
+                  <strong style={{ fontSize: "13px", marginTop: "4px" }}>Packaging &amp; Unboxing</strong>
+                </div>
+              </div>
+
+              <div className="video-reel-card">
+                <video
+                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.10.33.mp4"
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                />
+                <div className="video-reel-overlay">
+                  <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>
+                    Social Campaign
+                  </span>
+                  <strong style={{ fontSize: "13px", marginTop: "4px" }}>Community Activation</strong>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -872,7 +1076,7 @@ export default function Page() {
           SECTION H: DOCUMENTED CRAFT. REAL RESULTS.
           ==================================================================== */}
       <section className="featured-case-section section-grid" id="case-studies">
-        <div className="section-label">06 / Documented Results</div>
+        <div className="section-label">07 / Documented Results</div>
         <div className="intro-content">
           <div className="section-heading reveal">
             <h2>
@@ -959,7 +1163,7 @@ export default function Page() {
           SECTION I: INSIGHTS (MAGAZINE-STYLE EDITORIAL CONTENT)
           ==================================================================== */}
       <section className="insights-section section-grid" id="insights">
-        <div className="section-label">07 / Studio Insights</div>
+        <div className="section-label">08 / Studio Insights</div>
         <div className="intro-content">
           <div className="section-heading reveal">
             <h2>
@@ -1008,7 +1212,7 @@ export default function Page() {
               marginBottom: "16px",
             }}
           >
-            08 / New Business
+            09 / New Business
           </p>
           <h2
             style={{
