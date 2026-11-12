@@ -2,13 +2,27 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 
+const PROCESS_STAGES = [
+  { num: '01', name: 'DISCOVER', desc: 'Context & Diagnosis' },
+  { num: '02', name: 'STRATEGIZE', desc: 'Positioning & Intent' },
+  { num: '03', name: 'CREATE', desc: 'Visual Architecture' },
+  { num: '04', name: 'BUILD', desc: 'Digital Engineering' },
+  { num: '05', name: 'LAUNCH', desc: 'Market Activation' },
+]
+
 export default function CinematicPreloader() {
   const [active, setActive] = useState(true)
-  const [progress, setProgress] = useState(12)
-  const [phase, setPhase] = useState<'revealed' | 'complete' | 'exiting' | 'done'>('revealed')
-  const [statusText, setStatusText] = useState('INITIALIZING STUDIO ARCHIVE')
+  const [progress, setProgress] = useState(10)
+  const [phase, setPhase] = useState<'initial' | 'revealed' | 'complete' | 'exiting' | 'done'>('initial')
+  const [statusText, setStatusText] = useState('INITIALIZING ARCHIVE')
   const animationFrameRef = useRef<number | null>(null)
   const targetProgressRef = useRef(15)
+
+  // Compute active process stage index (0 to 4)
+  const activeStageIndex = Math.min(
+    Math.floor((progress / 100) * PROCESS_STAGES.length),
+    PROCESS_STAGES.length - 1
+  )
 
   // Complete and dismiss preloader
   const completeLoader = useCallback(() => {
@@ -16,40 +30,37 @@ export default function CinematicPreloader() {
     setProgress(100)
     setStatusText('STUDIO READY · ENTERING')
 
-    // Mark as seen in this session
     try {
       sessionStorage.setItem('stm_preloader_seen', 'true')
     } catch {
-      // sessionStorage might fail in restricted iframes/incognito, handle gracefully
+      // sessionStorage might fail in restricted environments, handled safely
     }
 
-    // Short cinematic pause at 100% before opening the curtain
+    // Brief hold at 100% to let viewer perceive completion
     const exitTimer = setTimeout(() => {
       setPhase('exiting')
-      // Unlock body scroll smoothly
       document.body.style.overflow = ''
       document.body.classList.remove('stm-preloader-locked')
 
-      // Remove component from DOM after curtain transition finishes
       const doneTimer = setTimeout(() => {
         setPhase('done')
         setActive(false)
       }, 950)
 
       return () => clearTimeout(doneTimer)
-    }, 280)
+    }, 240)
 
     return () => clearTimeout(exitTimer)
   }, [])
 
-  // Manual skip handler (Escape or click)
+  // Manual skip handler (Escape key or Skip button)
   const handleSkip = useCallback(() => {
     targetProgressRef.current = 100
     completeLoader()
   }, [completeLoader])
 
   useEffect(() => {
-    // 1. Check if user prefers reduced motion
+    // 1. Reduced motion check
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
       setActive(false)
@@ -58,7 +69,7 @@ export default function CinematicPreloader() {
       return
     }
 
-    // 2. Check if user already saw the preloader in this session
+    // 2. Session check (allow ?intro=true for testing)
     const urlParams = new URLSearchParams(window.location.search)
     const forceIntro = urlParams.get('intro') === 'true'
 
@@ -71,14 +82,19 @@ export default function CinematicPreloader() {
         return
       }
     } catch {
-      // Continue safely if sessionStorage is restricted
+      // Proceed safely
     }
 
-    // Lock body scroll during active preloader
+    // Lock body scroll
     document.body.style.overflow = 'hidden'
     document.body.classList.add('stm-preloader-locked')
 
-    // Escape key listener to skip intro
+    // Phase 1 -> Phase 2 (trigger reveals)
+    const revealTimer = setTimeout(() => {
+      setPhase('revealed')
+    }, 80)
+
+    // Escape listener
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         handleSkip()
@@ -86,73 +102,88 @@ export default function CinematicPreloader() {
     }
     window.addEventListener('keydown', handleKeyDown)
 
-    // 3. Track actual resource loading
-    const checkResourceReadiness = async () => {
-      // Check document fonts readiness
-      if ('fonts' in document) {
-        try {
-          await document.fonts.ready
-          targetProgressRef.current = Math.max(targetProgressRef.current, 55)
-          setStatusText('TYPOGRAPHIC SYSTEM LOADED')
-        } catch {
-          targetProgressRef.current = Math.max(targetProgressRef.current, 45)
-        }
-      }
+    // 3. Measurable resource tracking
+    let loadedAssetsCount = 0
+    const criticalImages = [
+      '/assets/logo/logo-brown.png',
+      '/assets/work/twine/twine-01.jpeg',
+      '/assets/work/future-luxe/future-luxe-01.png',
+      '/assets/work/lumora/lumora-01.png',
+    ]
 
-      // Check document readyState
-      if (document.readyState === 'complete') {
-        targetProgressRef.current = Math.max(targetProgressRef.current, 85)
-        setStatusText('BRAND ASSETS CALIBRATED')
-      } else {
-        const handleLoad = () => {
-          targetProgressRef.current = Math.max(targetProgressRef.current, 90)
-          setStatusText('BRAND ASSETS CALIBRATED')
-        }
-        window.addEventListener('load', handleLoad, { once: true })
-      }
-
-      // Preload primary brand logo
-      const logoImg = new Image()
-      logoImg.src = '/assets/logo/logo-brown.png'
-      logoImg.onload = () => {
-        targetProgressRef.current = Math.max(targetProgressRef.current, 75)
-      }
+    const onImageLoaded = () => {
+      loadedAssetsCount++
+      const assetRatio = loadedAssetsCount / criticalImages.length
+      targetProgressRef.current = Math.max(targetProgressRef.current, Math.floor(25 + assetRatio * 50))
     }
 
-    checkResourceReadiness()
+    criticalImages.forEach((src) => {
+      const img = new Image()
+      img.src = src
+      if (img.complete) {
+        onImageLoaded()
+      } else {
+        img.onload = onImageLoaded
+        img.onerror = onImageLoaded // Fail gracefully, never block
+      }
+    })
 
-    // 4. Fluid progress interpolation ticker using requestAnimationFrame
+    // Check fonts readiness
+    if ('fonts' in document) {
+      document.fonts.ready
+        .then(() => {
+          targetProgressRef.current = Math.max(targetProgressRef.current, 60)
+          setStatusText('TYPOGRAPHIC SYSTEM READY')
+        })
+        .catch(() => {
+          targetProgressRef.current = Math.max(targetProgressRef.current, 50)
+        })
+    }
+
+    // Check document readiness
+    if (document.readyState === 'complete') {
+      targetProgressRef.current = Math.max(targetProgressRef.current, 85)
+      setStatusText('PAGE ASSETS CALIBRATED')
+    } else {
+      const handleWindowLoad = () => {
+        targetProgressRef.current = Math.max(targetProgressRef.current, 90)
+        setStatusText('PAGE ASSETS CALIBRATED')
+      }
+      window.addEventListener('load', handleWindowLoad, { once: true })
+    }
+
+    // 4. Smooth fluid interpolation ticker
     const startTime = performance.now()
-    const minDisplayDuration = 1450 // minimum time for cinematic readability
-    const maxSafetyDuration = 2600 // hard safety timeout so it NEVER gets stuck
+    const minDisplayDuration = 1500 // allows viewing the editorial composition
+    const maxSafetyDuration = 2800 // safety cap so it never gets stuck
 
-    let current = 12
+    let current = 10
     const tick = (now: number) => {
       const elapsed = now - startTime
 
-      // Smooth step towards targetProgressRef
       const target = targetProgressRef.current
       if (current < target) {
         current += (target - current) * 0.12 + 0.35
       }
 
-      // Natural progressive increment based on elapsed time
+      // Natural progressive baseline
       const timeRatio = Math.min(elapsed / minDisplayDuration, 1)
       const simulatedBase = Math.floor(timeRatio * 92)
       const displayVal = Math.min(Math.floor(Math.max(current, simulatedBase)), 99)
 
       setProgress(displayVal)
 
-      // Dynamic cinematic status updates
-      if (displayVal > 30 && displayVal < 60) {
-        setStatusText('ALIGNING BRAND MATRIX')
-      } else if (displayVal >= 60 && displayVal < 90) {
-        setStatusText('CALIBRATING DIGITAL EXPERIENCES')
+      // Contextual status messages
+      if (displayVal >= 25 && displayVal < 50) {
+        setStatusText('01 / ANALYSING ARCHITECTURE')
+      } else if (displayVal >= 50 && displayVal < 75) {
+        setStatusText('02 / COMPOSING SPATIAL MEDIUMS')
+      } else if (displayVal >= 75 && displayVal < 90) {
+        setStatusText('03 / SYNCHRONISING DIGITAL CRAFT')
       } else if (displayVal >= 90) {
-        setStatusText('RESOLVING STUDIO ATELIER')
+        setStatusText('04 / RESOLVING ATELIER')
       }
 
-      // Complete when readiness target is reached and minimum cinematic time has elapsed
       const isReady = targetProgressRef.current >= 85 && elapsed >= minDisplayDuration
       const isTimedOut = elapsed >= maxSafetyDuration
 
@@ -167,6 +198,7 @@ export default function CinematicPreloader() {
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
+      if (revealTimer) clearTimeout(revealTimer)
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current)
       document.body.style.overflow = ''
       document.body.classList.remove('stm-preloader-locked')
@@ -177,98 +209,250 @@ export default function CinematicPreloader() {
     return null
   }
 
-  // Format 0 to 100 as padded 3-character string: "012%", "048%", "100%"
   const paddedProgress = progress.toString().padStart(3, '0')
 
   return (
     <aside
-      className={`stm-preloader ${phase === 'exiting' ? 'stm-preloader-exit' : ''}`}
+      className={`stm-architectural-loader ${phase === 'exiting' ? 'stm-loader-exit' : ''}`}
       role="status"
       aria-live="polite"
-      aria-label="Loading Sole Trust Media"
+      aria-label="Loading Sole Trust Media — Creative Technology Studio"
     >
-      {/* Background cinematic vignette and hairline grid overlay */}
-      <div className="stm-preloader-ambient" aria-hidden="true" />
-      <div className="stm-preloader-grid" aria-hidden="true" />
+      {/* Paper-like ambient texture and fine architectural grid */}
+      <div className="stm-loader-ambient" aria-hidden="true" />
+      <div className="stm-loader-grid-lines" aria-hidden="true" />
 
-      {/* Top Bar: Editorial Credits & Coordinate Telemetry */}
-      <header className="stm-preloader-top">
-        <div className="stm-preloader-meta-group">
-          <span className="stm-preloader-index">00 / PROLOGUE</span>
-          <span className="stm-preloader-sep" aria-hidden="true">·</span>
-          <span className="stm-preloader-meta">SOLE TRUST MEDIA</span>
-        </div>
-        <div className="stm-preloader-meta-group stm-preloader-center-tag">
-          <span className="stm-preloader-meta">CREATIVE TECHNOLOGY STUDIO</span>
-        </div>
-        <div className="stm-preloader-meta-group stm-preloader-right-tag">
-          <span className="stm-preloader-meta">BENGALURU · 12.9716° N</span>
-          <span className="stm-preloader-sep" aria-hidden="true">·</span>
-          <span className="stm-preloader-meta">2026 ARCHIVE</span>
-        </div>
-      </header>
-
-      {/* Center Stage: The Brand Emblem, Hairline Progress & Cinematic Statement */}
-      <main className="stm-preloader-center">
-        {/* Studio Eyebrow Descriptor */}
-        <p className="stm-preloader-descriptor visible">
-          Independent Creative Technology Studio
-        </p>
-
-        {/* Brand Logo with Refined Opacity & Clip Unveil */}
-        <div className="stm-preloader-logo-frame visible">
+      {/* ==================================================================
+          TOP BAR: BRAND MARK & STUDIO DESCRIPTOR
+          ================================================================== */}
+      <header className="stm-loader-header">
+        <div className="stm-loader-brand">
           <img
             src="/assets/logo/logo-brown.png"
             alt="Sole Trust Media"
-            className="stm-preloader-logo-img"
-            width={240}
-            height={54}
+            className="stm-loader-logo-img"
+            width={160}
+            height={38}
           />
+          <div className="stm-loader-brand-divider" aria-hidden="true" />
+          <span className="stm-loader-descriptor">
+            SOLE TRUST MEDIA
+          </span>
         </div>
 
-        {/* Thin Hairline Editorial Progress Line */}
-        <div className="stm-preloader-track-wrap">
-          <div className="stm-preloader-track" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+        <div className="stm-loader-coords">
+          <span>CREATIVE</span>
+          <span className="stm-slash">/</span>
+          <span>TECHNOLOGY</span>
+          <span className="stm-slash">/</span>
+          <span>STUDIO</span>
+        </div>
+      </header>
+
+      {/* ==================================================================
+          MAIN STAGE: 3-COLUMN EDITORIAL COMPOSITION
+          ================================================================== */}
+      <main className="stm-loader-stage">
+        {/* LEFT: Large Editorial Headline */}
+        <section className="stm-loader-col stm-loader-left">
+          <div className="stm-loader-section-tag">
+            <span>01 // EDITORIAL DIRECTION</span>
+          </div>
+
+          <h1 className="stm-loader-headline">
+            <span className="stm-loader-headline-line">
+              <span className={phase !== 'initial' ? 'revealed' : ''}>
+                Crafting <i>Experiences</i>
+              </span>
+            </span>
+            <span className="stm-loader-headline-line">
+              <span className={phase !== 'initial' ? 'revealed' : ''} style={{ transitionDelay: '0.12s' }}>
+                That Move
+              </span>
+            </span>
+            <span className="stm-loader-headline-line">
+              <span className={phase !== 'initial' ? 'revealed' : ''} style={{ transitionDelay: '0.24s' }}>
+                <i>Brands.</i>
+              </span>
+            </span>
+          </h1>
+
+          <div className={`stm-loader-statement-foot ${phase !== 'initial' ? 'revealed' : ''}`}>
+            <span className="stm-loader-mono-pill">ATELIER EST. 2023</span>
+            <p>
+              Where strategic clarity converges with cinematic craft and high-velocity software engineering.
+            </p>
+          </div>
+        </section>
+
+        {/* CENTRE: Three Overlapping Architectural Image Panels with Orbit Graphic */}
+        <section className="stm-loader-col stm-loader-center" aria-hidden="true">
+          <div className="stm-loader-panels-wrap">
+            {/* Delicate Orbit Line SVG Graphic */}
+            <svg
+              className="stm-loader-orbit-svg"
+              viewBox="0 0 540 540"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="stmOrbitGrad" x1="0" y1="0" x2="540" y2="540" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#B99A78" stopOpacity="0.8" />
+                  <stop offset="0.5" stopColor="#4B3027" stopOpacity="0.3" />
+                  <stop offset="1" stopColor="#E5D5BE" stopOpacity="0.9" />
+                </linearGradient>
+              </defs>
+              <ellipse
+                cx="270"
+                cy="270"
+                rx="230"
+                ry="190"
+                transform="rotate(-18 270 270)"
+                stroke="url(#stmOrbitGrad)"
+                strokeWidth="1.25"
+                strokeDasharray="1400"
+                className={`stm-orbit-path ${phase !== 'initial' ? 'drawn' : ''}`}
+              />
+              <circle
+                cx="460"
+                cy="190"
+                r="3.5"
+                fill="#4B3027"
+                className={`stm-orbit-node ${phase !== 'initial' ? 'pulsing' : ''}`}
+              />
+            </svg>
+
+            {/* Panel 1: Left / Back Layer (Tactile Textile & Architectural Surface) */}
+            <div className={`stm-loader-panel panel-left ${phase !== 'initial' ? 'in' : ''}`}>
+              <div className="stm-loader-panel-inner">
+                <img
+                  src="/assets/work/twine/twine-01.jpeg"
+                  alt="Material texture exploration"
+                  loading="eager"
+                />
+                <div className="stm-loader-panel-caption">
+                  <span>01</span>
+                  <span>MATERIAL CRAFT</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Panel 2: Center / Main Focus Layer (Spatial Architecture & Monolithic Form) */}
+            <div className={`stm-loader-panel panel-center ${phase !== 'initial' ? 'in' : ''}`}>
+              <div className="stm-loader-panel-inner">
+                <img
+                  src="/assets/work/future-luxe/future-luxe-01.png"
+                  alt="Architectural form & luxury packaging"
+                  loading="eager"
+                />
+                <div className="stm-loader-panel-badge">
+                  <span>SPATIAL DESIGN</span>
+                </div>
+                <div className="stm-loader-panel-caption main">
+                  <span>02</span>
+                  <span>MONOLITHIC VISUALS</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Panel 3: Right / Forward Layer (Light & Luminescence) */}
+            <div className={`stm-loader-panel panel-right ${phase !== 'initial' ? 'in' : ''}`}>
+              <div className="stm-loader-panel-inner">
+                <img
+                  src="/assets/work/lumora/lumora-01.png"
+                  alt="Luminescence and shadow balance"
+                  loading="eager"
+                />
+                <div className="stm-loader-panel-caption">
+                  <span>03</span>
+                  <span>LUMINA EXPERIENCES</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT: Vertical Creative-Process Indicator */}
+        <section className="stm-loader-col stm-loader-right">
+          <div className="stm-loader-section-tag right-tag">
+            <span>02 // METHODOLOGY</span>
+          </div>
+
+          <div className="stm-loader-process-list">
+            <div className="stm-loader-process-track" aria-hidden="true">
+              <div
+                className="stm-loader-process-track-fill"
+                style={{ height: `${((activeStageIndex + 1) / PROCESS_STAGES.length) * 100}%` }}
+              />
+            </div>
+
+            {PROCESS_STAGES.map((stage, idx) => {
+              const isActive = idx === activeStageIndex
+              const isPast = idx < activeStageIndex
+              return (
+                <div
+                  key={stage.num}
+                  className={`stm-loader-process-item ${isActive ? 'active' : ''} ${isPast ? 'past' : ''} ${
+                    phase !== 'initial' ? 'revealed' : ''
+                  }`}
+                  style={{ transitionDelay: `${0.1 + idx * 0.08}s` }}
+                >
+                  <div className="stm-loader-process-item-header">
+                    <span className="stm-loader-process-num">{stage.num}</span>
+                    <span className="stm-loader-process-dash">—</span>
+                    <span className="stm-loader-process-name">{stage.name}</span>
+                    {isActive && <span className="stm-loader-active-pulse" aria-hidden="true" />}
+                  </div>
+                  <span className="stm-loader-process-desc">{stage.desc}</span>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="stm-loader-right-geo">
+            <span>BENGALURU HQ · LAT 12.9716° N</span>
+          </div>
+        </section>
+      </main>
+
+      {/* ==================================================================
+          BOTTOM BAR: HORIZONTAL LOADING INDICATOR & MEASURED PROGRESS
+          ================================================================== */}
+      <footer className="stm-loader-footer">
+        <div className="stm-loader-footer-left">
+          <span className="stm-loader-pulse-dot" aria-hidden="true" />
+          <span className="stm-loader-status-msg">{statusText}</span>
+        </div>
+
+        <div className="stm-loader-footer-center">
+          <span className="stm-loader-progress-label">INITIALISING ASSETS</span>
+          <div
+            className="stm-loader-hairline-track"
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
             <div
-              className="stm-preloader-bar"
+              className="stm-loader-hairline-fill"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="stm-preloader-counter" aria-hidden="true">
+          <span className="stm-loader-progress-val" aria-hidden="true">
             {paddedProgress}%
           </span>
         </div>
 
-        {/* Editorial Brand Statement Reveal */}
-        <div className="stm-preloader-statement visible">
-          <h2>
-            Ideas become <i>experiences.</i>
-          </h2>
-          <p className="stm-preloader-subtext">
-            Strategy · Craft · Digital Engineering
-          </p>
-        </div>
-      </main>
-
-      {/* Bottom Bar: Operational Telemetry & Skip Controller */}
-      <footer className="stm-preloader-bottom">
-        <div className="stm-preloader-status">
-          <span className="stm-preloader-pulse" aria-hidden="true" />
-          <span className="stm-preloader-status-text">{statusText}</span>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleSkip}
-          className="stm-preloader-skip"
-          aria-label="Skip loading intro"
-        >
-          <span>SKIP INTRO</span>
-          <kbd>[ESC]</kbd>
-        </button>
-
-        <div className="stm-preloader-geo">
-          <span>WORLDWIDE COMMISSIONS · ACTIVE</span>
+        <div className="stm-loader-footer-right">
+          <button
+            type="button"
+            onClick={handleSkip}
+            className="stm-loader-skip-btn"
+            aria-label="Skip to main content"
+          >
+            <span>SKIP INTRO</span>
+            <kbd>[ESC]</kbd>
+          </button>
         </div>
       </footer>
     </aside>
