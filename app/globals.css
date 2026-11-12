@@ -1764,8 +1764,428 @@ footer { background:var(--dark); color:var(--cream); padding:45px 4vw 25px; bord
   justify-content: center;
   align-items: center;
   min-width: 0;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
 }
+
+/* ====================================================================
+   HERO EDITORIAL FLOATING VISUAL COMPOSITION
+   ==================================================================== */
+.hero-editorial-visual-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  height: 590px;
+  margin: 0 auto;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ambient Backlight Glow */
+.hero-editorial-glow {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(185, 154, 120, 0.22) 0%, rgba(75, 48, 39, 0.1) 45%, transparent 70%);
+  filter: blur(52px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Orbital Rings SVG */
+.hero-editorial-orbit-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 116%;
+  height: 116%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-orbit-ellipse {
+  animation: heroOrbitPulse 24s linear infinite;
+  transform-origin: 350px 350px;
+}
+
+.hero-orbit-ellipse-counter {
+  animation: heroOrbitCounter 32s linear infinite reverse;
+  transform-origin: 350px 350px;
+}
+
+@keyframes heroOrbitPulse {
+  0% { transform: rotate(-18deg); }
+  50% { transform: rotate(12deg); }
+  100% { transform: rotate(-18deg); }
+}
+
+@keyframes heroOrbitCounter {
+  0% { transform: rotate(32deg); }
+  50% { transform: rotate(-8deg); }
+  100% { transform: rotate(32deg); }
+}
+
+/* Base Panel Styling */
+.hero-panel {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 20px;
+  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.hero-panel-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--dark-surface, #1e1916);
+}
+
+.hero-panel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hero-panel:hover .hero-panel-img {
+  transform: scale(1.05);
+}
+
+.hero-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(40, 34, 31, 0.05) 0%, rgba(40, 34, 31, 0.55) 100%);
+  pointer-events: none;
+}
+
+.hero-panel-meta {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-utility);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  z-index: 2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.hero-panel-coord {
+  opacity: 0.75;
+}
+
+/* Layer 2: Back Architectural Panel */
+.hero-panel-back {
+  top: 36px;
+  left: 16px;
+  width: 230px;
+  height: 300px;
+  z-index: 2;
+  border: 1px solid rgba(75, 48, 39, 0.2);
+  box-shadow: 0 20px 48px -10px rgba(40, 34, 31, 0.26);
+  animation: heroFloatA 8s ease-in-out infinite alternate;
+}
+
+/* Layer 3: 3D Volumetric Sculptural Element */
+.hero-sculpture-element {
+  position: absolute;
+  top: 48%;
+  left: 48%;
+  width: 320px;
+  height: 320px;
+  margin-top: -160px;
+  margin-left: -160px;
+  z-index: 3;
+  pointer-events: none;
+  animation: heroSculptureBreathe 9s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.hero-sculpture-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* Layer 4: Center Main Dominant Architectural Panel */
+.hero-panel-main {
+  top: 72px;
+  left: 148px;
+  width: 290px;
+  height: 385px;
+  z-index: 4;
+  border: 1px solid rgba(75, 48, 39, 0.28);
+  box-shadow: 0 32px 72px -12px rgba(40, 34, 31, 0.38), 0 12px 28px rgba(75, 48, 39, 0.15);
+  animation: heroFloatMain 10s ease-in-out infinite alternate;
+}
+
+.hero-panel-caption-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 18px;
+  background: linear-gradient(180deg, transparent 0%, rgba(26, 21, 19, 0.9) 80%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: var(--cream);
+  z-index: 2;
+}
+
+.hero-panel-badge-num {
+  font-family: var(--font-utility);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-tan);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.hero-panel-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--soft-white);
+}
+
+.hero-panel-marker {
+  font-family: var(--font-utility);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--muted-tan);
+  opacity: 0.85;
+}
+
+/* Layer 5: Forward Floating Panel (Luminescence) */
+.hero-panel-forward {
+  bottom: 38px;
+  right: 20px;
+  width: 210px;
+  height: 275px;
+  z-index: 5;
+  border: 1px solid rgba(75, 48, 39, 0.2);
+  box-shadow: 0 24px 56px -12px rgba(40, 34, 31, 0.32);
+  animation: heroFloatB 7.5s ease-in-out infinite alternate;
+}
+
+/* Layer 6: Glass Capabilities Matrix Panel */
+.hero-capabilities-panel {
+  position: absolute;
+  bottom: 16px;
+  left: 14px;
+  width: 275px;
+  z-index: 6;
+  background: rgba(243, 235, 221, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(75, 48, 39, 0.22);
+  border-radius: 18px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 20px 48px -10px rgba(40, 34, 31, 0.22);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.hero-capabilities-panel:hover {
+  box-shadow: 0 26px 56px -10px rgba(40, 34, 31, 0.28);
+}
+
+.hero-capabilities-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(75, 48, 39, 0.12);
+  margin-bottom: 10px;
+}
+
+.hero-capabilities-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.hero-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brown);
+  animation: heroPulseDot 1.8s ease-in-out infinite;
+}
+
+@keyframes heroPulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+.hero-capabilities-title {
+  font-family: var(--font-utility);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--brown);
+}
+
+.hero-capabilities-status {
+  font-family: var(--font-utility);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.hero-capabilities-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hero-capability-row {
+  border-radius: 8px;
+  transition: background 0.18s ease;
+}
+
+.hero-capability-row:hover,
+.hero-capability-row.active {
+  background: rgba(75, 48, 39, 0.07);
+}
+
+.hero-capability-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero-capability-num {
+  font-family: var(--font-utility);
+  font-size: 9px;
+  color: var(--muted-tan);
+  font-weight: 500;
+  width: 18px;
+}
+
+.hero-capability-name {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dark);
+  letter-spacing: -0.01em;
+  transition: transform 0.18s ease;
+}
+
+.hero-capability-row:hover .hero-capability-name {
+  transform: translateX(2px);
+  color: var(--brown);
+}
+
+.hero-capability-arrow {
+  font-size: 10px;
+  color: var(--muted-tan);
+  opacity: 0.6;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.hero-capability-row:hover .hero-capability-arrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+  color: var(--brown);
+}
+
+.hero-capabilities-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(75, 48, 39, 0.08);
+}
+
+.hero-capabilities-footnote {
+  font-family: var(--font-utility);
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-crosshair {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  color: var(--muted-tan);
+}
+
+/* Layer 7: Editorial Restrained Markers */
+.hero-editorial-marker {
+  position: absolute;
+  font-family: var(--font-utility);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brown);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.marker-top-left {
+  top: 10px;
+  left: 12px;
+}
+
+.marker-bottom-right {
+  bottom: 8px;
+  right: 14px;
+}
+
+/* Floating Keyframes */
+@keyframes heroFloatA {
+  0% { transform: translate3d(0, 0, 0) rotate(-4.5deg); }
+  100% { transform: translate3d(4px, -14px, 0) rotate(-3.5deg); }
+}
+
+@keyframes heroFloatMain {
+  0% { transform: translate3d(0, 0, 0) rotate(0.5deg); }
+  100% { transform: translate3d(-3px, -10px, 0) rotate(-0.5deg); }
+}
+
+@keyframes heroFloatB {
+  0% { transform: translate3d(0, 0, 0) rotate(4deg); }
+  100% { transform: translate3d(6px, -12px, 0) rotate(5deg); }
+}
+
+@keyframes heroSculptureBreathe {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.04) rotate(2deg); }
+}
+
+/* Legacy visual card retained for backward compatibility */
 .hero-visual-card {
   position: relative;
   width: 100%;
@@ -1842,8 +2262,9 @@ footer { background:var(--dark); color:var(--cream); padding:45px 4vw 25px; bord
     gap: 44px;
   }
   .hero-visual {
-    max-width: 480px;
+    max-width: 540px;
     margin: 0 auto;
+    width: 100%;
   }
   .hero-headline {
     font-size: clamp(38px, 6.2vw, 68px);
@@ -1921,7 +2342,7 @@ footer { background:var(--dark); color:var(--cream); padding:45px 4vw 25px; bord
   }
   .hero-visual {
     width: 100%;
-    max-width: 380px;
+    max-width: 400px;
     margin: 0 auto;
   }
   .hero-visual-card {
