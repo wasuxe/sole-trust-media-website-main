@@ -369,186 +369,105 @@ export default function Page() {
       {/* ====================================================================
           SECTION B: HERO (PREMIUM EDITORIAL & CINEMATIC STORYTELLING)
           ==================================================================== */}
-      <section className="hero" id="top" style={{ paddingTop: "160px" }}>
-        <div className="hero-copy reveal">
-          <p
-            className="eyebrow"
-            style={{
-              fontFamily: "var(--font-utility)",
-              fontSize: "11px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "var(--brown)",
-              fontWeight: 600,
-              marginBottom: "16px",
-            }}
-          >
-            Independent Creative Technology Studio
-          </p>
+      <section className="hero" id="top">
+        <div className="hero-container">
+          <div className="hero-copy reveal">
+            <p className="eyebrow hero-eyebrow">
+              Independent Creative Technology Studio
+            </p>
 
-          <h1
-            style={{
-              fontSize: "clamp(50px, 7.5vw, 115px)",
-              lineHeight: 0.92,
-              letterSpacing: "-0.05em",
-              fontWeight: 600,
-              margin: "0 0 28px",
-            }}
-          >
-            Ideas into <i>experiences.</i>
-            <br />
-            Creativity into <i>growth.</i>
-          </h1>
+            <h1 className="hero-headline">
+              Ideas into <i>experiences.</i>
+              <br />
+              Creativity into <i>growth.</i>
+            </h1>
 
-          <p
-            className="hero-sub"
-            style={{
-              maxWidth: "540px",
-              fontSize: "clamp(15px, 1.8vw, 17px)",
-              lineHeight: 1.65,
-              color: "var(--muted)",
-              margin: "0 0 36px",
-            }}
-          >
-            We combine strategy, creativity and technology to build meaningful brands, digital experiences and business opportunities.
-          </p>
+            <p className="hero-sub">
+              We combine strategy, creativity and technology to build meaningful brands, digital experiences and business opportunities.
+            </p>
 
-          <div className="hero-actions" style={{ display: "flex", flexWrap: "wrap", gap: "16px", alignItems: "center" }}>
-            <a className="button button-dark" href="#work">
-              Explore Our Work <ArrowDown size={14} />
-            </a>
-            <a className="button button-outline" href="#contact">
-              Start a Project <ArrowUpRight size={14} />
-            </a>
-          </div>
-
-          <div
-            className="hero-stats"
-            aria-label="Agency milestones"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))",
-              gap: "24px",
-              marginTop: "55px",
-              paddingTop: "32px",
-              borderTop: "1px solid var(--line)",
-            }}
-          >
-            <div>
-              <strong style={{ fontSize: "28px", fontFamily: "var(--font-display)", color: "var(--dark)", display: "block" }}>
-                50+
-              </strong>
-              <span style={{ fontSize: "11px", fontFamily: "var(--font-utility)", color: "var(--muted)", textTransform: "uppercase" }}>
-                Brands Shaped
-              </span>
+            <div className="hero-actions">
+              <a className="button button-dark" href="#work">
+                Explore Our Work <ArrowDown size={14} />
+              </a>
+              <a className="button button-outline" href="#contact">
+                Start a Project <ArrowUpRight size={14} />
+              </a>
             </div>
-            <div>
-              <strong style={{ fontSize: "28px", fontFamily: "var(--font-display)", color: "var(--dark)", display: "block" }}>
-                100+
-              </strong>
-              <span style={{ fontSize: "11px", fontFamily: "var(--font-utility)", color: "var(--muted)", textTransform: "uppercase" }}>
-                Projects Delivered
-              </span>
-            </div>
-            <div>
-              <strong style={{ fontSize: "28px", fontFamily: "var(--font-display)", color: "var(--dark)", display: "block" }}>
-                3+
-              </strong>
-              <span style={{ fontSize: "11px", fontFamily: "var(--font-utility)", color: "var(--muted)", textTransform: "uppercase" }}>
-                Years of Craft
-              </span>
-            </div>
-            <div>
-              <strong style={{ fontSize: "28px", fontFamily: "var(--font-display)", color: "var(--dark)", display: "block" }}>
-                Global
-              </strong>
-              <span style={{ fontSize: "11px", fontFamily: "var(--font-utility)", color: "var(--muted)", textTransform: "uppercase" }}>
-                Bengaluru to Worldwide
-              </span>
-            </div>
-          </div>
-        </div>
 
-        {/* Warm Cream & Espresso Architectural Visual */}
-        <div className="hero-art reveal" aria-hidden="true">
-          <svg className="hero-ribbon" viewBox="0 0 900 760" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="hero-disc" cx="0" cy="0" r="1" gradientTransform="matrix(460 0 0 460 485 372)" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#4B3027" />
-                <stop offset="1" stopColor="#28221F" />
-              </radialGradient>
-              <linearGradient id="ribbon-bronze" x1="128" y1="557" x2="760" y2="158" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#E5D5BE" />
-                <stop offset=".25" stopColor="#B99A78" />
-                <stop offset=".52" stopColor="#76513E" />
-                <stop offset=".72" stopColor="#4B3027" />
-                <stop offset=".9" stopColor="#28221F" />
-                <stop offset="1" stopColor="#E5D5BE" />
-              </linearGradient>
-              <linearGradient id="ribbon-walnut" x1="144" y1="634" x2="887" y2="290" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#B99A78" />
-                <stop offset=".26" stopColor="#76513E" />
-                <stop offset=".54" stopColor="#4B3027" />
-                <stop offset=".72" stopColor="#28221F" />
-                <stop offset="1" stopColor="#E5D5BE" />
-              </linearGradient>
-              <linearGradient id="ribbon-silk" x1="176" y1="596" x2="758" y2="200" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#FAF7F1" />
-                <stop offset=".35" stopColor="#E5D5BE" />
-                <stop offset=".67" stopColor="#B99A78" />
-                <stop offset="1" stopColor="#FAF7F1" />
-              </linearGradient>
-            </defs>
-            <circle cx="500" cy="375" r="306" fill="url(#hero-disc)" opacity="0.9" />
-            <circle cx="500" cy="375" r="365" stroke="#B99A78" strokeOpacity=".35" strokeDasharray="4 8" />
-            <path d="M75 594C207 346 348 715 512 497C638 330 718 455 865 104" stroke="url(#ribbon-bronze)" strokeWidth="158" strokeLinecap="round" />
-            <path d="M120 695C264 445 390 729 546 535C678 371 758 501 908 181" stroke="url(#ribbon-walnut)" strokeWidth="122" strokeLinecap="round" />
-            <path d="M40 536C208 369 317 623 471 430C630 229 740 398 885 109" stroke="url(#ribbon-bronze)" strokeWidth="90" strokeLinecap="round" opacity=".8" />
-            <path d="M80 591C219 369 346 686 512 489C646 330 733 441 869 146" stroke="url(#ribbon-silk)" strokeWidth="10" strokeLinecap="round" opacity=".9" />
-            <path d="M157 677C301 454 405 691 553 517C685 362 766 483 904 198" stroke="url(#ribbon-silk)" strokeWidth="7" strokeLinecap="round" opacity=".72" />
-          </svg>
-
-          {/* Floating Real Project Badges */}
-          <div className="hero-floating-card hero-floating-card-1">
-            <img src="/assets/work/future-luxe/future-luxe-01.png" alt="Future Luxe Preview" />
-            <div>
-              <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--brown)", display: "block" }}>
-                Digital Flagship
-              </span>
-              <strong style={{ fontSize: "12px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
-                Future Luxe 3D Atelier
-              </strong>
+            <div className="hero-stats" aria-label="Agency milestones">
+              <div className="hero-stat-item">
+                <strong>50+</strong>
+                <span>Brands Shaped</span>
+              </div>
+              <div className="hero-stat-item">
+                <strong>100+</strong>
+                <span>Projects Delivered</span>
+              </div>
+              <div className="hero-stat-item">
+                <strong>3+</strong>
+                <span>Years of Craft</span>
+              </div>
+              <div className="hero-stat-item">
+                <strong>Global</strong>
+                <span>Bengaluru · Worldwide</span>
+              </div>
             </div>
           </div>
 
-          <div className="hero-floating-card hero-floating-card-2">
-            <img src="/13isu-creative-1.png" alt="13ISU Preview" />
-            <div>
-              <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--brown)", display: "block" }}>
-                Viral Creative
-              </span>
-              <strong style={{ fontSize: "12px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
-                13ISU · 100K+ Views
-              </strong>
-            </div>
-          </div>
+          {/* Self-Contained Fluid Architectural Hero Visual */}
+          <div className="hero-visual reveal" aria-hidden="true">
+            <div className="hero-visual-card">
+              <svg className="hero-ribbon-svg" viewBox="0 0 900 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="hero-disc" cx="0" cy="0" r="1" gradientTransform="matrix(460 0 0 460 485 372)" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#4B3027" />
+                    <stop offset="1" stopColor="#28221F" />
+                  </radialGradient>
+                  <linearGradient id="ribbon-bronze" x1="128" y1="557" x2="760" y2="158" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#E5D5BE" />
+                    <stop offset=".25" stopColor="#B99A78" />
+                    <stop offset=".52" stopColor="#76513E" />
+                    <stop offset=".72" stopColor="#4B3027" />
+                    <stop offset=".9" stopColor="#28221F" />
+                    <stop offset="1" stopColor="#E5D5BE" />
+                  </linearGradient>
+                  <linearGradient id="ribbon-walnut" x1="144" y1="634" x2="887" y2="290" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#B99A78" />
+                    <stop offset=".26" stopColor="#76513E" />
+                    <stop offset=".54" stopColor="#4B3027" />
+                    <stop offset=".72" stopColor="#28221F" />
+                    <stop offset="1" stopColor="#E5D5BE" />
+                  </linearGradient>
+                  <linearGradient id="ribbon-silk" x1="176" y1="596" x2="758" y2="200" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#FAF7F1" />
+                    <stop offset=".35" stopColor="#E5D5BE" />
+                    <stop offset=".67" stopColor="#B99A78" />
+                    <stop offset="1" stopColor="#FAF7F1" />
+                  </linearGradient>
+                </defs>
+                <circle cx="500" cy="375" r="306" fill="url(#hero-disc)" opacity="0.9" />
+                <circle cx="500" cy="375" r="365" stroke="#B99A78" strokeOpacity=".35" strokeDasharray="4 8" />
+                <path d="M75 594C207 346 348 715 512 497C638 330 718 455 865 104" stroke="url(#ribbon-bronze)" strokeWidth="158" strokeLinecap="round" />
+                <path d="M120 695C264 445 390 729 546 535C678 371 758 501 908 181" stroke="url(#ribbon-walnut)" strokeWidth="122" strokeLinecap="round" />
+                <path d="M40 536C208 369 317 623 471 430C630 229 740 398 885 109" stroke="url(#ribbon-bronze)" strokeWidth="90" strokeLinecap="round" opacity=".8" />
+                <path d="M80 591C219 369 346 686 512 489C646 330 733 441 869 146" stroke="url(#ribbon-silk)" strokeWidth="10" strokeLinecap="round" opacity=".9" />
+                <path d="M157 677C301 454 405 691 553 517C685 362 766 483 904 198" stroke="url(#ribbon-silk)" strokeWidth="7" strokeLinecap="round" opacity=".72" />
+              </svg>
 
-          {/* Floating Editorial Capabilities Badges */}
-          <div className="art-card art-card-strategy">
-            <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
-            <span>Brand<br />Strategy</span>
-          </div>
-          <div className="art-card art-card-content">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8Z"/></svg>
-            <span>Creative<br />Direction</span>
-          </div>
-          <div className="art-card art-card-build">
-            <svg viewBox="0 0 24 24"><path d="M4 17 10 11l4 4 6-6"/><path d="M14 5h6v6"/></svg>
-            <span>Digital<br />Flagships</span>
-          </div>
-          <div className="art-card art-card-growth">
-            <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            <span>Systems &amp;<br />Automation</span>
+              <div className="hero-visual-badge hero-badge-top-left">
+                <span>01 · Brand &amp; Strategy</span>
+              </div>
+              <div className="hero-visual-badge hero-badge-top-right">
+                <span>02 · Creative Direction</span>
+              </div>
+              <div className="hero-visual-badge hero-badge-bottom-left">
+                <span>03 · Digital Flagships</span>
+              </div>
+              <div className="hero-visual-badge hero-badge-bottom-right">
+                <span>04 · Systems &amp; Automation</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -809,25 +728,21 @@ export default function Page() {
                 value: "Zero dropped enquiries, rapid <1-hour response cadence & scalable infrastructure",
               },
             ].map((item) => (
-              <div key={item.step} className="solution-step">
-                <div className="solution-step-num">{item.step}</div>
-                <div className="solution-step-cols">
-                  <div className="solution-col">
-                    <span className="solution-tag">The Business Friction</span>
+              <div key={item.step} className="solution-step-card">
+                <div className="solution-step-header">
+                  <span className="solution-step-num">STAGE {item.step}</span>
+                </div>
+                <div className="solution-step-grid">
+                  <div className="solution-step-col">
+                    <span className="solution-col-label">01 · Business Friction</span>
                     <h4>{item.problem}</h4>
                   </div>
-                  <div className="solution-arrow" aria-hidden="true">
-                    <ArrowRight size={18} />
-                  </div>
-                  <div className="solution-col">
-                    <span className="solution-tag">The STM Studio Strategy</span>
+                  <div className="solution-step-col">
+                    <span className="solution-col-label">02 · Studio Strategy</span>
                     <p>{item.strategy}</p>
                   </div>
-                  <div className="solution-arrow" aria-hidden="true">
-                    <ArrowRight size={18} />
-                  </div>
-                  <div className="solution-col solution-col-value">
-                    <span className="solution-tag">The Commercial Value</span>
+                  <div className="solution-step-col value-col">
+                    <span className="solution-col-label">03 · Commercial Value</span>
                     <strong>{item.value}</strong>
                   </div>
                 </div>
@@ -998,76 +913,6 @@ export default function Page() {
                 </div>
               )
             })}
-          </div>
-
-          {/* Social-First Content & Video Production Reel Strip */}
-          <div className="reveal" style={{ marginTop: "70px", paddingTop: "50px", borderTop: "1px solid var(--line)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "20px", marginBottom: "28px" }}>
-              <div>
-                <span style={{ fontFamily: "var(--font-utility)", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--brown)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
-                  High-Craft Media Production
-                </span>
-                <h3 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", margin: 0, fontFamily: "var(--font-display)" }}>
-                  Short-form storytelling &amp; <i>viral craft.</i>
-                </h3>
-              </div>
-              <p style={{ maxWidth: "420px", margin: 0, fontSize: "14px", color: "var(--muted)", lineHeight: 1.6 }}>
-                Real video production, culinary direction, and cultural campaign reels designed for sustained audience attention and organic reach.
-              </p>
-            </div>
-
-            <div className="video-reel-strip">
-              <div className="video-reel-card">
-                <video
-                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.08.31.mp4"
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                />
-                <div className="video-reel-overlay">
-                  <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>
-                    Culinary Direction
-                  </span>
-                  <strong style={{ fontSize: "13px", marginTop: "4px" }}>Dessert Craft &amp; Texture</strong>
-                </div>
-              </div>
-
-              <div className="video-reel-card">
-                <video
-                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.09.08.mp4"
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                />
-                <div className="video-reel-overlay">
-                  <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>
-                    Product Storytelling
-                  </span>
-                  <strong style={{ fontSize: "13px", marginTop: "4px" }}>Packaging &amp; Unboxing</strong>
-                </div>
-              </div>
-
-              <div className="video-reel-card">
-                <video
-                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.10.33.mp4"
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                />
-                <div className="video-reel-overlay">
-                  <span style={{ fontFamily: "var(--font-utility)", fontSize: "9px", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>
-                    Social Campaign
-                  </span>
-                  <strong style={{ fontSize: "13px", marginTop: "4px" }}>Community Activation</strong>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
