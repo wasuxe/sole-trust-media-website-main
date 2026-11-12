@@ -7,6 +7,7 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { PROJECTS, type Project } from "@/lib/data/projects"
 import SiteNav from "@/components/site-nav"
 import SiteFooter from "@/components/site-footer"
+import HeroEditorialVisual from "@/components/hero-editorial-visual"
 
 // ============================================================================
 // DATA STRUCTURES & DEFINITIONS
@@ -415,59 +416,9 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Self-Contained Fluid Architectural Hero Visual */}
-          <div className="hero-visual reveal" aria-hidden="true">
-            <div className="hero-visual-card">
-              <svg className="hero-ribbon-svg" viewBox="0 0 900 760" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <radialGradient id="hero-disc" cx="0" cy="0" r="1" gradientTransform="matrix(460 0 0 460 485 372)" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#4B3027" />
-                    <stop offset="1" stopColor="#28221F" />
-                  </radialGradient>
-                  <linearGradient id="ribbon-bronze" x1="128" y1="557" x2="760" y2="158" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#E5D5BE" />
-                    <stop offset=".25" stopColor="#B99A78" />
-                    <stop offset=".52" stopColor="#76513E" />
-                    <stop offset=".72" stopColor="#4B3027" />
-                    <stop offset=".9" stopColor="#28221F" />
-                    <stop offset="1" stopColor="#E5D5BE" />
-                  </linearGradient>
-                  <linearGradient id="ribbon-walnut" x1="144" y1="634" x2="887" y2="290" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#B99A78" />
-                    <stop offset=".26" stopColor="#76513E" />
-                    <stop offset=".54" stopColor="#4B3027" />
-                    <stop offset=".72" stopColor="#28221F" />
-                    <stop offset="1" stopColor="#E5D5BE" />
-                  </linearGradient>
-                  <linearGradient id="ribbon-silk" x1="176" y1="596" x2="758" y2="200" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#FAF7F1" />
-                    <stop offset=".35" stopColor="#E5D5BE" />
-                    <stop offset=".67" stopColor="#B99A78" />
-                    <stop offset="1" stopColor="#FAF7F1" />
-                  </linearGradient>
-                </defs>
-                <circle cx="500" cy="375" r="306" fill="url(#hero-disc)" opacity="0.9" />
-                <circle cx="500" cy="375" r="365" stroke="#B99A78" strokeOpacity=".35" strokeDasharray="4 8" />
-                <path d="M75 594C207 346 348 715 512 497C638 330 718 455 865 104" stroke="url(#ribbon-bronze)" strokeWidth="158" strokeLinecap="round" />
-                <path d="M120 695C264 445 390 729 546 535C678 371 758 501 908 181" stroke="url(#ribbon-walnut)" strokeWidth="122" strokeLinecap="round" />
-                <path d="M40 536C208 369 317 623 471 430C630 229 740 398 885 109" stroke="url(#ribbon-bronze)" strokeWidth="90" strokeLinecap="round" opacity=".8" />
-                <path d="M80 591C219 369 346 686 512 489C646 330 733 441 869 146" stroke="url(#ribbon-silk)" strokeWidth="10" strokeLinecap="round" opacity=".9" />
-                <path d="M157 677C301 454 405 691 553 517C685 362 766 483 904 198" stroke="url(#ribbon-silk)" strokeWidth="7" strokeLinecap="round" opacity=".72" />
-              </svg>
-
-              <div className="hero-visual-badge hero-badge-top-left">
-                <span>01 · Brand &amp; Strategy</span>
-              </div>
-              <div className="hero-visual-badge hero-badge-top-right">
-                <span>02 · Creative Direction</span>
-              </div>
-              <div className="hero-visual-badge hero-badge-bottom-left">
-                <span>03 · Digital Flagships</span>
-              </div>
-              <div className="hero-visual-badge hero-badge-bottom-right">
-                <span>04 · Systems &amp; Automation</span>
-              </div>
-            </div>
+          {/* Immersive Floating Editorial Visual Composition */}
+          <div className="hero-visual reveal">
+            <HeroEditorialVisual />
           </div>
         </div>
       </section>
