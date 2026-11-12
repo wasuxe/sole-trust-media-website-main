@@ -1,23 +1,27 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import CinematicPreloader from '@/components/cinematic-preloader'
 import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Sole Trust Media — Brands People Remember',
+    default: 'Sole Trust Media — Independent Creative Technology Studio',
     template: '%s | Sole Trust Media',
   },
   description:
-    'Sole Trust Media is a creative, technology and business growth agency in Bengaluru. We build brands, digital experiences and technology that help businesses grow.',
+    'Sole Trust Media (STM) is an independent creative technology studio in Bengaluru. We combine strategy, brand identity, high-craft digital flagships, and business automation to build meaningful brands and digital experiences.',
   keywords: [
-    'branding agency',
+    'creative technology studio',
+    'independent creative agency',
+    'brand strategy',
+    'visual identity',
     'web development',
-    'digital marketing',
-    'creative agency',
+    'digital flagships',
+    'creative direction',
+    'business automation',
+    'UI/UX design',
     'Bengaluru',
     'India',
-    'brand strategy',
-    'UI/UX design',
   ],
   authors: [{ name: 'Sole Trust Media' }],
   creator: 'Sole Trust Media',
@@ -27,22 +31,22 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://soletrustmedia.vercel.app',
     siteName: 'Sole Trust Media',
-    title: 'Sole Trust Media — Brands People Remember',
+    title: 'Sole Trust Media — Independent Creative Technology Studio',
     description:
-      'We combine strategy, creativity and technology to help businesses build stronger brands, meaningful digital experiences and sustainable growth.',
+      'We combine strategy, creativity and technology to build meaningful brands, digital experiences and business opportunities.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Sole Trust Media — Creative & Technology Agency',
+        alt: 'Sole Trust Media — Independent Creative Technology Studio',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sole Trust Media — Brands People Remember',
-    description: 'Strategy, creativity and technology for businesses that want to grow.',
+    title: 'Sole Trust Media — Independent Creative Technology Studio',
+    description: 'We bring strategy, creativity and technology together to build meaningful brands and digital experiences.',
     images: ['/og-image.png'],
   },
   icons: {
@@ -62,7 +66,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: 'light',
-  themeColor: '#f2ece3',
+  themeColor: '#f3ebdd',
   width: 'device-width',
   initialScale: 1,
 }
@@ -73,8 +77,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (sessionStorage.getItem('stm_preloader_seen') && !window.location.search.includes('intro=true')) {
+                  document.documentElement.classList.add('stm-skip-preloader');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className="antialiased">
+        <CinematicPreloader />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

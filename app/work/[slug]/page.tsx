@@ -2,8 +2,9 @@ import { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
-import SiteNav from "@/components/site-nav"
 import { PROJECTS, getProjectBySlug } from "@/lib/data/projects"
+import SiteNav from "@/components/site-nav"
+import SiteFooter from "@/components/site-footer"
 
 interface CaseStudyData {
   title: string
@@ -736,13 +737,7 @@ const staticData: Record<string, CaseStudyData> = {
         caption: "The large-format display board used to create a memorable event presence.",
       },
     ],
-    sources: [
-      {
-        title: "Official 13ISU Case Study Document",
-        description: "Download or view the official 13ISU Case Study document (PDF).",
-        href: "/13ISU.pdf",
-      },
-    ],
+    sources: [],
   },
   "trends-are-a-tool": {
     title: "Trends Are a Tool, Not a Strategy",
@@ -797,13 +792,7 @@ const staticData: Record<string, CaseStudyData> = {
         caption: "Trends Are a Tool, Not a Strategy — Strategic comparison of vanity reach vs. customer conversion.",
       },
     ],
-    sources: [
-      {
-        title: "Download Strategic Paper",
-        description: "Download the original strategic docx: 'Trends Are a Tool, Not a Strategy'.",
-        href: "/Trends Are a Tool, Not a Strategy.docx",
-      },
-    ],
+    sources: [],
   },
   "trends-are-a-tool-not-a-strategy": {
     title: "Trends Are a Tool, Not a Strategy",
@@ -858,13 +847,7 @@ const staticData: Record<string, CaseStudyData> = {
         caption: "Trends Are a Tool, Not a Strategy — Strategic comparison of vanity reach vs. customer conversion.",
       },
     ],
-    sources: [
-      {
-        title: "Download Strategic Paper",
-        description: "Download the original strategic docx: 'Trends Are a Tool, Not a Strategy'.",
-        href: "/Trends Are a Tool, Not a Strategy.docx",
-      },
-    ],
+    sources: [],
   },
   "stm-music": {
     title: "STM MUSIC GROUP",
@@ -1175,8 +1158,22 @@ export default async function CaseStudyPage({
     cta_label: fallbackProject?.cta_label || fallbackProject?.cta || "OPEN LIVE WEBSITE",
   }
 
+  const currentIndex = PROJECTS.findIndex(
+    (p) => p.slug === slug || (p.aliases && p.aliases.includes(slug))
+  )
+  const nextProject =
+    currentIndex >= 0 && currentIndex < PROJECTS.length - 1
+      ? PROJECTS[currentIndex + 1]
+      : PROJECTS[0]
+  const isTrendsStrategy =
+    slug === "trends-are-a-tool" ||
+    slug === "trends-are-a-tool-not-a-strategy" ||
+    slug === "trends"
+  const is13isu = slug === "13isu"
+
   return (
     <main className="site-shell">
+      {/* 1. Nav */}
       <SiteNav />
 
       {/* 2. Hero section */}
@@ -1222,137 +1219,1332 @@ export default async function CaseStudyPage({
         <img src={project.cover_image} alt={`${project.title} cover`} />
       </div>
 
-      {/* 4. Project overview section & 5. Facts row */}
-      <section className="case-overview section-grid">
-        <div className="section-label">01 / Overview</div>
-        <div>
-          <h2>
-            Built with <i>intent.</i>
-          </h2>
-          <p>{project.client_introduction}</p>
-          <div className="case-facts">
-            {project.industry && (
-              <span>
-                Industry<strong>{project.industry}</strong>
-              </span>
-            )}
-            {project.location && (
-              <span>
-                Location<strong>{project.location}</strong>
-              </span>
-            )}
-            <span>
-              Year<strong>2026</strong>
-            </span>
-            <span>
-              Discipline<strong>{project.category}</strong>
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Challenge & Objectives section */}
-      {(project.business_challenge || project.objectives) && (
-        <section className="case-challenge section-grid">
-          <div className="section-label">02 / Challenge</div>
-          <div className="challenge-columns">
-            {project.business_challenge && (
-              <div>
-                <h3>The Challenge</h3>
-                <p>{project.business_challenge}</p>
-              </div>
-            )}
-            {project.objectives && (
-              <div>
-                <h3>The Objectives</h3>
-                <p>{project.objectives}</p>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* 7. Strategy section */}
-      {project.strategy && (
-        <section className="case-strategy section-grid">
-          <div className="section-label">03 / Strategy</div>
-          <div>
-            <h3>The Strategic Approach</h3>
-            <p>{project.strategy}</p>
-          </div>
-        </section>
-      )}
-
-      {/* 8. Creative Direction & Brand Personality section */}
-      {project.creative_direction && (
-        <section className="case-creative section-grid">
-          <div className="section-label">04 / Creative Direction</div>
-          <div>
-            <h3>Visual Direction &amp; Systems</h3>
-            <p>{project.creative_direction}</p>
-          </div>
-        </section>
-      )}
-
-      {/* 9. Execution & Services Delivered section */}
-      <section className="case-execution section-grid">
-        <div className="section-label">05 / Execution</div>
-        <div>
-          <h3>What We Built</h3>
-          <p>{project.execution || "Architected and delivered the complete creative and technical system."}</p>
-          {project.services_delivered.length > 0 && (
-            <div className="services-list">
-              <h4>Services Delivered</h4>
-              <ul>
-                {project.services_delivered.map((service, idx) => (
-                  <li key={idx}>{service}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* 10. Results section */}
-      <section className="case-results section-grid">
-        <div className="section-label">06 / Results</div>
-        <div className="results-box">
-          <h3>The Outcome</h3>
-          <p>{project.results}</p>
-          {project.live_url && (
-            <div style={{ marginTop: "24px" }}>
-              <a
-                className="button button-dark"
-                href={project.live_url}
-                target="_blank"
-                rel="noopener noreferrer"
+      {isTrendsStrategy ? (
+        <article className="trends-full-paper">
+          {/* Section 01: The Problem & Premise */}
+          <section className="case-overview section-grid">
+            <div className="section-label">01 / The Problem</div>
+            <div>
+              <p
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--brown)",
+                  marginBottom: "16px",
+                  fontWeight: 600,
+                }}
               >
-                {project.cta_label || "Open Live Website"} <ArrowUpRight data-icon="inline-end" />
-              </a>
+                Sole Trust Media · Creative Direction
+              </p>
+              <h2 style={{ fontSize: "clamp(38px, 5.5vw, 76px)", lineHeight: 0.95, margin: "0 0 24px" }}>
+                Views are coming. <br />
+                <i>Customers are not.</i>
+              </h2>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--muted)", maxWidth: "680px", margin: "0 0 20px" }}>
+                For any business that sells to customers. Based on two years of watching how businesses use social media. The examples are made up to explain the idea, not client results.
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 20px" }}>
+                Every business is making content now. Good cameras, good editing, trending audios. And still the owner says: <em>&ldquo;Views are coming. Customers are not.&rdquo;</em>
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 28px" }}>
+                Here is what I keep seeing. Businesses choose what to post by looking at what is trending, not at who they are posting for.
+              </p>
+              <div
+                style={{
+                  background: "var(--brown)",
+                  color: "var(--cream)",
+                  padding: "24px 30px",
+                  borderRadius: "16px",
+                  maxWidth: "680px",
+                  fontSize: "clamp(18px, 2.2vw, 24px)",
+                  fontFamily: "'Playfair Display', serif",
+                  lineHeight: 1.4,
+                }}
+              >
+                &ldquo;A trend is a good tool. It is a bad strategy.&rdquo;
+              </div>
             </div>
-          )}
-        </div>
-      </section>
+          </section>
 
-      {/* 11. Project Gallery section */}
-      {project.gallery.length > 0 && (
-        <section className="case-gallery">
-          <div className="section-label" style={{ padding: "0 4vw 40px" }}>
-            07 / Visual Evidence
-          </div>
-          <div className="gallery-grid">
-            {project.gallery.map((item, idx) => (
-              <figure key={idx} className="gallery-item">
-                <img
-                  src={item.image_url}
-                  alt={item.caption || `${project.title} preview ${idx + 1}`}
-                  loading="lazy"
-                />
-                {item.caption && <figcaption>{item.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
-        </section>
+          {/* Section 02: Views Are Not Customers (Store A vs Store B) */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">02 / Vanity vs. Value</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Views are not <i>customers.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 40px" }}>
+                Take two clothing stores. The numbers are made up, the idea is real.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "24px",
+                  maxWidth: "840px",
+                  marginBottom: "36px",
+                }}
+              >
+                {/* Store A Card */}
+                <div
+                  style={{
+                    border: "1px solid var(--line)",
+                    borderRadius: "20px",
+                    padding: "32px 28px",
+                    background: "rgba(242, 236, 227, 0.4)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'DM Mono', monospace",
+                      fontSize: "10px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "var(--muted)",
+                    }}
+                  >
+                    Direction 01
+                  </span>
+                  <h4 style={{ fontSize: "24px", margin: "8px 0 20px" }}>Store A</h4>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>THE POST</span>
+                      <strong style={{ fontSize: "15px", color: "var(--dark)" }}>Funny trending Reel</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>REACH</span>
+                      <strong style={{ fontSize: "28px", color: "var(--brown)", fontFamily: "'Playfair Display', serif" }}>100,000 views</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>WHO WATCHED</span>
+                      <p style={{ margin: 0, fontSize: "14px", color: "var(--muted)" }}>Mostly people far away or not interested</p>
+                    </div>
+                    <div style={{ paddingTop: "12px", borderTop: "1px solid var(--line)" }}>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>LIKELY OUTCOME</span>
+                      <span style={{ fontSize: "15px", fontWeight: 600, color: "var(--dark)" }}>Lots of likes, few enquiries</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Store B Card */}
+                <div
+                  style={{
+                    border: "2px solid var(--brown)",
+                    borderRadius: "20px",
+                    padding: "32px 28px",
+                    background: "var(--cream-deep)",
+                    position: "relative",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "'DM Mono', monospace",
+                      fontSize: "10px",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: "var(--brown)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Recommended Strategy
+                  </span>
+                  <h4 style={{ fontSize: "24px", margin: "8px 0 20px" }}>Store B</h4>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>THE POST</span>
+                      <strong style={{ fontSize: "15px", color: "var(--dark)" }}>How to choose a comfortable outfit for a family function</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>REACH</span>
+                      <strong style={{ fontSize: "28px", color: "var(--brown)", fontFamily: "'Playfair Display', serif" }}>8,000 views</strong>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>WHO WATCHED</span>
+                      <p style={{ margin: 0, fontSize: "14px", color: "var(--dark)" }}>Local women planning to buy</p>
+                    </div>
+                    <div style={{ paddingTop: "12px", borderTop: "1px solid rgba(75, 53, 40, 0.2)" }}>
+                      <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", display: "block" }}>LIKELY OUTCOME</span>
+                      <span style={{ fontSize: "15px", fontWeight: 600, color: "var(--brown)" }}>Fewer views, more enquiries &amp; sales</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p style={{ fontSize: "17px", lineHeight: 1.6, maxWidth: "680px", color: "var(--dark)", fontStyle: "italic" }}>
+                &ldquo;So don’t only ask &lsquo;how many saw it?&rsquo; Ask: did the right people see it, understand it and message us?&rdquo;
+              </p>
+            </div>
+          </section>
+
+          {/* Section 03: The 5 Steps Framework */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">03 / The 5 Steps</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 20px" }}>
+                The 5-step <i>customer framework.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "620px", margin: "0 0 40px" }}>
+                Moving from random trend chasing to deliberate customer engagement.
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "20px", maxWidth: "760px", marginBottom: "40px" }}>
+                {[
+                  {
+                    step: "01",
+                    title: "Know the business",
+                    desc: "What it sells, what makes it different, what it wants.",
+                  },
+                  {
+                    step: "02",
+                    title: "Know the customer",
+                    desc: "Not “women aged 18 to 35”. What does she worry about? Who pays? Who influences her?",
+                  },
+                  {
+                    step: "03",
+                    title: "Decide what the brand should feel like",
+                    desc: "Warm, premium, funny, helpful. Then actually be that, in captions and in how you reply to messages.",
+                  },
+                  {
+                    step: "04",
+                    title: "Give every post a reason",
+                    desc: "Solve a problem, tell the story, explain the product, show real customers, and only then promote.",
+                  },
+                  {
+                    step: "05",
+                    title: "Make buying easy, then check the numbers",
+                    desc: "Remove friction from every touchpoint, test customer responses, and audit the results honestly.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.step}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "50px 1fr",
+                      gap: "20px",
+                      padding: "24px 28px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                      alignItems: "baseline",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: "18px",
+                        fontWeight: 600,
+                        color: "var(--brown)",
+                      }}
+                    >
+                      {item.step}
+                    </span>
+                    <div>
+                      <h4 style={{ fontSize: "19px", margin: "0 0 6px" }}>{item.title}</h4>
+                      <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--muted)" }}>{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Lean version tip */}
+              <div
+                style={{
+                  borderLeft: "3px solid var(--brown)",
+                  padding: "16px 24px",
+                  background: "rgba(185, 163, 140, 0.15)",
+                  maxWidth: "760px",
+                  borderRadius: "0 12px 12px 0",
+                }}
+              >
+                <strong style={{ fontSize: "12px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: "6px", color: "var(--brown)" }}>
+                  No time for a big study?
+                </strong>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  Do the small version: one long talk with the owner, a look at five competitors, and ten conversations with real customers. Two weeks is enough to start.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 04: Cross-Industry Application ("Same idea, any business") */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">04 / Industry Matrix</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Same idea, <i>any business.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                Start with what the customer is wondering. Then bring the product in.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gap: "18px",
+                  maxWidth: "840px",
+                  marginBottom: "30px",
+                }}
+              >
+                {[
+                  {
+                    business: "Kashmiri kurta store",
+                    usual: "New kurta available.",
+                    instead: "Love traditional clothes but don’t know how to style them every day? Here are 3 ideas.",
+                  },
+                  {
+                    business: "Restaurant",
+                    usual: "Today’s special.",
+                    instead: "What to order when you bring the whole family.",
+                  },
+                  {
+                    business: "Coaching institute",
+                    usual: "Admissions open.",
+                    instead: "What a parent should ask before choosing an institute.",
+                  },
+                  {
+                    business: "Gym",
+                    usual: "Join now, offer ends soon.",
+                    instead: "What your first week at the gym looks like.",
+                  },
+                  {
+                    business: "Beauty brand",
+                    usual: "New serum launched.",
+                    instead: "Which product suits your skin, and which one you don’t need.",
+                  },
+                  {
+                    business: "Online brand",
+                    usual: "Sale is live.",
+                    instead: "How delivery, returns and exchange work, before you have to ask.",
+                  },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      padding: "22px 26px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "14px",
+                    }}
+                  >
+                    <div>
+                      <span style={{ fontSize: "10px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 700 }}>
+                        {item.business}
+                      </span>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
+                      <div style={{ padding: "12px 16px", background: "rgba(75, 53, 40, 0.04)", borderRadius: "10px" }}>
+                        <span style={{ fontSize: "9px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
+                          What it usually posts
+                        </span>
+                        <p style={{ margin: 0, fontSize: "13px", color: "var(--muted)", fontStyle: "italic" }}>
+                          &ldquo;{item.usual}&rdquo;
+                        </p>
+                      </div>
+                      <div style={{ padding: "12px 16px", background: "var(--cream-deep)", border: "1px solid rgba(75, 53, 40, 0.15)", borderRadius: "10px" }}>
+                        <span style={{ fontSize: "9px", fontFamily: "'DM Mono', monospace", color: "var(--brown)", textTransform: "uppercase", fontWeight: 700, display: "block", marginBottom: "4px" }}>
+                          What it could say instead
+                        </span>
+                        <p style={{ margin: 0, fontSize: "13px", color: "var(--dark)", fontWeight: 600 }}>
+                          &ldquo;{item.instead}&rdquo;
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: "15px", color: "var(--brown)", fontWeight: 600 }}>
+                The product is still being sold. The post just starts with the customer.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 05: The 4-Question Trend Filter */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">05 / Decision Gate</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Should we use <i>this trend?</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                Four quick questions before jumping on any trending format:
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "18px",
+                  maxWidth: "800px",
+                  marginBottom: "36px",
+                }}
+              >
+                {[
+                  { num: "01", q: "Does it fit our brand’s personality?" },
+                  { num: "02", q: "Will our customers understand it?" },
+                  { num: "03", q: "Can we connect it honestly to our product?" },
+                  { num: "04", q: "Does it support what we want to say?" },
+                ].map((gate) => (
+                  <div
+                    key={gate.num}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      padding: "24px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", color: "var(--brown)", fontWeight: 600 }}>
+                      GATE {gate.num}
+                    </span>
+                    <h4 style={{ fontSize: "17px", marginTop: "10px", lineHeight: 1.4 }}>{gate.q}</h4>
+                  </div>
+                ))}
+              </div>
+
+              <div
+                style={{
+                  background: "var(--cream-deep)",
+                  border: "1px solid var(--line)",
+                  borderRadius: "16px",
+                  padding: "24px 30px",
+                  maxWidth: "800px",
+                }}
+              >
+                <p style={{ margin: "0 0 12px", fontSize: "16px", fontWeight: 600, color: "var(--dark)" }}>
+                  Four yeses, use it. Anything less, change it or skip it.
+                </p>
+                <p style={{ margin: 0, fontSize: "14px", color: "var(--muted)", fontStyle: "italic", lineHeight: 1.6 }}>
+                  If people only recognise your brand when it uses a viral audio, you don’t have an identity yet.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 06: Operational Readiness ("Make the next step easy") */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">06 / Readiness</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Make the next <i>step easy.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                A Reel is only the start. Before you post anything, check these:
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "760px", marginBottom: "32px" }}>
+                {[
+                  "Prices, location and a WhatsApp or call button are on your profile.",
+                  "Your Google Business Profile is up to date.",
+                  "Messages get a reply within an hour in working time, or whatever pace you can really keep.",
+                  "Common answers (size, delivery, price, care) are saved as quick replies.",
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "flex",
+                      gap: "16px",
+                      alignItems: "flex-start",
+                      padding: "18px 24px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "12px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ color: "var(--brown)", fontWeight: 700, fontSize: "16px" }}>✓</span>
+                    <span style={{ fontSize: "15px", lineHeight: 1.5, color: "var(--dark)" }}>{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: "15px", color: "var(--brown)", fontWeight: 600, fontStyle: "italic" }}>
+                If enquiries come in and nobody replies, that is a bigger problem than any Reel.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 07: Telemetry & Measurement ("Measure what matters") */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">07 / Telemetry</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Measure what <i>matters.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "0 0 36px" }}>
+                Follow the path from attention to sale and see where it breaks:
+              </p>
+
+              {/* Conversion Pipeline Flow */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "24px 28px",
+                  background: "var(--dark)",
+                  color: "var(--cream)",
+                  borderRadius: "18px",
+                  maxWidth: "840px",
+                  marginBottom: "32px",
+                }}
+              >
+                {["Reach", "Profile visits & saves", "DMs & calls per 1,000 reach", "Enquiries into sales", "Customers who return"].map((node, i, arr) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <span style={{ fontSize: "12px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase" }}>{node}</span>
+                    {i < arr.length - 1 && <span style={{ opacity: 0.4 }}>→</span>}
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "760px" }}>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--dark)", margin: 0 }}>
+                  Social media rarely gets full credit, so ask every buyer &ldquo;how did you find us?&rdquo; and use a simple offer code on posts. It is not perfect, but it beats guessing.
+                </p>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--dark)", margin: 0 }}>
+                  Try this for six weeks: post a mix of trend-led and customer-led content, then compare enquiries per 1,000 reach. Let your own numbers decide.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 08: Reality Checks & Transparency */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">08 / Honest Reality</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Where this can <i>go wrong.</i>
+              </h3>
+
+              <ul style={{ margin: "0 0 36px", paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "12px", maxWidth: "680px" }}>
+                <li style={{ fontSize: "15px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  Content cannot fix a bad product, a high price or a business that doesn’t reply.
+                </li>
+                <li style={{ fontSize: "15px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  If every post teaches and none entertain, reach can drop. Keep trends in the mix.
+                </li>
+                <li style={{ fontSize: "15px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  Trust takes months. If you need sales this week, add an offer or an ad alongside.
+                </li>
+              </ul>
+
+              <div
+                style={{
+                  border: "1px solid var(--line)",
+                  borderRadius: "16px",
+                  padding: "24px 28px",
+                  maxWidth: "760px",
+                  background: "rgba(242, 236, 227, 0.4)",
+                }}
+              >
+                <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 600, display: "block", marginBottom: "8px" }}>
+                  What I haven’t proven yet
+                </span>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.65, color: "var(--muted)" }}>
+                  This is a reasoned approach from what I have seen, not a report of finished campaigns. I will add real results, including what didn’t work, once they are verified and the client agrees to share them.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 09: Manifesto Banner */}
+          <section
+            style={{
+              padding: "90px 4vw",
+              background: "var(--dark)",
+              color: "var(--cream)",
+              textAlign: "center",
+              borderTop: "1px solid rgba(242, 236, 227, 0.12)",
+            }}
+          >
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.65, marginBottom: "20px" }}>
+                The Sole Trust Media Standard
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: "clamp(30px, 4.5vw, 56px)",
+                  lineHeight: 1.2,
+                  fontWeight: 500,
+                  fontStyle: "italic",
+                  margin: "0 0 24px",
+                }}
+              >
+                Customer before content.<br />
+                Personality before production.<br />
+                Relationships before reach.
+              </h2>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--beige)", margin: 0 }}>
+                This is how I want to work at Sole Trust Media.
+              </p>
+            </div>
+          </section>
+        </article>
+      ) : is13isu ? (
+        <article className="13isu-full-paper">
+          {/* Section 01: Project Overview */}
+          <section className="case-overview section-grid">
+            <div className="section-label">01 / Overview</div>
+            <div>
+              <p
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--brown)",
+                  marginBottom: "16px",
+                  fontWeight: 600,
+                }}
+              >
+                Featured Client · 13ISU
+              </p>
+              <h2 style={{ fontSize: "clamp(38px, 5.5vw, 76px)", lineHeight: 0.95, margin: "0 0 24px" }}>
+                Turning a dessert <br />
+                <i>into a brand experience.</i>
+              </h2>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 20px" }}>
+                13ISU is a speciality dessert brand built around one product: Tiramisu. The ambition was to create more than another dessert business. The brand needed a distinctive identity, an engaging digital presence and a recognisable personality that customers could connect with.
+              </p>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--muted)", maxWidth: "680px", margin: "0 0 32px" }}>
+                Sole Trust Media worked on bringing the brand&apos;s identity and creative communication together, helping establish its presence in the local dessert market. Our approach combined brand thinking, visual creativity and social media marketing to create a consistent brand experience.
+              </p>
+
+              <div className="case-facts" style={{ marginTop: "24px" }}>
+                <span>
+                  Client<strong>13ISU</strong>
+                </span>
+                <span>
+                  Industry<strong>Food &amp; Beverage (Speciality Dessert)</strong>
+                </span>
+                <span>
+                  Location<strong>Vadodara, Gujarat, India</strong>
+                </span>
+                <span>
+                  Scope<strong>Identity · Creative · Packaging · Social</strong>
+                </span>
+                <span>
+                  Key Highlight<strong>100K+ Instagram views in 3 days</strong>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 02: The Challenge */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">02 / The Challenge</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                More than simply offering something <i>delicious.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 32px" }}>
+                Entering the food and beverage market with a speciality product requires more than great taste. The brand needed to capture attention, communicate its speciality and give people a reason to remember it.
+              </p>
+
+              <div
+                style={{
+                  background: "var(--brown)",
+                  color: "var(--cream)",
+                  padding: "24px 30px",
+                  borderRadius: "16px",
+                  maxWidth: "760px",
+                  fontSize: "clamp(18px, 2.2vw, 24px)",
+                  fontFamily: "'Playfair Display', serif",
+                  lineHeight: 1.4,
+                  marginBottom: "40px",
+                }}
+              >
+                &ldquo;How do we make a speciality dessert brand stand out and become memorable?&rdquo;
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "18px",
+                  maxWidth: "840px",
+                }}
+              >
+                {[
+                  "Building a recognisable identity around a single speciality product.",
+                  "Creating a distinctive brand personality.",
+                  "Making the product visually appealing through creative presentation.",
+                  "Developing consistent social media communication.",
+                  "Generating awareness and interest around the brand.",
+                  "Establishing a connection with the local audience.",
+                ].map((challenge, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "14px",
+                      padding: "20px 22px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                      display: "flex",
+                      gap: "14px",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", color: "var(--brown)", fontWeight: 700 }}>
+                      0{idx + 1}
+                    </span>
+                    <span style={{ fontSize: "14px", lineHeight: 1.5, color: "var(--dark)" }}>{challenge}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 03: The Concept Behind the Name */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">03 / Brand Concept</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                The idea behind <i>13ISU.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 32px" }}>
+                Every memorable brand begins with an idea. For 13ISU, the idea started with the number 13, known as <em>Terah</em> in Hindi. We combined this number with the letters I-S-U to create the distinctive name 13ISU.
+              </p>
+
+              {/* Typographic formula card */}
+              <div
+                style={{
+                  border: "2px solid var(--brown)",
+                  borderRadius: "20px",
+                  padding: "36px 32px",
+                  background: "var(--cream-deep)",
+                  maxWidth: "800px",
+                  marginBottom: "36px",
+                }}
+              >
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
+                  <span style={{ fontSize: "clamp(26px, 3.8vw, 40px)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "var(--brown)" }}>
+                    13 (Terah)
+                  </span>
+                  <span style={{ fontSize: "24px", color: "var(--muted)" }}>+</span>
+                  <span style={{ fontSize: "clamp(26px, 3.8vw, 40px)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "var(--brown)" }}>
+                    ISU
+                  </span>
+                  <span style={{ fontSize: "24px", color: "var(--muted)" }}>=</span>
+                  <span style={{ fontSize: "clamp(26px, 3.8vw, 40px)", fontFamily: "'Playfair Display', serif", fontWeight: 700, color: "var(--dark)", fontStyle: "italic" }}>
+                    13ISU (Tiramisu)
+                  </span>
+                </div>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--dark)", margin: "0 0 16px" }}>
+                  The creative identity takes the concept further through typography, where the number <strong>3</strong> is visually interpreted as an <strong>M</strong>, creating a unique connection between numbers and lettering. This gives the name a distinctive visual character while keeping its connection to the dessert category.
+                </p>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--brown)", fontWeight: 600 }}>
+                  A name built around numbers, letters and creative thinking.
+                </span>
+              </div>
+
+              {/* Emotional Hook */}
+              <div
+                style={{
+                  borderLeft: "4px solid var(--brown)",
+                  padding: "20px 28px",
+                  background: "rgba(242, 236, 227, 0.5)",
+                  maxWidth: "800px",
+                  borderRadius: "0 14px 14px 0",
+                }}
+              >
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
+                  Emotional Positioning Anchor
+                </span>
+                <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "22px", margin: "0 0 10px", fontStyle: "italic" }}>
+                  &ldquo;Your sweetest saviour for tough days.&rdquo;
+                </h4>
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--muted)" }}>
+                  Rather than positioning Tiramisu as just another dessert, the brand presented it as a little moment of happiness during a difficult day. This became the foundation of its creative direction.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 04: Brand Identity & Visual Direction */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">04 / Visual Direction</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Identity &amp; visual <i>character.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 36px" }}>
+                The visual identity needed to communicate the brand&apos;s playful personality while remaining consistent across digital and physical touchpoints.
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "20px",
+                  maxWidth: "840px",
+                  marginBottom: "36px",
+                }}
+              >
+                {[
+                  { title: "Distinctive Typography", desc: "Custom interplay where the number 3 interprets as an M in brand wordmarks." },
+                  { title: "Recognisable Logo Treatment", desc: "A clean, playful mark designed to work across packaging, digital, and event signage." },
+                  { title: "Lavender & Purple Palette", desc: "A modern, tactile color universe differentiating the brand from traditional bakery neutrals." },
+                  { title: "Dessert-Focused Communication", desc: "Macro visual appetite appeal highlighting creamy mascarpone and cocoa layers." },
+                  { title: "Consistent Promotional Layouts", desc: "Unified grid structures and typography hierarchy across all social touchpoints." },
+                  { title: "Youthful Personality", desc: "Approachable, warm tone of voice built for connection with local food lovers." },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      padding: "24px 22px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "10px", color: "var(--brown)", fontWeight: 700, textTransform: "uppercase" }}>
+                      PILLAR 0{idx + 1}
+                    </span>
+                    <h4 style={{ fontSize: "17px", margin: "8px 0 8px" }}>{item.title}</h4>
+                    <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.6, color: "var(--muted)" }}>{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ fontSize: "15px", color: "var(--brown)", fontWeight: 600, fontStyle: "italic" }}>
+                The objective: to make the brand recognisable even before customers read its name.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 05: Creative Strategy (4 Connected Areas) */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">05 / Strategy</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Four connected <i>strategic pillars.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 36px" }}>
+                We approached the project through four connected disciplines to establish a cohesive brand foundation:
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: "22px",
+                  maxWidth: "840px",
+                }}
+              >
+                {[
+                  {
+                    pillar: "A",
+                    title: "Brand Building",
+                    desc: "We focused on the brand name, personality, positioning and visual direction to establish a consistent foundation.",
+                  },
+                  {
+                    pillar: "B",
+                    title: "Product Presentation",
+                    desc: "Tiramisu was the centre of the brand experience. The creative direction focused on presenting the product in an attractive and appetising way.",
+                  },
+                  {
+                    pillar: "C",
+                    title: "Social Media Communication",
+                    desc: "We developed promotional creatives and content concepts to communicate the product, introduce the brand and encourage audience interest.",
+                  },
+                  {
+                    pillar: "D",
+                    title: "Digital Visibility",
+                    desc: "We used Instagram as a key platform for brand communication, focusing on content that could attract attention and increase visibility.",
+                  },
+                ].map((card) => (
+                  <div
+                    key={card.pillar}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: "18px",
+                      padding: "28px 24px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: "20px",
+                        fontWeight: 700,
+                        color: "var(--brown)",
+                        display: "block",
+                        marginBottom: "12px",
+                      }}
+                    >
+                      Pillar {card.pillar}
+                    </span>
+                    <h4 style={{ fontSize: "19px", margin: "0 0 10px" }}>{card.title}</h4>
+                    <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--muted)" }}>{card.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 06: Creative Execution & Launch Visual Evidence */}
+          <section className="case-execution section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">06 / Execution</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Creative execution &amp; <i>deliverables.</i>
+              </h3>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "20px",
+                  maxWidth: "840px",
+                  marginBottom: "48px",
+                }}
+              >
+                {[
+                  {
+                    tag: "Brand Communication",
+                    body: "Developed creative messaging to introduce the brand and communicate its identity.",
+                  },
+                  {
+                    tag: "Promotional Campaigns",
+                    body: "Opening announcements and product-led promotional creatives helped introduce 13MISU to its audience.",
+                  },
+                  {
+                    tag: "Social Media Creatives",
+                    body: "Opening designs, product promotional posts, brand introduction collateral, dessert-focused visuals, and occasion-based communication.",
+                  },
+                  {
+                    tag: "Content Direction",
+                    body: "Product presentation and customer-facing video content designed to make the brand feel engaging and relatable.",
+                  },
+                ].map((exec, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      padding: "20px 22px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "14px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--brown)", fontWeight: 700, display: "block", marginBottom: "8px" }}>
+                      {exec.tag}
+                    </span>
+                    <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.6, color: "var(--dark)" }}>{exec.body}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Gallery visual proof */}
+              <h4 style={{ fontSize: "20px", marginBottom: "20px" }}>Visual Evidence &amp; Activation</h4>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: "20px",
+                  maxWidth: "960px",
+                }}
+              >
+                {[
+                  {
+                    img: "/13isu-creative-1.png",
+                    caption: "Night-market activation setup and booth display for the 13ISU tiramisu launch in Vadodara.",
+                  },
+                  {
+                    img: "/13isu-creative-2.png",
+                    caption: "Custom packaging design and product presentation detail from the 13ISU launch.",
+                  },
+                  {
+                    img: "/13isu-creative-3.png",
+                    caption: "The large-format display board used to create a memorable event presence.",
+                  },
+                ].map((item, idx) => (
+                  <figure
+                    key={idx}
+                    style={{
+                      margin: 0,
+                      border: "1px solid var(--line)",
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                      background: "var(--cream-deep)",
+                    }}
+                  >
+                    <img
+                      src={item.img}
+                      alt={item.caption}
+                      style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
+                    />
+                    <figcaption
+                      style={{
+                        padding: "14px 16px",
+                        fontSize: "12px",
+                        lineHeight: 1.5,
+                        color: "var(--muted)",
+                        fontFamily: "'DM Mono', monospace",
+                      }}
+                    >
+                      {item.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 07: Digital Marketing Result (100K+ Views in 3 Days) */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">07 / Digital Impact</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                100K+ views in <i>just 3 days.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 36px" }}>
+                One of the standout highlights of the project was the Instagram performance. The 13ISU Instagram account achieved over 100,000 views within three days, based on the account dashboard shared with STM.
+              </p>
+
+              {/* Verified Metrics Card */}
+              <div
+                style={{
+                  border: "2px solid var(--brown)",
+                  borderRadius: "20px",
+                  padding: "36px 32px",
+                  background: "var(--cream-deep)",
+                  maxWidth: "760px",
+                  marginBottom: "32px",
+                }}
+              >
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "24px", marginBottom: "24px" }}>
+                  <div>
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase" }}>
+                      PLATFORM
+                    </span>
+                    <strong style={{ fontSize: "20px", color: "var(--dark)", display: "block", marginTop: "4px" }}>Instagram</strong>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase" }}>
+                      REPORTED PERFORMANCE
+                    </span>
+                    <strong style={{ fontSize: "28px", color: "var(--brown)", fontFamily: "'Playfair Display', serif", display: "block", marginTop: "4px" }}>
+                      100,000+ views
+                    </strong>
+                  </div>
+                  <div>
+                    <span style={{ fontSize: "11px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", textTransform: "uppercase" }}>
+                      TIME PERIOD
+                    </span>
+                    <strong style={{ fontSize: "20px", color: "var(--dark)", display: "block", marginTop: "4px" }}>3 Days</strong>
+                  </div>
+                </div>
+
+                <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "var(--dark)" }}>
+                  This created significant early digital visibility for the brand and demonstrated the value of creative content and consistent brand communication.
+                </p>
+              </div>
+
+              {/* Honest Performance Disclaimer */}
+              <div
+                style={{
+                  borderLeft: "3px solid var(--muted)",
+                  padding: "12px 20px",
+                  background: "rgba(75, 53, 40, 0.04)",
+                  maxWidth: "760px",
+                  borderRadius: "0 10px 10px 0",
+                }}
+              >
+                <p style={{ margin: 0, fontSize: "12px", fontFamily: "'DM Mono', monospace", color: "var(--muted)", lineHeight: 1.5 }}>
+                  Transparency Note: Views are not the same as unique reach, conversions or sales. No additional performance metrics are claimed.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 08: The Brand Experience */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">08 / Brand Experience</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                A unified <i>creative foundation.</i>
+              </h3>
+              <p style={{ fontSize: "16px", lineHeight: 1.7, color: "var(--dark)", maxWidth: "680px", margin: "0 0 20px" }}>
+                The goal was to make every customer-facing interaction feel connected to the same brand.
+              </p>
+              <p style={{ fontSize: "15px", lineHeight: 1.7, color: "var(--muted)", maxWidth: "680px", margin: 0 }}>
+                From the visual identity to promotional communication, the creative direction aimed to create consistency across the brand&apos;s digital presence and customer experience. The result was a unified creative foundation that 13MISU could continue building upon.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 09: Services & Deliverables Matrix */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">09 / Deliverables</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 24px" }}>
+                Services &amp; <i>project contribution.</i>
+              </h3>
+
+              <div
+                style={{
+                  border: "1px solid var(--line)",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  maxWidth: "760px",
+                  background: "rgba(242, 236, 227, 0.4)",
+                }}
+              >
+                {[
+                  { service: "Brand concept", contribution: "Naming and positioning direction" },
+                  { service: "Brand identity", contribution: "Visual identity development" },
+                  { service: "Creative direction", contribution: "Brand visual language" },
+                  { service: "Packaging design", contribution: "Packaging concepts and presentation" },
+                  { service: "Social media creatives", contribution: "Promotional communication" },
+                  { service: "Content direction", contribution: "Product-focused storytelling" },
+                  { service: "Digital marketing", contribution: "Instagram visibility & viral reel launch" },
+                ].map((row, idx, arr) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "clamp(160px, 25vw, 220px) 1fr",
+                      gap: "20px",
+                      padding: "16px 22px",
+                      borderBottom: idx < arr.length - 1 ? "1px solid var(--line)" : "none",
+                      alignItems: "center",
+                    }}
+                  >
+                    <strong style={{ fontSize: "14px", color: "var(--dark)" }}>{row.service}</strong>
+                    <span style={{ fontSize: "14px", color: "var(--muted)" }}>{row.contribution}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Section 10: Project Impact */}
+          <section className="section-grid" style={{ padding: "100px 4vw", borderTop: "1px solid var(--line)" }}>
+            <div className="section-label">10 / Project Impact</div>
+            <div>
+              <h3 style={{ fontSize: "clamp(32px, 4.5vw, 56px)", margin: "0 0 16px" }}>
+                Measurable <i>early momentum.</i>
+              </h3>
+              <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "640px", margin: "0 0 32px" }}>
+                The project brought brand identity and marketing communication together under one creative direction.
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "14px", maxWidth: "720px", marginBottom: "32px" }}>
+                {[
+                  "A distinctive brand concept rooted in linguistic and typographic wit.",
+                  "A consistent visual direction across physical and digital formats.",
+                  "Product-focused creative communication that stimulated appetite.",
+                  "A recognisable social media presence built for sustained engagement.",
+                  "100K+ Instagram views within three days of public release.",
+                ].map((highlight, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: "flex",
+                      gap: "14px",
+                      alignItems: "center",
+                      padding: "16px 20px",
+                      border: "1px solid var(--line)",
+                      borderRadius: "12px",
+                      background: "rgba(242, 236, 227, 0.4)",
+                    }}
+                  >
+                    <span style={{ color: "var(--brown)", fontWeight: 700 }}>✓</span>
+                    <span style={{ fontSize: "14px", color: "var(--dark)" }}>{highlight}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p style={{ margin: 0, fontSize: "14px", color: "var(--muted)", lineHeight: 1.6 }}>
+                The project established a creative foundation for the brand and helped increase its early digital visibility.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 11: Behind the Work (Manifesto Banner) */}
+          <section
+            style={{
+              padding: "90px 4vw",
+              background: "var(--dark)",
+              color: "var(--cream)",
+              textAlign: "center",
+              borderTop: "1px solid rgba(242, 236, 227, 0.12)",
+            }}
+          >
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.65, marginBottom: "20px" }}>
+                Behind the Work · Sole Trust Media
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: "clamp(30px, 4.5vw, 56px)",
+                  lineHeight: 1.25,
+                  fontWeight: 500,
+                  fontStyle: "italic",
+                  margin: "0 0 24px",
+                }}
+              >
+                A brand is not built through a logo alone.<br />
+                It is built through the way people see it, experience it and remember it.
+              </h2>
+              <p style={{ fontSize: "15px", lineHeight: 1.7, opacity: 0.85, maxWidth: "600px", margin: "0 auto 28px" }}>
+                With 13ISU, our focus was to bring together brand thinking, creative execution and digital communication to create a distinctive dessert brand experience.
+              </p>
+              <div style={{ paddingTop: "20px", borderTop: "1px solid rgba(242, 236, 227, 0.15)" }}>
+                <strong style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.15em", textTransform: "uppercase", display: "block", marginBottom: "8px", color: "var(--cream)" }}>
+                  NOT JUST SEEN. REMEMBERED.
+                </strong>
+                <span style={{ fontSize: "13px", color: "var(--beige)" }}>
+                  Have a business worth building? Let&apos;s create a brand people remember.
+                </span>
+              </div>
+            </div>
+          </section>
+        </article>
+      ) : (
+        <>
+          {/* 4. Project overview section & 5. Facts row */}
+          <section className="case-overview section-grid">
+            <div className="section-label">01 / Overview</div>
+            <div>
+              <h2>
+                Built with <i>intent.</i>
+              </h2>
+              <p>{project.client_introduction}</p>
+              <div className="case-facts">
+                {project.industry && (
+                  <span>
+                    Industry<strong>{project.industry}</strong>
+                  </span>
+                )}
+                {project.location && (
+                  <span>
+                    Location<strong>{project.location}</strong>
+                  </span>
+                )}
+                <span>
+                  Year<strong>2026</strong>
+                </span>
+                <span>
+                  Discipline<strong>{project.category}</strong>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* 6. Challenge & Objectives section */}
+          {(project.business_challenge || project.objectives) && (
+            <section className="case-challenge section-grid">
+              <div className="section-label">02 / Challenge</div>
+              <div className="challenge-columns">
+                {project.business_challenge && (
+                  <div>
+                    <h3>The Challenge</h3>
+                    <p>{project.business_challenge}</p>
+                  </div>
+                )}
+                {project.objectives && (
+                  <div>
+                    <h3>The Objectives</h3>
+                    <p>{project.objectives}</p>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* 7. Strategy section */}
+          {project.strategy && (
+            <section className="case-strategy section-grid">
+              <div className="section-label">03 / Strategy</div>
+              <div>
+                <h3>The Strategic Approach</h3>
+                <p>{project.strategy}</p>
+              </div>
+            </section>
+          )}
+
+          {/* 8. Creative Direction & Brand Personality section */}
+          {project.creative_direction && (
+            <section className="case-creative section-grid">
+              <div className="section-label">04 / Creative Direction</div>
+              <div>
+                <h3>Visual Direction &amp; Systems</h3>
+                <p>{project.creative_direction}</p>
+              </div>
+            </section>
+          )}
+
+          {/* 9. Execution & Services Delivered section */}
+          <section className="case-execution section-grid">
+            <div className="section-label">05 / Execution</div>
+            <div>
+              <h3>What We Built</h3>
+              <p>{project.execution || "Architected and delivered the complete creative and technical system."}</p>
+              {project.services_delivered.length > 0 && (
+                <div className="services-list">
+                  <h4>Services Delivered</h4>
+                  <ul>
+                    {project.services_delivered.map((service, idx) => (
+                      <li key={idx}>{service}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* 10. Results section */}
+          <section className="case-results section-grid">
+            <div className="section-label">06 / Results</div>
+            <div className="results-box">
+              <h3>The Outcome</h3>
+              <p>{project.results}</p>
+              {project.live_url && (
+                <div style={{ marginTop: "24px" }}>
+                  <a
+                    className="button button-dark"
+                    href={project.live_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.cta_label || "Open Live Website"} <ArrowUpRight data-icon="inline-end" />
+                  </a>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* 11. Project Gallery section */}
+          {project.gallery.length > 0 && (
+            <section className="case-gallery">
+              <div className="section-label" style={{ padding: "0 4vw 40px" }}>
+                07 / Visual Evidence
+              </div>
+              <div className="gallery-grid">
+                {project.gallery.map((item, idx) => (
+                  <figure key={idx} className="gallery-item">
+                    <img
+                      src={item.image_url}
+                      alt={item.caption || `${project.title} preview ${idx + 1}`}
+                      loading="lazy"
+                    />
+                    {item.caption && <figcaption>{item.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       {/* 12. Sources / External Links */}
@@ -1380,6 +2572,51 @@ export default async function CaseStudyPage({
         </section>
       )}
 
+      {/* Next Case Study Navigation */}
+      {nextProject && (
+        <section
+          style={{
+            padding: "80px var(--pad)",
+            borderTop: "1px solid var(--border)",
+            background: "rgba(230, 220, 207, 0.25)",
+          }}
+        >
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <p className="eyebrow" style={{ marginBottom: 16 }}>Next Case Study</p>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 24,
+              }}
+            >
+              <div>
+                <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--muted)" }}>
+                  {nextProject.type || nextProject.category}
+                </span>
+                <h3 style={{ fontSize: "clamp(24px, 3.5vw, 44px)", margin: "8px 0 12px", fontFamily: "var(--font-serif)" }}>
+                  <a href={`/work/${nextProject.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+                    {nextProject.name}
+                  </a>
+                </h3>
+                <p style={{ maxWidth: 560, color: "var(--muted)", margin: 0 }}>
+                  {nextProject.description || nextProject.note}
+                </p>
+              </div>
+              <a
+                href={`/work/${nextProject.slug}`}
+                className="button button-outline"
+                style={{ alignSelf: "center" }}
+              >
+                View Case Study <ArrowUpRight data-icon="inline-end" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 13. Statement / Contact CTA banner */}
       <section className="statement">
         <div className="statement-inner">
@@ -1388,41 +2625,14 @@ export default async function CaseStudyPage({
             Let&apos;s build something<br />
             <i>that endures.</i>
           </h2>
-          <a className="button button-dark" href="/#contact">
+          <a className="button button-dark" href="/contact">
             Start a conversation <ArrowUpRight data-icon="inline-end" />
           </a>
         </div>
       </section>
 
       {/* 14. Footer */}
-      <footer>
-        <div className="footer-top">
-          <a className="wordmark footer-mark" href="/">
-            <span>STM</span>
-            <small>SOLE TRUST MEDIA</small>
-          </a>
-          <p>
-            Brand building, creative,<br />
-            marketing &amp; technology.
-          </p>
-          <div className="socials">
-            <a href="/#contact" aria-label="Instagram">
-              IG
-            </a>
-            <a href="/#contact" aria-label="LinkedIn">
-              IN
-            </a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>&copy; 2026 Sole Trust Media</span>
-          <span>Not Just Seen. Remembered.</span>
-          <div>
-            <a href="/#contact">Privacy</a>
-            <a href="/#contact">Terms</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }

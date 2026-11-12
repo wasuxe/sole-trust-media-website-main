@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { createClient } from "@supabase/supabase-js"
+import { PROJECTS, type Project as StaticProject } from "@/lib/data/projects"
 import SiteNav from "@/components/site-nav"
-import { PROJECTS } from "@/lib/data/projects"
+import SiteFooter from "@/components/site-footer"
 
 interface Project {
   slug: string
@@ -135,29 +136,50 @@ export default function WorkPage() {
     }
   }, [])
 
+  function matchesCategory(project: Project, cat: string): boolean {
+    if (cat === "All Projects") return true
+    const text = [
+      project.title,
+      project.name,
+      project.category,
+      project.type,
+      (project.tags || []).join(" "),
+      (project.services || []).join(" "),
+    ]
+      .join(" ")
+      .toLowerCase()
+
+    switch (cat) {
+      case "Web / Digital":
+        return /\b(web|website|digital|interface|figma|portal|platform)\b/i.test(text)
+      case "Branding & Identity":
+        return /\b(brand|branding|identity|typography)\b/i.test(text)
+      case "Packaging Design":
+        return /\b(packaging|pack|box|unboxing)\b/i.test(text)
+      case "Concepts":
+        return /\b(concept|exploratory|self-initiated)\b/i.test(text)
+      case "AI & Technology":
+        return /\b(ai|technology|automation|saas|supply chain)\b/i.test(text)
+      case "Creative & Content":
+        return /\b(creative|content|social|music|media|editorial|video|campaign)\b/i.test(text)
+      default:
+        return true
+    }
+  }
+
+  const categoryCounts = CATEGORIES.reduce((acc, cat) => {
+    acc[cat] = projects.filter((p) => matchesCategory(p, cat)).length
+    return acc
+  }, {} as Record<string, number>)
+
   const filteredProjects =
     activeCategory === "All Projects"
       ? projects
-      : projects.filter((project) => {
-          const filterLower = activeCategory.trim().toLowerCase()
-          const catLower = project.category.trim().toLowerCase()
-          const typeLower = (project.type || "").trim().toLowerCase()
-          const tagsLower = (project.tags || []).map((t) => t.toLowerCase())
-
-          if (catLower === filterLower || catLower.includes(filterLower) || filterLower.includes(catLower)) {
-            return true
-          }
-          if (typeLower.includes(filterLower)) {
-            return true
-          }
-          if (tagsLower.some((t) => t.includes(filterLower) || filterLower.includes(t))) {
-            return true
-          }
-          return false
-        })
+      : projects.filter((project) => matchesCategory(project, activeCategory))
 
   return (
     <main className="site-shell">
+      {/* Navigation */}
       <SiteNav />
 
       {/* Hero Header */}
@@ -183,26 +205,41 @@ export default function WorkPage() {
               role="tab"
               aria-selected={activeCategory === cat}
             >
-              {cat}
+              {cat} <span style={{ opacity: 0.65, fontSize: "9px", marginLeft: "4px" }}>({categoryCounts[cat] ?? 0})</span>
             </button>
           ))}
         </div>
 
         {filteredProjects.length === 0 ? (
-          <div className="portfolio-empty">
-            <p>No projects published under &ldquo;{activeCategory}&rdquo; yet.</p>
+          <div className="portfolio-empty" style={{ textAlign: "center", padding: "60px 20px" }}>
+            <p style={{ color: "var(--muted)", margin: "0 0 16px" }}>No projects found under &ldquo;{activeCategory}&rdquo;.</p>
+            <button
+              className="button button-dark"
+              onClick={() => setActiveCategory("All Projects")}
+              style={{ padding: "10px 18px", fontSize: "10px" }}
+            >
+              Reset Filters
+            </button>
           </div>
         ) : (
           <div className="selected-work-grid">
             {filteredProjects.map((project) => {
-              const isExternal = Boolean(project.link)
+              const isExternal = Boolean(project.link && project.slug !== "13isu" && project.slug !== "trends-are-a-tool")
               const targetUrl =
-                project.link ||
-                (project.slug === "13isu" ? "/work/13isu" : `/work/${project.slug}`)
+                project.slug === "13isu"
+                  ? "/work/13isu"
+                  : project.slug === "trends-are-a-tool" || project.slug === "trends"
+                  ? "/work/trends-are-a-tool"
+                  : project.link || `/work/${project.slug}`
 
               return (
                 <div className="selected-card" key={project.slug}>
-                  <div className="selected-card-image">
+                  <a
+                    href={targetUrl}
+                    className="selected-card-image"
+                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    aria-label={`View ${project.title}`}
+                  >
                     <img
                       src={project.cover_image}
                       alt={`${project.title} — ${project.category}`}
@@ -210,11 +247,19 @@ export default function WorkPage() {
                     />
                     {project.tag && <span className="selected-card-tag">{project.tag}</span>}
                     {project.marker && <span className="selected-card-marker">{project.marker}</span>}
-                  </div>
+                  </a>
                   <div className="selected-card-body">
                     <div>
                       <div className="selected-card-type">{project.type || project.category}</div>
-                      <h2 className="selected-card-title">{project.title}</h2>
+                      <h2 className="selected-card-title">
+                        <a
+                          href={targetUrl}
+                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          style={{ color: "inherit", textDecoration: "none" }}
+                        >
+                          {project.title}
+                        </a>
+                      </h2>
                       {project.short_description && (
                         <p className="selected-card-desc">{project.short_description}</p>
                       )}
@@ -258,41 +303,14 @@ export default function WorkPage() {
             Let&apos;s make<br />
             <i>something memorable.</i>
           </h2>
-          <a className="button button-light" href="/#contact">
+          <a className="button button-light" href="/contact">
             Start a project <ArrowUpRight data-icon="inline-end" />
           </a>
         </div>
       </section>
 
       {/* Footer */}
-      <footer>
-        <div className="footer-top">
-          <a className="wordmark footer-mark" href="/">
-            <span>STM</span>
-            <small>SOLE TRUST MEDIA</small>
-          </a>
-          <p>
-            Brand building, creative,<br />
-            marketing &amp; technology.
-          </p>
-          <div className="socials">
-            <a href="/#contact" aria-label="Instagram">
-              IG
-            </a>
-            <a href="/#contact" aria-label="LinkedIn">
-              IN
-            </a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>&copy; 2026 Sole Trust Media</span>
-          <span>Not Just Seen. Remembered.</span>
-          <div>
-            <a href="/#contact">Privacy</a>
-            <a href="/#contact">Terms</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }
