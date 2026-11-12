@@ -53,7 +53,7 @@ export default function SiteFooter() {
             <Link href="/" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>Home</Link>
             <Link href="/work" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>Selected Work</Link>
             <Link href="/services" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>Capabilities</Link>
-            <Link href="/#about" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>Studio Philosophy</Link>
+            <Link href="/about" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>About Us</Link>
             <Link href="/#insights" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>Insights</Link>
             <Link href="/contact" style={{ color: 'var(--cream)', textDecoration: 'none', transition: 'opacity 0.2s' }}>Contact &amp; Inquiries</Link>
           </div>

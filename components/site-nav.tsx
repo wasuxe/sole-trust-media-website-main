@@ -63,7 +63,7 @@ export default function SiteNav() {
         <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
         <Link href="/work" onClick={() => setMenuOpen(false)}>Work</Link>
         <Link href="/services" onClick={() => setMenuOpen(false)}>Capabilities</Link>
-        <Link href="/#about" onClick={() => setMenuOpen(false)}>Studio</Link>
+        <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
         <Link href="/#insights" onClick={() => setMenuOpen(false)}>Insights</Link>
         <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
 
