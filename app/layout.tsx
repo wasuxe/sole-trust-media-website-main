@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import CinematicPreloader from '@/components/cinematic-preloader'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -76,8 +77,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (sessionStorage.getItem('stm_preloader_seen') && !window.location.search.includes('intro=true')) {
+                  document.documentElement.classList.add('stm-skip-preloader');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className="antialiased">
+        <CinematicPreloader />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
