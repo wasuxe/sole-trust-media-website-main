@@ -914,6 +914,70 @@ export default function Page() {
               )
             })}
           </div>
+
+          {/* High-Craft Short-Form Video Reel Strip */}
+          <div className="video-reel-section reveal">
+            <div className="video-reel-header">
+              <div>
+                <span className="video-reel-tag">
+                  High-Craft Media Production
+                </span>
+                <h3 className="video-reel-heading">
+                  Short-form storytelling &amp; <i>viral craft.</i>
+                </h3>
+              </div>
+              <p className="video-reel-desc">
+                Culinary direction, packaging tactile motion, and cultural campaign reels designed for sustained audience attention and organic reach.
+              </p>
+            </div>
+
+            <div className="video-reel-strip">
+              <div className="video-reel-card">
+                <video
+                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.08.31.mp4"
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                />
+                <div className="video-reel-overlay">
+                  <span className="video-reel-category">Culinary Direction</span>
+                  <strong className="video-reel-title">Dessert Craft &amp; Texture</strong>
+                </div>
+              </div>
+
+              <div className="video-reel-card">
+                <video
+                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.09.08.mp4"
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                />
+                <div className="video-reel-overlay">
+                  <span className="video-reel-category">Product Storytelling</span>
+                  <strong className="video-reel-title">Packaging &amp; Unboxing</strong>
+                </div>
+              </div>
+
+              <div className="video-reel-card">
+                <video
+                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.10.33.mp4"
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                />
+                <div className="video-reel-overlay">
+                  <span className="video-reel-category">Social Campaign</span>
+                  <strong className="video-reel-title">Community Activation</strong>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

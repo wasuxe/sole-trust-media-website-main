@@ -846,6 +846,125 @@ footer { background:var(--dark); color:var(--cream); padding:45px 4vw 25px; bord
   transform: translateX(3px);
 }
 
+/* High-Craft Short-Form Video Reel Strip */
+.video-reel-section {
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid var(--line);
+}
+.video-reel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+.video-reel-tag {
+  font-family: var(--font-utility);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brown);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+}
+.video-reel-heading {
+  font-size: clamp(26px, 3.2vw, 40px);
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.15;
+}
+.video-reel-heading em,
+.video-reel-heading i {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--brown);
+}
+.video-reel-desc {
+  max-width: 440px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.video-reel-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.video-reel-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(75, 48, 39, 0.16);
+  background: var(--dark);
+  aspect-ratio: 9/14;
+  box-shadow: 0 16px 36px rgba(40, 34, 31, 0.09);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.video-reel-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(40, 34, 31, 0.18);
+  border-color: rgba(75, 48, 39, 0.35);
+}
+.video-reel-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+  transition: opacity 0.35s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+.video-reel-card:hover video {
+  opacity: 1;
+  transform: scale(1.04);
+}
+.video-reel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 22, 20, 0.88) 0%, rgba(28, 22, 20, 0.3) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22px 20px;
+  color: var(--cream);
+  pointer-events: none;
+}
+.video-reel-category {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--beige);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.video-reel-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff7ef;
+  line-height: 1.3;
+}
+@media (max-width: 900px) {
+  .video-reel-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+@media (max-width: 600px) {
+  .video-reel-strip {
+    grid-template-columns: 1fr;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 /* Flagship Case Study Spotlight */
 .case-study-spotlight {
   border: 1px solid var(--line);
