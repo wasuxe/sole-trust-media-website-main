@@ -295,8 +295,6 @@ export default function Page() {
     }
 
     try {
-      const client = getSupabaseBrowserClient()
-
       const enquiryPayload = {
         full_name: fullName,
         company_name: companyName,
@@ -307,38 +305,34 @@ export default function Page() {
         project_description: projectDescription,
       }
 
-      const { error: enquiriesError } = await client
-        .from("enquiries")
-        .insert(enquiryPayload as never)
+      const res = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(enquiryPayload),
+      })
 
-      if (enquiriesError) {
-        const fallbackPayload = {
-          name: fullName,
-          company: companyName,
-          email: email,
-          budget: budget || null,
-          message: `[Phone: ${phone ?? "N/A"}] [Services: ${
-            selectedServices.length > 0 ? selectedServices.join(", ") : "None specified"
-          }]\n\n${projectDescription}`,
-        }
-
-        const { error: fallbackError } = await client
-          .from("contact_submissions")
-          .insert(fallbackPayload as never)
-
-        if (fallbackError) {
-          setFormError(
-            "We couldn't submit your enquiry right now. Please email us directly at support@soletrustmedia.agency"
-          )
-        } else {
-          setSent(true)
-          setSelectedServices([])
-          event.currentTarget.reset()
-        }
-      } else {
+      if (res.ok) {
         setSent(true)
         setSelectedServices([])
         event.currentTarget.reset()
+      } else {
+        const data = await res.json().catch(() => ({}))
+        // Attempt client-side Supabase insert as fallback if API failed
+        const client = getSupabaseBrowserClient()
+        const { error: enquiriesError } = await client
+          .from("enquiries")
+          .insert(enquiryPayload as never)
+
+        if (!enquiriesError) {
+          setSent(true)
+          setSelectedServices([])
+          event.currentTarget.reset()
+        } else {
+          setFormError(
+            data.error ||
+              "We couldn't submit your enquiry right now. Please email us directly at support@soletrustmedia.agency"
+          )
+        }
       }
     } catch {
       setFormError(
