@@ -37,6 +37,7 @@ interface CaseStudyData {
   link?: string
   website?: string
   cta?: string
+  author?: string
 }
 
 const staticData: Record<string, CaseStudyData> = {
@@ -742,6 +743,7 @@ const staticData: Record<string, CaseStudyData> = {
   "trends-are-a-tool": {
     title: "Trends Are a Tool, Not a Strategy",
     client_name: "Sole Trust Media",
+    author: "Daksh Bhagat",
     category: "Creative Direction & Strategy",
     type: "STRATEGY / SOCIAL COMMERCE / CONTENT ARCHITECTURE",
     tagline: "People are watching your posts. So why aren’t they buying?",
@@ -797,6 +799,7 @@ const staticData: Record<string, CaseStudyData> = {
   "trends-are-a-tool-not-a-strategy": {
     title: "Trends Are a Tool, Not a Strategy",
     client_name: "Sole Trust Media",
+    author: "Daksh Bhagat",
     category: "Creative Direction & Strategy",
     type: "STRATEGY / SOCIAL COMMERCE / CONTENT ARCHITECTURE",
     tagline: "People are watching your posts. So why aren’t they buying?",
@@ -1154,6 +1157,13 @@ export default async function CaseStudyPage({
     gallery: galleryItems,
     sources: projectSources,
     assets: projectAssets,
+    author: String(
+      dbProject?.author ??
+      fallbackProject?.author ??
+      (slug === "trends-are-a-tool" || slug === "trends-are-a-tool-not-a-strategy" || slug === "trends"
+        ? "Daksh Bhagat"
+        : "")
+    ),
     live_url: fallbackProject?.live_url || fallbackProject?.link || fallbackProject?.website,
     cta_label: fallbackProject?.cta_label || fallbackProject?.cta || "OPEN LIVE WEBSITE",
   }
@@ -1183,6 +1193,22 @@ export default async function CaseStudyPage({
         </a>
         <p className="eyebrow">{project.category}</p>
         <h1>{project.title}</h1>
+        {project.author && (
+          <p
+            className="case-author"
+            style={{
+              fontFamily: "'DM Mono', monospace",
+              fontSize: "11px",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "var(--brown)",
+              fontWeight: 600,
+              margin: "12px 0 0",
+            }}
+          >
+            Written by {project.author}
+          </p>
+        )}
         {project.tagline && (
           <p
             className="case-tagline"
@@ -1225,19 +1251,25 @@ export default async function CaseStudyPage({
           <section className="case-overview section-grid">
             <div className="section-label">01 / The Problem</div>
             <div>
-              <p
+              <div
                 style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "16px",
                   fontFamily: "'DM Mono', monospace",
                   fontSize: "11px",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   color: "var(--brown)",
-                  marginBottom: "16px",
                   fontWeight: 600,
                 }}
               >
-                Sole Trust Media · Creative Direction
-              </p>
+                <span>Sole Trust Media · Creative Direction</span>
+                <span style={{ opacity: 0.5 }}>·</span>
+                <span style={{ color: "var(--dark)", fontWeight: 700 }}>Written by Daksh Bhagat</span>
+              </div>
               <h2 style={{ fontSize: "clamp(38px, 5.5vw, 76px)", lineHeight: 0.95, margin: "0 0 24px" }}>
                 Views are coming. <br />
                 <i>Customers are not.</i>
@@ -1781,8 +1813,11 @@ export default async function CaseStudyPage({
                 Personality before production.<br />
                 Relationships before reach.
               </h2>
-              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--beige)", margin: 0 }}>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--beige)", margin: "0 0 10px" }}>
                 This is how I want to work at Sole Trust Media.
+              </p>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--muted-tan)", margin: 0, fontWeight: 600 }}>
+                Written by Daksh Bhagat
               </p>
             </div>
           </section>

@@ -34,6 +34,7 @@ export interface Project {
   display_order: number
   status: "published"
   instagramReels?: InstagramReel[]
+  author?: string
 }
 
 export const PROJECTS: Project[] = [
@@ -392,6 +393,7 @@ export const PROJECTS: Project[] = [
     aliases: ["trends-are-a-tool-not-a-strategy"],
     name: "TRENDS ARE A TOOL, NOT A STRATEGY",
     client_name: "Sole Trust Media",
+    author: "Daksh Bhagat",
     type: "STRATEGY / SOCIAL COMMERCE / CONTENT ARCHITECTURE",
     category: "Creative Direction & Strategy",
     note: "People are watching your posts. So why aren’t they buying?",

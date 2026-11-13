@@ -185,6 +185,7 @@ const STUDIO_INSIGHTS = [
     id: "trends-vs-strategy",
     num: "01",
     category: "Brand Strategy & Commerce",
+    author: "Written by Daksh Bhagat",
     date: "Spring 2026",
     readTime: "6 min read",
     title: "Trends Are a Tool, Not a Strategy",
@@ -330,7 +331,7 @@ export default function Page() {
         } else {
           setFormError(
             data.error ||
-              "We couldn't submit your enquiry right now. Please email us directly at support@soletrustmedia.agency"
+            "We couldn't submit your enquiry right now. Please email us directly at support@soletrustmedia.agency"
           )
         }
       }
@@ -804,8 +805,8 @@ export default function Page() {
                 project.slug === "13isu"
                   ? "/work/13isu"
                   : project.slug === "trends-are-a-tool"
-                  ? "/work/trends-are-a-tool"
-                  : project.link || `/work/${project.slug}`
+                    ? "/work/trends-are-a-tool"
+                    : project.link || `/work/${project.slug}`
               const isExternal = Boolean(project.link && !targetUrl.startsWith("/work/"))
 
               return (
@@ -1065,7 +1066,9 @@ export default function Page() {
               <div className="spotlight-badge" style={{ background: "var(--brown)" }}>
                 STRATEGIC FRAMEWORK &amp; ESSAY
               </div>
-              <span className="selected-card-type">CONTENT ARCHITECTURE &amp; SOCIAL COMMERCE</span>
+              <span className="selected-card-type">
+                CONTENT ARCHITECTURE &amp; SOCIAL COMMERCE · WRITTEN BY DAKSH BHAGAT
+              </span>
               <h3>Trends Are a Tool, Not a Strategy</h3>
               <div className="spotlight-metric">
                 <strong>Enquiries &gt; Views</strong>
@@ -1114,6 +1117,22 @@ export default function Page() {
                 </div>
                 <div className="insight-content">
                   <h3>{insight.title}</h3>
+                  {insight.author && (
+                    <span
+                      style={{
+                        display: "inline-block",
+                        fontFamily: "var(--font-utility)",
+                        fontSize: "10.5px",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: "var(--brown)",
+                        fontWeight: 600,
+                        margin: "4px 0 6px",
+                      }}
+                    >
+                      {insight.author}
+                    </span>
+                  )}
                   <p>{insight.deck}</p>
                 </div>
                 <div className="insight-arrow" aria-hidden="true">
