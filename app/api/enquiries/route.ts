@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import nodemailer from 'nodemailer'
 
 const TARGET_NOTIFICATION_EMAIL =
   process.env.CONTACT_NOTIFICATION_EMAIL || 'soletrustmedia@gmail.com'
@@ -110,7 +111,36 @@ async function dispatchEmailNotification(data: EnquiryData, submittedAt: string)
   const targetEmail = TARGET_NOTIFICATION_EMAIL
   let delivered = false
 
-  // 1. Resend API (if RESEND_API_KEY is configured in environment)
+  // 1. Direct Gmail / SMTP via Nodemailer (Zero external third parties or activation links)
+  const gmailPass = process.env.GMAIL_APP_PASSWORD || process.env.SMTP_PASS
+  if (gmailPass) {
+    try {
+      const gmailUser = process.env.GMAIL_USER || 'soletrustmedia@gmail.com'
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: gmailUser,
+          pass: gmailPass,
+        },
+      })
+
+      await transporter.sendMail({
+        from: `"Sole Trust Media Inquiries" <${gmailUser}>`,
+        to: targetEmail,
+        replyTo: data.email,
+        subject: `[New Project Query] ${data.full_name}${data.company_name ? ` (${data.company_name})` : ''} — ${data.budget || 'Custom Scope'}`,
+        html: buildHtmlEmail(data, submittedAt),
+        text: `New Project Query from ${data.full_name}\nEmail: ${data.email}\nPhone: ${data.phone || 'N/A'}\nCompany: ${data.company_name || 'N/A'}\nBudget: ${data.budget || 'N/A'}\nServices: ${(data.services_required || []).join(', ')}\n\nDescription:\n${data.project_description}`,
+      })
+
+      console.info(`[EMAIL DISPATCH]: Direct Gmail SMTP delivered to ${targetEmail}`)
+      return true
+    } catch (err) {
+      console.warn('[EMAIL DISPATCH]: Gmail SMTP delivery error:', err)
+    }
+  }
+
+  // 2. Resend API (if RESEND_API_KEY is configured in environment)
   const resendApiKey = process.env.RESEND_API_KEY
   if (resendApiKey) {
     try {
