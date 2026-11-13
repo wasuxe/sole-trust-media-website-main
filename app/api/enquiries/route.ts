@@ -140,11 +140,12 @@ async function dispatchEmailNotification(data: EnquiryData, submittedAt: string)
     }
   }
 
-  // 2. Resend API (if RESEND_API_KEY is configured in environment)
+  // 2. Resend API (primary enterprise transactional email dispatcher)
   const resendApiKey = process.env.RESEND_API_KEY
   if (resendApiKey) {
     try {
-      const fromEmail = process.env.RESEND_FROM_EMAIL || 'Sole Trust Media <onboarding@resend.dev>'
+      const fromEmail =
+        process.env.RESEND_FROM_EMAIL || 'Sole Trust Media <onboarding@resend.dev>'
       const resendRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -168,6 +169,39 @@ async function dispatchEmailNotification(data: EnquiryData, submittedAt: string)
       } else {
         const errorText = await resendRes.text()
         console.warn(`[EMAIL DISPATCH]: Resend returned status ${resendRes.status}: ${errorText}`)
+
+        // If domain is unverified on Resend free tier, route to account owner address
+        const fallbackOwnerEmail =
+          process.env.RESEND_OWNER_EMAIL || 'dakshbhagat37@gmail.com'
+        if (
+          errorText.includes(fallbackOwnerEmail) ||
+          resendRes.status === 403 ||
+          errorText.includes('testing emails')
+        ) {
+          const ownerRes = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${resendApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: fromEmail,
+              to: [fallbackOwnerEmail],
+              reply_to: data.email,
+              subject: `[STM Lead for ${targetEmail}] ${data.full_name}${data.company_name ? ` (${data.company_name})` : ''}`,
+              html: buildHtmlEmail(data, submittedAt),
+              text: `New Project Query for ${targetEmail}\nFrom: ${data.full_name}\nEmail: ${data.email}\nPhone: ${data.phone || 'N/A'}\nCompany: ${data.company_name || 'N/A'}\nBudget: ${data.budget || 'N/A'}\nServices: ${(data.services_required || []).join(', ')}\n\nDescription:\n${data.project_description}`,
+            }),
+          })
+
+          if (ownerRes.ok) {
+            delivered = true
+            console.info(
+              `[EMAIL DISPATCH]: Delivered via Resend to verified account owner ${fallbackOwnerEmail}`
+            )
+            return true
+          }
+        }
       }
     } catch (err) {
       console.warn('[EMAIL DISPATCH]: Resend delivery error:', err)
