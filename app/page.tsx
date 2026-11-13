@@ -249,6 +249,66 @@ export default function Page() {
   const [formError, setFormError] = useState<string | null>(null)
   const [workFilter, setWorkFilter] = useState<string>("All")
   const [submittedInfo, setSubmittedInfo] = useState<{ fullName: string; mailtoUrl: string } | null>(null)
+  const [projectsList, setProjectsList] = useState<Project[]>(PROJECTS)
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadSupabaseProjects() {
+      try {
+        const client = getSupabaseBrowserClient()
+        const { data, error } = await client
+          .from("projects")
+          .select("*")
+          .eq("status", "published")
+          .order("display_order", { ascending: true })
+
+        if (!error && data && data.length > 0) {
+          const mapped: Project[] = data.map((item: Record<string, unknown>, idx: number) => {
+            const staticMatch = PROJECTS.find((sp) => sp.slug === String(item.slug || ""))
+            if (staticMatch) {
+              return {
+                ...staticMatch,
+                name: String(item.title || item.name || staticMatch.name),
+                client_name: String(item.client_name || staticMatch.client_name || ""),
+                category: String(item.category || staticMatch.category),
+                description: String(item.description || item.short_description || staticMatch.description),
+                cover_image: String(item.cover_image || staticMatch.cover_image),
+                featured: Boolean(item.featured ?? staticMatch.featured),
+                display_order: Number(item.display_order ?? staticMatch.display_order ?? idx),
+              }
+            }
+            return {
+              slug: String(item.slug || `project-${idx}`),
+              name: String(item.title || item.name || "Untitled Project"),
+              type: String(item.type || item.category || "Creative Direction"),
+              category: String(item.category || "Selected Work"),
+              note: String(item.note || ""),
+              description: String(item.description || item.short_description || ""),
+              services: Array.isArray(item.services) ? (item.services as string[]) : [],
+              images: Array.isArray(item.images) ? (item.images as string[]) : [String(item.cover_image || "/placeholder.jpg")],
+              cover_image: String(item.cover_image || "/placeholder.jpg"),
+              marker: String(item.marker || "01"),
+              tag: "CLIENT WORK" as const,
+              cta: "VIEW PROJECT" as const,
+              tags: Array.isArray(item.tags) ? (item.tags as string[]) : [String(item.category || "Work")],
+              featured: Boolean(item.featured ?? false),
+              display_order: Number(item.display_order ?? idx),
+              status: "published" as const,
+            }
+          })
+          if (isMounted) setProjectsList(mapped)
+        }
+      } catch {
+        // Keep static fallback
+      }
+    }
+
+    loadSupabaseProjects()
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -361,8 +421,8 @@ export default function Page() {
     }
   }
 
-  // Filter projects for the portfolio section
-  const filteredProjects = PROJECTS.filter((p) => {
+  // Filter projects for the portfolio section (loaded dynamically from Supabase with fallback)
+  const filteredProjects = projectsList.filter((p) => {
     if (workFilter === "All") return true
     const text = `${p.name} ${p.category} ${p.type} ${p.tags.join(" ")}`.toLowerCase()
     if (workFilter === "Digital & Web") return /\b(web|website|digital|platform|portal)\b/i.test(text)
