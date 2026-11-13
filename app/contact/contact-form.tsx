@@ -32,7 +32,11 @@ export default function ContactForm() {
   const [formError, setFormError] = useState('')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [budget, setBudget] = useState<string>('')
-  const [submittedInfo, setSubmittedInfo] = useState<{ fullName: string; mailtoUrl: string } | null>(null)
+  const [submittedInfo, setSubmittedInfo] = useState<{
+    fullName: string
+    mailtoUrl: string
+    gmailWebUrl: string
+  } | null>(null)
 
   function toggleService(service: string) {
     setSelectedServices((prev) =>
@@ -67,6 +71,7 @@ export default function ContactForm() {
       `Regards,\n${fullName}`
     )
     const mailtoUrl = `mailto:soletrustmedia@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`
+    const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soletrustmedia@gmail.com&su=${mailtoSubject}&body=${mailtoBody}`
 
     const payload = {
       full_name: fullName,
@@ -90,11 +95,11 @@ export default function ContactForm() {
       if (!res.ok) {
         setFormError(data.error || "We couldn't send that. Please email us directly at soletrustmedia@gmail.com.")
       } else {
-        setSubmittedInfo({ fullName, mailtoUrl })
+        setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
         setSent(true)
       }
     } catch {
-      setSubmittedInfo({ fullName, mailtoUrl })
+      setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
       setSent(true)
     }
 
@@ -143,14 +148,23 @@ export default function ContactForm() {
             <p style={{ margin: '0 0 24px', color: 'var(--beige)', fontSize: 15, lineHeight: 1.6 }}>
               Our strategy directors have received your enquiry and will respond within 24 business hours.
             </p>
-            {submittedInfo?.mailtoUrl && (
+            {submittedInfo && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(243, 235, 221, 0.15)' }}>
                 <a
-                  href={submittedInfo.mailtoUrl}
+                  href={submittedInfo.gmailWebUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="button button-light"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', fontSize: 11, letterSpacing: '0.08em' }}
                 >
-                  <Mail size={13} /> Open / Send via Email App
+                  <Mail size={13} /> Send via Gmail (Web)
+                </a>
+                <a
+                  href={submittedInfo.mailtoUrl}
+                  className="button button-dark"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', fontSize: 11, letterSpacing: '0.08em' }}
+                >
+                  <ArrowUpRight size={13} /> Open in Mail App
                 </a>
                 <button
                   type="button"

@@ -248,7 +248,11 @@ export default function Page() {
   const [sent, setSent] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [workFilter, setWorkFilter] = useState<string>("All")
-  const [submittedInfo, setSubmittedInfo] = useState<{ fullName: string; mailtoUrl: string } | null>(null)
+  const [submittedInfo, setSubmittedInfo] = useState<{
+    fullName: string
+    mailtoUrl: string
+    gmailWebUrl: string
+  } | null>(null)
   const [projectsList, setProjectsList] = useState<Project[]>(PROJECTS)
 
   useEffect(() => {
@@ -370,6 +374,7 @@ export default function Page() {
       `Regards,\n${fullName}`
     )
     const mailtoUrl = `mailto:soletrustmedia@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`
+    const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soletrustmedia@gmail.com&su=${mailtoSubject}&body=${mailtoBody}`
 
     try {
       const enquiryPayload = {
@@ -389,7 +394,7 @@ export default function Page() {
       })
 
       if (res.ok) {
-        setSubmittedInfo({ fullName, mailtoUrl })
+        setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
         setSent(true)
         setSelectedServices([])
         event.currentTarget.reset()
@@ -402,7 +407,7 @@ export default function Page() {
           .insert(enquiryPayload as never)
 
         if (!enquiriesError) {
-          setSubmittedInfo({ fullName, mailtoUrl })
+          setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
           setSent(true)
           setSelectedServices([])
           event.currentTarget.reset()
@@ -414,7 +419,7 @@ export default function Page() {
         }
       }
     } catch {
-      setSubmittedInfo({ fullName, mailtoUrl })
+      setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
       setSent(true)
     } finally {
       setSubmitting(false)
@@ -1280,14 +1285,23 @@ export default function Page() {
                 <p style={{ margin: "0 0 20px", color: "var(--beige)", fontSize: "15px", lineHeight: 1.6 }}>
                   Your project enquiry has been safely received and dispatched to our directors at <strong>soletrustmedia@gmail.com</strong>. We will review your requirements and reach out within 24 business hours.
                 </p>
-                {submittedInfo?.mailtoUrl && (
+                {submittedInfo && (
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px", paddingTop: "24px", borderTop: "1px solid rgba(243, 235, 221, 0.15)" }}>
                     <a
-                      href={submittedInfo.mailtoUrl}
+                      href={submittedInfo.gmailWebUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="button button-light"
                       style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
                     >
-                      <Mail size={13} /> Open / Send via Email App
+                      <Mail size={13} /> Send via Gmail (Web)
+                    </a>
+                    <a
+                      href={submittedInfo.mailtoUrl}
+                      className="button button-dark"
+                      style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
+                    >
+                      <ArrowUpRight size={13} /> Open in Mail App
                     </a>
                     <button
                       type="button"
