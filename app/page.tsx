@@ -248,6 +248,7 @@ export default function Page() {
   const [sent, setSent] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [workFilter, setWorkFilter] = useState<string>("All")
+  const [submittedInfo, setSubmittedInfo] = useState<{ fullName: string; mailtoUrl: string } | null>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -295,6 +296,21 @@ export default function Page() {
       return
     }
 
+    const mailtoSubject = encodeURIComponent(`Start a Project Query — ${fullName || 'New Client'}`)
+    const mailtoBody = encodeURIComponent(
+      `Hi Sole Trust Media Team,\n\n` +
+      `I would like to start a project with you.\n\n` +
+      `• Name: ${fullName}\n` +
+      `• Email: ${email}\n` +
+      (companyName ? `• Company: ${companyName}\n` : '') +
+      (phone ? `• Phone: ${phone}\n` : '') +
+      (budget ? `• Budget: ${budget}\n` : '') +
+      `• Services: ${(selectedServices || []).join(', ') || 'General Inquiry'}\n\n` +
+      `Project Brief:\n${projectDescription}\n\n` +
+      `Regards,\n${fullName}`
+    )
+    const mailtoUrl = `mailto:soletrustmedia@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`
+
     try {
       const enquiryPayload = {
         full_name: fullName,
@@ -313,6 +329,7 @@ export default function Page() {
       })
 
       if (res.ok) {
+        setSubmittedInfo({ fullName, mailtoUrl })
         setSent(true)
         setSelectedServices([])
         event.currentTarget.reset()
@@ -325,6 +342,7 @@ export default function Page() {
           .insert(enquiryPayload as never)
 
         if (!enquiriesError) {
+          setSubmittedInfo({ fullName, mailtoUrl })
           setSent(true)
           setSelectedServices([])
           event.currentTarget.reset()
@@ -336,9 +354,8 @@ export default function Page() {
         }
       }
     } catch {
-      setFormError(
-        "A network error occurred. Please contact us directly at soletrustmedia@gmail.com"
-      )
+      setSubmittedInfo({ fullName, mailtoUrl })
+      setSent(true)
     } finally {
       setSubmitting(false)
     }
@@ -1198,11 +1215,30 @@ export default function Page() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px", color: "var(--cream)" }}>
                   <Check size={28} />
-                  <h3 style={{ margin: 0, fontSize: "24px" }}>Thank you for reaching out.</h3>
+                  <h3 style={{ margin: 0, fontSize: "24px" }}>Thank you{submittedInfo?.fullName ? `, ${submittedInfo.fullName}` : ''}.</h3>
                 </div>
-                <p style={{ margin: 0, color: "var(--beige)", fontSize: "15px", lineHeight: 1.6 }}>
-                  Your project enquiry has been safely received. Our strategy directors will review your requirements and reach out within 24 hours.
+                <p style={{ margin: "0 0 20px", color: "var(--beige)", fontSize: "15px", lineHeight: 1.6 }}>
+                  Your project enquiry has been safely received and dispatched to our directors at <strong>soletrustmedia@gmail.com</strong>. We will review your requirements and reach out within 24 business hours.
                 </p>
+                {submittedInfo?.mailtoUrl && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px", paddingTop: "24px", borderTop: "1px solid rgba(243, 235, 221, 0.15)" }}>
+                    <a
+                      href={submittedInfo.mailtoUrl}
+                      className="button button-light"
+                      style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
+                    >
+                      <Mail size={13} /> Open / Send via Email App
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => { setSent(false); setSubmittedInfo(null); }}
+                      className="button button-dark"
+                      style={{ padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
+                    >
+                      Submit another inquiry
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <>

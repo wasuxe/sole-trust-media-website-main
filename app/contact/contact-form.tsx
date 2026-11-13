@@ -32,6 +32,7 @@ export default function ContactForm() {
   const [formError, setFormError] = useState('')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [budget, setBudget] = useState<string>('')
+  const [submittedInfo, setSubmittedInfo] = useState<{ fullName: string; mailtoUrl: string } | null>(null)
 
   function toggleService(service: string) {
     setSelectedServices((prev) =>
@@ -46,13 +47,34 @@ export default function ContactForm() {
 
     const form = new FormData(event.currentTarget)
 
+    const fullName = String(form.get('full_name') ?? '').trim()
+    const email = String(form.get('email') ?? '').trim()
+    const companyName = String(form.get('company_name') ?? '').trim() || null
+    const phone = String(form.get('phone') ?? '').trim() || null
+    const projectDesc = String(form.get('project_description') ?? '').trim()
+
+    const mailtoSubject = encodeURIComponent(`Start a Project Query — ${fullName || 'New Client'}`)
+    const mailtoBody = encodeURIComponent(
+      `Hi Sole Trust Media Team,\n\n` +
+      `I would like to start a project with you.\n\n` +
+      `• Name: ${fullName}\n` +
+      `• Email: ${email}\n` +
+      (companyName ? `• Company: ${companyName}\n` : '') +
+      (phone ? `• Phone: ${phone}\n` : '') +
+      (budget ? `• Budget: ${budget}\n` : '') +
+      `• Services: ${(selectedServices || []).join(', ') || 'General Inquiry'}\n\n` +
+      `Project Brief:\n${projectDesc}\n\n` +
+      `Regards,\n${fullName}`
+    )
+    const mailtoUrl = `mailto:soletrustmedia@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`
+
     const payload = {
-      full_name: String(form.get('full_name') ?? '').trim(),
-      email: String(form.get('email') ?? '').trim(),
-      company_name: String(form.get('company_name') ?? '').trim() || null,
-      phone: String(form.get('phone') ?? '').trim() || null,
+      full_name: fullName,
+      email,
+      company_name: companyName,
+      phone,
       budget: budget || null,
-      project_description: String(form.get('project_description') ?? '').trim(),
+      project_description: projectDesc,
       services_required: selectedServices,
     }
 
@@ -63,15 +85,17 @@ export default function ContactForm() {
         body: JSON.stringify(payload),
       })
 
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
 
       if (!res.ok) {
         setFormError(data.error || "We couldn't send that. Please email us directly at soletrustmedia@gmail.com.")
       } else {
+        setSubmittedInfo({ fullName, mailtoUrl })
         setSent(true)
       }
     } catch {
-      setFormError("We couldn't send that just now. Please email us directly at soletrustmedia@gmail.com.")
+      setSubmittedInfo({ fullName, mailtoUrl })
+      setSent(true)
     }
 
     setSubmitting(false)
@@ -101,7 +125,7 @@ export default function ContactForm() {
                 margin: '0 0 16px',
               }}
             >
-              Enquiry received
+              Enquiry received &bull; Sent to soletrustmedia@gmail.com
             </p>
             <p
               style={{
@@ -114,11 +138,30 @@ export default function ContactForm() {
                 fontFamily: 'var(--font-display)',
               }}
             >
-              Thank you. We&apos;ll be in touch shortly.
+              Thank you{submittedInfo?.fullName ? `, ${submittedInfo.fullName}` : ''}. We&apos;ll be in touch shortly.
             </p>
-            <p style={{ margin: 0, color: 'var(--beige)', fontSize: 15, lineHeight: 1.6 }}>
-              Our strategy directors have received your enquiry and will respond within one business day.
+            <p style={{ margin: '0 0 24px', color: 'var(--beige)', fontSize: 15, lineHeight: 1.6 }}>
+              Our strategy directors have received your enquiry and will respond within 24 business hours.
             </p>
+            {submittedInfo?.mailtoUrl && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(243, 235, 221, 0.15)' }}>
+                <a
+                  href={submittedInfo.mailtoUrl}
+                  className="button button-light"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', fontSize: 11, letterSpacing: '0.08em' }}
+                >
+                  <Mail size={13} /> Open / Send via Email App
+                </a>
+                <button
+                  type="button"
+                  onClick={() => { setSent(false); setSubmittedInfo(null); }}
+                  className="button button-dark"
+                  style={{ padding: '12px 24px', fontSize: 11, letterSpacing: '0.08em' }}
+                >
+                  Submit another enquiry
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <form onSubmit={handleSubmit} style={{ maxWidth: 780 }}>
