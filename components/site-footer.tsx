@@ -105,7 +105,7 @@ export default function SiteFooter() {
               </svg>
             </a>
             <a
-              href="http://www.linkedin.com/in/sole-trust-media-56820a423"
+              href="https://www.linkedin.com/in/sole-trust-media-56820a423"
               aria-label="LinkedIn"
               target="_blank"
               rel="noopener noreferrer"
