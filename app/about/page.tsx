@@ -32,10 +32,11 @@ const team: {
   },
   {
     number: '02',
-    name: 'Daksh Bahagat',
-    role: 'Co-Founder & Marketing Head',
-    bio: 'Leading marketing and growth strategies, Daksh focuses on brand positioning, audience engagement and building meaningful connections between businesses and their audiences. His approach combines strategic thinking with creative marketing execution.',
-    image: '/assets/daksh-bahagat.png',
+    name: 'Daksh Bhagat',
+    role: 'Co-Founder & Creative & Marketing Director',
+    bio: 'Leading creative direction, marketing, and growth strategies, Daksh focuses on brand positioning, audience engagement and building meaningful connections between businesses and their audiences. His approach combines strategic thinking with creative marketing execution.',
+    founder: true,
+    image: '/assets/daksh-bhagat.png',
   },
   {
     number: '03',
