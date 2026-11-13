@@ -243,8 +243,8 @@ export default function ServicesPage() {
           className="contact-details"
           style={{ maxWidth: 1100, margin: 'auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px', fontSize: '12px', fontFamily: 'var(--font-utility)' }}
         >
-          <a href="mailto:support@soletrustmedia.agency" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'inherit' }}>
-            <Mail size={14} /> support@soletrustmedia.agency
+          <a href="mailto:soletrustmedia@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'inherit' }}>
+            <Mail size={14} /> soletrustmedia@gmail.com
           </a>
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <MapPin size={14} /> 560066, Whitefield, Bengaluru, India

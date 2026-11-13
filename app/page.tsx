@@ -331,13 +331,13 @@ export default function Page() {
         } else {
           setFormError(
             data.error ||
-            "We couldn't submit your enquiry right now. Please email us directly at support@soletrustmedia.agency"
+            "We couldn't submit your enquiry right now. Please email us directly at soletrustmedia@gmail.com"
           )
         }
       }
     } catch {
       setFormError(
-        "A network error occurred. Please contact us directly at support@soletrustmedia.agency"
+        "A network error occurred. Please contact us directly at soletrustmedia@gmail.com"
       )
     } finally {
       setSubmitting(false)
@@ -1419,8 +1419,8 @@ export default function Page() {
               fontFamily: "var(--font-utility)",
             }}
           >
-            <a href="mailto:support@soletrustmedia.agency" style={{ display: "flex", alignItems: "center", gap: "8px", color: "inherit" }}>
-              <Mail size={14} /> support@soletrustmedia.agency
+            <a href="mailto:soletrustmedia@gmail.com" style={{ display: "flex", alignItems: "center", gap: "8px", color: "inherit" }}>
+              <Mail size={14} /> soletrustmedia@gmail.com
             </a>
             <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <MapPin size={14} /> 560066, Whitefield, Bengaluru, India

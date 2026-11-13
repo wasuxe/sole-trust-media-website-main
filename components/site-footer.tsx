@@ -80,19 +80,33 @@ export default function SiteFooter() {
           <p style={{ fontSize: '14px', lineHeight: 1.6, color: 'var(--beige)', margin: '0 0 16px' }}>
             Ready to build something enduring? Let&apos;s start a conversation.
           </p>
-          <Link
-            href="/contact"
-            className="button button-light"
-            style={{
-              display: 'inline-flex',
-              padding: '12px 22px',
-              fontSize: '11px',
-              borderRadius: '999px',
-              marginBottom: '24px',
-            }}
-          >
-            Start a Project <ArrowUpRight size={13} />
-          </Link>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+            <Link
+              href="/contact"
+              className="button button-light"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 22px',
+                fontSize: '11px',
+                borderRadius: '999px',
+                width: 'fit-content',
+              }}
+            >
+              Start a Project <ArrowUpRight size={13} />
+            </Link>
+            <a
+              href="mailto:soletrustmedia@gmail.com"
+              style={{
+                fontSize: '13px',
+                color: 'var(--beige)',
+                textDecoration: 'none',
+              }}
+            >
+              soletrustmedia@gmail.com
+            </a>
+          </div>
           <div className="socials" style={{ display: 'flex', gap: '16px' }}>
             <a
               href="https://www.instagram.com/soletrustmedia?xtok=ZzF4MXZoMDdwYjI4"

@@ -66,12 +66,12 @@ export default function ContactForm() {
       const data = await res.json()
 
       if (!res.ok) {
-        setFormError(data.error || "We couldn't send that. Please email us directly.")
+        setFormError(data.error || "We couldn't send that. Please email us directly at soletrustmedia@gmail.com.")
       } else {
         setSent(true)
       }
     } catch {
-      setFormError("We couldn't send that just now. Please email us directly instead.")
+      setFormError("We couldn't send that just now. Please email us directly at soletrustmedia@gmail.com.")
     }
 
     setSubmitting(false)
@@ -253,8 +253,8 @@ export default function ContactForm() {
         )}
 
         <div className="contact-details" style={{ borderTop: '1px solid rgba(243, 235, 221, 0.12)', paddingTop: 36, marginTop: 80 }}>
-          <a href="mailto:support@soletrustmedia.agency" style={{ color: 'inherit' }}>
-            <Mail size={14} /> support@soletrustmedia.agency
+          <a href="mailto:soletrustmedia@gmail.com" style={{ color: 'inherit' }}>
+            <Mail size={14} /> soletrustmedia@gmail.com
           </a>
           <span>
             <MapPin size={14} /> 560066, Whitefield, Bengaluru, India
