@@ -933,7 +933,82 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION H: DOCUMENTED CRAFT. REAL RESULTS.
+          SECTION H: CLIENT TESTIMONIALS
+          ==================================================================== */}
+      <section className="testimonials-section section-grid" id="testimonials">
+        <div className="section-label">06 / Client Notes</div>
+        <div className="intro-content">
+          <div className="section-heading reveal">
+            <div>
+              <p className="eyebrow">CLIENT NOTES / 01—03</p>
+              <h2>
+                GOOD WORK.<br />
+                <i>GOOD WORDS.</i>
+              </h2>
+            </div>
+            <p>A few kind words from the people we’ve had the pleasure of working with.</p>
+          </div>
+
+          <div className="testimonials-grid reveal">
+            <article className="testimonial-card">
+              <div className="testimonial-card-meta">
+                <span>01 / TESTIMONIAL</span>
+                <span>WEBSITE + GROWTH</span>
+              </div>
+              <blockquote>
+                “You designed a very professional and user-friendly website for us with all the key features we needed — crop release directions, farmer marketplace, market analysis tools, and many other useful sections.”
+              </blockquote>
+              <div className="testimonial-takeaway">
+                <span>THE TAKEAWAY</span>
+                <p>A purpose-built digital experience bringing essential agricultural resources and market tools together in one clear, user-friendly place.</p>
+              </div>
+              <div className="testimonial-client">
+                <span aria-hidden="true">F</span>
+                <strong>FARMLYTICS</strong>
+              </div>
+            </article>
+
+            <article className="testimonial-card">
+              <div className="testimonial-card-meta">
+                <span>02 / TESTIMONIAL</span>
+                <span>WEBSITE + CONTENT</span>
+              </div>
+              <blockquote>
+                “The website demo you created looks very professional and exactly like what we discussed. The reel you made is also excellent and captures our brand well.”
+              </blockquote>
+              <div className="testimonial-takeaway">
+                <span>THE TAKEAWAY</span>
+                <p>Thoughtful execution across both web and video, with the work staying true to the brief and the client’s brand.</p>
+              </div>
+              <div className="testimonial-client">
+                <span aria-hidden="true">V</span>
+                <strong>VIVEK / EXAM PREP</strong>
+              </div>
+            </article>
+
+            <article className="testimonial-card">
+              <div className="testimonial-card-meta">
+                <span>03 / TESTIMONIAL</span>
+                <span>BRANDING + MARKETING</span>
+              </div>
+              <blockquote>
+                “You understood our vision really well and put in a lot of effort to bring it to life.”
+              </blockquote>
+              <div className="testimonial-takeaway">
+                <span>THE TAKEAWAY</span>
+                <p>A note about a collaborative process: keeping the client’s vision at the heart of their branding and marketing.</p>
+              </div>
+              <div className="testimonial-client">
+                <span aria-hidden="true">1</span>
+                <strong>13ISU</strong>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          SECTION I: DOCUMENTED CRAFT. REAL RESULTS.
           ==================================================================== */}
       <section className="featured-case-section section-grid" id="case-studies">
         <div className="section-label">07 / Documented Results</div>
@@ -1020,7 +1095,7 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION I: INSIGHTS (MAGAZINE-STYLE EDITORIAL CONTENT)
+          SECTION J: INSIGHTS (MAGAZINE-STYLE EDITORIAL CONTENT)
           ==================================================================== */}
       <section className="insights-section section-grid" id="insights">
         <div className="section-label">08 / Studio Insights</div>
@@ -1057,7 +1132,7 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION J: FINAL CTA & ENQUIRY STUDIO
+          SECTION K: FINAL CTA & ENQUIRY STUDIO
           ==================================================================== */}
       <section className="contact" id="contact" style={{ background: "var(--dark)", color: "var(--cream)", padding: "160px 4vw" }}>
         <div className="contact-inner" style={{ maxWidth: "1100px", margin: "0 auto" }}>
