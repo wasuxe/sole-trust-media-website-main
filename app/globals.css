@@ -9983,3 +9983,337 @@ main.site-shell {
     font-size: clamp(1.75rem, 8.2vw, 3.2rem) !important;
   }
 }
+
+
+/* ==========================================================================
+   FULL-SITE PAGE-BY-PAGE MOBILE AUDIT POLISH (< 768px ONLY)
+   Desktop & Laptop (>= 768px) layout remains untouched.
+   ========================================================================== */
+.stm-drawer-mobile-back {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* 1. Zero Horizontal Overflow Guard on Every Top-Level Section */
+  html,
+  body,
+  main.site-shell,
+  main.site-shell > section {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Standardized crisp mobile section spacing (py-12 px-5) */
+  .manifesto-editorial-section,
+  .showcase-espresso-section,
+  .stm-cap-section,
+  .diagnostic-espresso-band,
+  .transformation-parchment-band,
+  .stm-insights-editorial-band,
+  .stm-configurator-section,
+  .portfolio-section,
+  .contact {
+    padding: 48px 20px !important;
+  }
+
+  /* 2. Homepage Hero & Manifesto Mobile Refinement */
+  .hero-headline {
+    font-size: clamp(2.05rem, 8.6vw, 2.25rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .manifesto-wireframe-overlay {
+    display: none !important;
+  }
+
+  .manifesto-visual-frame {
+    border-radius: 18px !important;
+    overflow: hidden;
+  }
+
+  .manifesto-visual-frame img {
+    aspect-ratio: 4 / 3 !important;
+    border-radius: 16px;
+  }
+
+  /* 3. Work Archive (/work) Mobile Polish */
+  .work-hero-espresso {
+    padding: 96px 20px 40px !important;
+  }
+
+  .work-hero-espresso-title {
+    font-size: clamp(2.2rem, 9vw, 3.4rem) !important;
+    line-height: 0.96 !important;
+  }
+
+  /* Single-row horizontally scrollable filter pills (no messy 3-row wrap) */
+  .showcase-filter-pills {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px !important;
+    padding-bottom: 10px !important;
+    margin: 0 -20px 20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    scrollbar-width: none;
+  }
+
+  .showcase-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .showcase-filter-pills .showcase-pill-btn {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 8px 14px !important;
+    min-height: 38px !important;
+    font-size: 10.5px !important;
+  }
+
+  .stm-spotlight-card {
+    padding: 20px !important;
+    border-radius: 18px !important;
+  }
+
+  /* Mobile Case Study Sheet Header: <- BACK TO WORK + X CLOSE */
+  .stm-drawer-desktop-kicker {
+    display: none !important;
+  }
+
+  .stm-drawer-mobile-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    padding: 6px 2px;
+    color: var(--accent-gold);
+    font-family: var(--font-utility);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+  }
+
+  /* 4. Capabilities (/services) Alternating Parchment & Espresso Mobile Pillar Cards */
+  .stm-mobile-pillar-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .stm-mobile-pillar-card {
+    border-radius: 18px;
+    padding: 4px 16px;
+    transition: background 0.2s ease;
+  }
+
+  .stm-mobile-pillar-card.tone-parchment {
+    background: var(--bg-parchment-alt);
+    color: var(--text-ink);
+    border: 1px solid var(--border-hairline);
+  }
+
+  .stm-mobile-pillar-card.tone-espresso {
+    background: var(--bg-espresso);
+    color: var(--text-cream);
+    border: 1px solid var(--border-hairline-dark);
+  }
+
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-trigger,
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-head strong {
+    color: var(--text-cream);
+  }
+
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-head small,
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-desc {
+    color: rgba(246, 241, 233, 0.74);
+  }
+
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-num,
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-chevron,
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-quote {
+    color: var(--accent-gold);
+    border-left-color: var(--accent-gold);
+  }
+
+  .stm-mobile-pillar-card.tone-espresso .stm-mobile-acc-pills li {
+    background: rgba(246, 241, 233, 0.08);
+    border-color: var(--border-hairline-dark);
+    color: var(--text-cream);
+  }
+
+  /* Ensure Embedded Mini-Demos fit 100% inside 335px inner card width */
+  .stm-mobile-demo-fit,
+  .stm-demo-card {
+    max-width: 100% !important;
+    overflow: hidden;
+  }
+
+  .stm-demo-card {
+    padding: 14px !important;
+  }
+
+  .stm-demo-toolbar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .stm-demo-switcher {
+    width: 100%;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .stm-demo-tab {
+    font-size: 10px !important;
+    padding: 6px 10px !important;
+    white-space: normal !important;
+    text-align: left;
+  }
+
+  .stm-dna-swatches {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Vertical Left-Lined 5-Stage Methodology Timeline on Mobile */
+  .stm-beam-track-bar {
+    display: none !important;
+  }
+
+  .stm-methodology-five-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    position: relative;
+    padding-left: 20px;
+    border-left: 1px solid rgba(197, 155, 109, 0.4);
+    margin-top: 20px !important;
+  }
+
+  .stm-methodology-five-grid .stm-methodology-node {
+    position: relative;
+    text-align: left !important;
+    padding: 16px !important;
+    border-radius: 14px !important;
+  }
+
+  .stm-methodology-five-grid .stm-methodology-node::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 22px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    border: 2px solid var(--bg-espresso);
+  }
+
+  /* 5. About Page (/about) Mobile Polish */
+  .about-overlapping-hero {
+    padding-top: 84px !important;
+  }
+
+  .about-oversized-wordmark-wrap {
+    padding: 0 16px !important;
+    margin-bottom: -0.14em !important;
+  }
+
+  .about-oversized-wordmark {
+    font-size: clamp(2.4rem, 11.5vw, 4.4rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .about-studio-photo-caption {
+    bottom: 12px !important;
+    left: 14px !important;
+    right: 14px !important;
+    padding: 8px 14px !important;
+    font-size: 8.5px !important;
+    border-radius: 14px !important;
+    gap: 6px !important;
+  }
+
+  /* Vertical Left-Lined 2025 -> 2026 Timeline on Mobile */
+  .stm-about-milestones-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    padding-left: 20px !important;
+    border-left: 1px solid rgba(197, 155, 109, 0.38);
+    margin: 24px 0 32px !important;
+  }
+
+  .stm-about-milestone-card {
+    position: relative;
+    padding: 18px !important;
+  }
+
+  .stm-about-milestone-card::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 22px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    border: 2px solid var(--bg-espresso);
+  }
+
+  .stm-about-map-svg {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+
+  /* 6. Contact Form Inputs & Compact 2-Column Mobile Footer */
+  .stm-pill-input,
+  .stm-pill-input-light {
+    min-height: 48px !important;
+    height: 48px !important;
+    font-size: 16px !important;
+  }
+
+  .stm-pill-textarea,
+  .stm-pill-textarea-light {
+    font-size: 16px !important;
+  }
+
+  .footer-espresso {
+    padding-top: 48px !important;
+  }
+
+  .stm-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 28px 20px !important;
+    padding: 0 20px 32px !important;
+  }
+
+  .stm-footer-brand,
+  .stm-footer-business {
+    grid-column: 1 / -1;
+    max-width: 100% !important;
+  }
+
+  .footer-bottom {
+    padding: 18px 20px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .footer-giant-wordmark-wrap {
+    padding: 18px 16px calc(78px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .footer-giant-wordmark {
+    font-size: clamp(1.65rem, 8.2vw, 3.2rem) !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+  }
+}

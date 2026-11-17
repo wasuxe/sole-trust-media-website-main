@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { ArrowRight, ArrowUpRight, Quote, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, Quote, X } from 'lucide-react'
 import { useSound } from '@/components/sound-provider'
 
 export interface CaseDrawerProject {
@@ -263,8 +263,17 @@ export default function CaseStudyDrawer({
             borderBottom: '1px solid var(--border-hairline-dark)',
           }}
         >
+          <button
+            type="button"
+            onClick={onClose}
+            className="stm-drawer-mobile-back"
+            aria-label="Back to work"
+          >
+            <ArrowLeft size={14} />
+            <span>BACK TO WORK</span>
+          </button>
           <span
-            className="editorial-label"
+            className="editorial-label stm-drawer-desktop-kicker"
             style={{
               fontSize: '10px',
               color: 'var(--accent-gold)',
@@ -580,7 +589,7 @@ export default function CaseStudyDrawer({
                 onBuildLikeThis(enriched.mappedServices, project.name)
               }}
             >
-              Start a Similar Project <ArrowRight size={14} />
+              Build Something Like This <ArrowRight size={14} />
             </button>
 
             <a

@@ -20,11 +20,15 @@ export default function ServicesMobileAccordion({ pillars }: { pillars: MobileSe
   const { playWarmClick } = useSound()
 
   return (
-    <div className="stm-mobile-accordion-list">
+    <div className="stm-mobile-pillar-stack">
       {pillars.map((pillar, idx) => {
         const isOpen = idx === openIndex
+        const isDark = idx % 2 === 1
         return (
-          <div key={pillar.index} className={`stm-mobile-acc-item ${isOpen ? 'is-open' : ''}`}>
+          <div
+            key={pillar.index}
+            className={`stm-mobile-pillar-card ${isDark ? 'tone-espresso' : 'tone-parchment'} ${isOpen ? 'is-open' : ''}`}
+          >
             <button
               type="button"
               className="stm-mobile-acc-trigger"
@@ -51,7 +55,7 @@ export default function ServicesMobileAccordion({ pillars }: { pillars: MobileSe
                   ))}
                 </ul>
                 {pillar.hasDemo && (
-                  <div style={{ marginTop: '14px' }}>
+                  <div className="stm-mobile-demo-fit" style={{ marginTop: '14px' }}>
                     <CapabilityMiniDemo pillarIndex={pillar.index} />
                   </div>
                 )}

@@ -252,6 +252,7 @@ export default function AboutPage() {
 
           <MotionWrapper delay={0.08}>
             <div
+              className="stm-about-milestones-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -262,6 +263,7 @@ export default function AboutPage() {
               {milestones.map((m) => (
                 <div
                   key={m.year}
+                  className="stm-about-milestone-card"
                   style={{
                     padding: '24px',
                     borderRadius: '18px',
@@ -291,6 +293,7 @@ export default function AboutPage() {
             <div className="about-timeline-map-card" style={{ marginTop: 0 }}>
               <div>
                 <svg
+                  className="stm-about-map-svg"
                   viewBox="0 0 640 300"
                   width="100%"
                   height="auto"

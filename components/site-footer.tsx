@@ -14,6 +14,7 @@ export default function SiteFooter() {
       }}
     >
       <div
+        className="stm-footer-grid"
         style={{
           maxWidth: '1360px',
           margin: '0 auto',
@@ -23,7 +24,7 @@ export default function SiteFooter() {
           gap: '36px',
         }}
       >
-        <div style={{ maxWidth: '340px' }}>
+        <div className="stm-footer-brand" style={{ maxWidth: '340px' }}>
           <Link className="wordmark footer-mark brand-logo" href="/" aria-label="Sole Trust Media home">
             <img
               src="/assets/logo/logo-white.png"
@@ -50,7 +51,7 @@ export default function SiteFooter() {
           </span>
         </div>
 
-        <div>
+        <div className="stm-footer-nav">
           <span
             className="editorial-label"
             style={{ fontSize: '10px', color: 'var(--beige)', display: 'block', marginBottom: '18px' }}
@@ -67,7 +68,7 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div>
+        <div className="stm-footer-caps">
           <span
             className="editorial-label"
             style={{ fontSize: '10px', color: 'var(--beige)', display: 'block', marginBottom: '18px' }}
@@ -84,7 +85,7 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div>
+        <div className="stm-footer-business">
           <span
             className="editorial-label"
             style={{ fontSize: '10px', color: 'var(--beige)', display: 'block', marginBottom: '18px' }}
