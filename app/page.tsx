@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, ArrowUpRight, ArrowDown, Mail, MapPin, Check, Compass, Layers, Sparkles, Globe, Quote } from "lucide-react"
+import { ArrowRight, ArrowUpRight, ArrowDown, ChevronDown, Mail, MapPin, Check, Compass, Layers, Sparkles, Globe, Quote } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
@@ -1005,8 +1005,56 @@ export default function Page() {
             </Link>
           </MotionWrapper>
 
-          {/* Compact 5-Pillar Tab Bar */}
-          <div className="stm-cap-tabs-bar" role="tablist" aria-label="Core studio capabilities">
+          {/* Mobile (< 768px): Collapsible Editorial Capabilities Accordion */}
+          <div className="stm-cap-mobile-only">
+            <div className="stm-mobile-accordion-list">
+              {CAPABILITIES.map((cap, idx) => {
+                const isOpen = idx === activeCapabilityIdx
+                const capHasDemo = cap.number === "01" || cap.number === "03" || cap.number === "05"
+                return (
+                  <div key={cap.number} className={`stm-mobile-acc-item ${isOpen ? "is-open" : ""}`}>
+                    <button
+                      type="button"
+                      className="stm-mobile-acc-trigger"
+                      aria-expanded={isOpen}
+                      onClick={() => {
+                        playWarmClick()
+                        setActiveCapabilityIdx(idx)
+                      }}
+                    >
+                      <span className="stm-mobile-acc-num">{cap.number}</span>
+                      <span className="stm-mobile-acc-head">
+                        <strong>{cap.title}</strong>
+                        <small>{cap.tagline}</small>
+                      </span>
+                      <ChevronDown size={16} className="stm-mobile-acc-chevron" />
+                    </button>
+
+                    {isOpen && (
+                      <div className="stm-mobile-acc-body">
+                        <p className="stm-mobile-acc-desc">{cap.description}</p>
+                        <ul className="stm-mobile-acc-pills">
+                          {cap.deliverables.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                        {capHasDemo && (
+                          <div style={{ marginTop: "14px" }}>
+                            <CapabilityMiniDemo pillarIndex={cap.number} />
+                          </div>
+                        )}
+                        <p className="stm-mobile-acc-quote">&ldquo;{cap.valueProposition}&rdquo;</p>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Desktop / Tablet (>= 768px): Compact 5-Pillar Tab Bar & Stage */}
+          <div className="stm-cap-desktop-only">
+            <div className="stm-cap-tabs-bar" role="tablist" aria-label="Core studio capabilities">
             {CAPABILITIES.map((cap, idx) => {
               const active = idx === activeCapabilityIdx
               return (
@@ -1087,6 +1135,7 @@ export default function Page() {
               )}
             </div>
           </MotionWrapper>
+          </div>
         </div>
       </section>
 
@@ -1113,9 +1162,12 @@ export default function Page() {
             {FRICTION_POINTS.map((prob) => (
               <article className="diagnostic-compact-cell" key={prob.num}>
                 <div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "8px" }}>
-                    <span style={{ fontFamily: "var(--font-editorial)", fontSize: "30px", color: "var(--accent-gold)", lineHeight: 1 }}>{prob.num}</span>
-                    <h3 className="diagnostic-col-title" style={{ margin: 0, fontSize: "19px" }}>{prob.title}</h3>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", marginBottom: "8px" }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "12px" }}>
+                      <span style={{ fontFamily: "var(--font-editorial)", fontSize: "30px", color: "var(--accent-gold)", lineHeight: 1 }}>{prob.num}</span>
+                      <h3 className="diagnostic-col-title" style={{ margin: 0, fontSize: "19px" }}>{prob.title}</h3>
+                    </div>
+                    <span className="stm-diag-step-counter">{prob.num} / 04</span>
                   </div>
                   <p className="diagnostic-col-desc" style={{ margin: "0 0 10px", fontSize: "13.5px" }}>{prob.explanation}</p>
                 </div>

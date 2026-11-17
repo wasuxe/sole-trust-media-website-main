@@ -7,6 +7,7 @@ import { CapabilityMiniDemo } from '@/components/capability-demos'
 import { MethodologyProgressBeam } from '@/components/kinetic-scroll-polish'
 import { MotionWrapper, AnimatedHairline } from '@/components/MotionWrapper'
 import CopyEmailLink from '@/components/copy-email-link'
+import ServicesMobileAccordion from '@/components/services-mobile-accordion'
 
 export const metadata: Metadata = {
   title: 'Capabilities',
@@ -164,7 +165,13 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Tight Alternating Warm Parchment & Deep Espresso 5-Pillar Bands */}
+      {/* Mobile (< 768px): Collapsible 5-Pillar Editorial Accordion */}
+      <section className="stm-services-mobile-band">
+        <ServicesMobileAccordion pillars={serviceCategories} />
+      </section>
+
+      {/* Desktop / Tablet (>= 768px): Tight Alternating Warm Parchment & Deep Espresso 5-Pillar Bands */}
+      <div className="stm-services-desktop-bands">
       {serviceCategories.map((cat, idx) => {
         const isDark = idx % 2 === 1
         return (
@@ -387,6 +394,7 @@ export default function ServicesPage() {
           </section>
         )
       })}
+      </div>
 
       {/* Deep Espresso Delivery Architecture & Animated 1px Methodology Progress Beam */}
       <section

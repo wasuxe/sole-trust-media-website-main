@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import LoadingScreen from '@/components/LoadingScreen'
 import CustomCursor from '@/components/CustomCursor'
+import MobileQuickDock from '@/components/mobile-quick-dock'
 import { SoundProvider } from '@/components/sound-provider'
 import './globals.css'
 
@@ -93,6 +94,7 @@ export default function RootLayout({
           <LoadingScreen />
           <CustomCursor />
           {children}
+          <MobileQuickDock />
           {process.env.NODE_ENV === 'production' && <Analytics />}
         </SoundProvider>
       </body>

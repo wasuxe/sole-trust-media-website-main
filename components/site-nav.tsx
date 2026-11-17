@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowUpRight, Mail, Menu, X } from 'lucide-react'
+import { ArrowUpRight, Mail, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -29,12 +29,10 @@ export default function SiteNav() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile drawer automatically on route change
   useEffect(() => {
     setMenuOpen(false)
   }, [pathname])
 
-  // Lock background scroll & support Escape key while full-screen Espresso drawer is open
   useEffect(() => {
     if (!menuOpen) return
     const prevOverflow = document.body.style.overflow
@@ -70,7 +68,7 @@ export default function SiteNav() {
   return (
     <>
       <nav
-        className="nav site-header"
+        className={`nav site-header ${menuOpen ? 'is-menu-open' : ''}`}
         role="navigation"
         aria-label="Main Navigation"
         style={{
@@ -79,11 +77,6 @@ export default function SiteNav() {
           left: 0,
           width: '100%',
           zIndex: 120,
-          height: '80px',
-          padding: '0 clamp(18px, 4vw, 48px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
           background: menuOpen
             ? 'var(--bg-espresso)'
             : scrolled
@@ -103,7 +96,7 @@ export default function SiteNav() {
             src={menuOpen ? '/assets/logo/logo-white.png' : '/assets/logo/logo-brown.png'}
             alt="Sole Trust Media"
             className="brand-logo-img"
-            style={{ height: '36px', width: 'auto', maxWidth: '164px', objectFit: 'contain' }}
+            style={{ height: '34px', width: 'auto', maxWidth: '154px', objectFit: 'contain' }}
           />
         </Link>
 
@@ -121,13 +114,15 @@ export default function SiteNav() {
           ))}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <SoundTogglePill
-            active={soundOn}
-            onClick={toggleSound}
-            tone={menuOpen ? 'espresso' : 'parchment'}
-            compact
-          />
+        <div className="stm-nav-right-controls">
+          <div className="stm-nav-sound-desktop">
+            <SoundTogglePill
+              active={soundOn}
+              onClick={toggleSound}
+              tone={menuOpen ? 'espresso' : 'parchment'}
+              compact
+            />
+          </div>
 
           <Link
             href="/contact?focus=true#contact-inquiry-form"
@@ -143,8 +138,9 @@ export default function SiteNav() {
             Start a Project <ArrowUpRight size={13} />
           </Link>
 
+          {/* Sleek Pill-Shaped MENU = Trigger (< 1024px) */}
           <button
-            className="stm-nav-menu-trigger"
+            className={`stm-nav-menu-pill ${menuOpen ? 'is-open' : ''}`}
             onClick={() => {
               playWarmClick()
               setMenuOpen((prev) => !prev)
@@ -153,12 +149,16 @@ export default function SiteNav() {
             aria-controls="stm-mobile-drawer"
             aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             type="button"
-            style={{
-              color: menuOpen ? 'var(--text-cream)' : 'var(--text-ink)',
-              borderColor: menuOpen ? 'var(--border-hairline-dark)' : 'var(--border-hairline)',
-            }}
           >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            <span>{menuOpen ? 'CLOSE' : 'MENU'}</span>
+            {menuOpen ? (
+              <X size={14} strokeWidth={1.8} />
+            ) : (
+              <span className="stm-menu-equals" aria-hidden="true">
+                <span />
+                <span />
+              </span>
+            )}
           </button>
         </div>
       </nav>
@@ -170,9 +170,17 @@ export default function SiteNav() {
         aria-hidden={!menuOpen}
       >
         <div className="stm-mobile-drawer-inner">
-          <span className="editorial-label" style={{ color: 'var(--accent-gold)', fontSize: '10px', marginBottom: '18px' }}>
-            * Studio Navigation · Bengaluru Atelier
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+            <span className="editorial-label" style={{ color: 'var(--accent-gold)', fontSize: '10px' }}>
+              * Bengaluru Atelier
+            </span>
+            <SoundTogglePill
+              active={soundOn}
+              onClick={toggleSound}
+              tone="espresso"
+              compact
+            />
+          </div>
 
           <div className="stm-mobile-drawer-links">
             {NAV_LINKS.map((link, idx) => (

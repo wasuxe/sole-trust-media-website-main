@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
+import Link from 'next/link'
 
 const ATELIER_CARDS = [
   {
@@ -18,7 +19,7 @@ const ATELIER_CARDS = [
     index: '02',
     title: 'Lumora',
     discipline: 'Spatial Identity · Packaging',
-    metric: '3.2x Pricing Power',
+    metric: '3.2x Brand Authority',
     image: '/assets/work/lumora/lumora-01.png',
     href: '/work/lumora',
   },
@@ -33,17 +34,32 @@ const ATELIER_CARDS = [
   },
 ] as const
 
+const MOBILE_DECK_CARDS = [
+  ...ATELIER_CARDS,
+  {
+    id: '13isu',
+    index: '04',
+    title: '13ISU Tiramisu',
+    discipline: 'Culinary Identity · Viral Launch',
+    metric: '100K+ Views · 3 Days',
+    image: '/13isu-creative-1.png',
+    href: '/work/13isu',
+  },
+] as const
+
 export default function HeroEditorialVisual() {
   const stageRef = useRef<HTMLDivElement | null>(null)
+  const touchStartXRef = useRef<number | null>(null)
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  const [mobileIndex, setMobileIndex] = useState<number>(0)
   const [isPaused, setIsPaused] = useState<boolean>(false)
   const [tilt, setTilt] = useState<{ rx: number; ry: number }>({ rx: 0, ry: 0 })
 
-  // Smooth auto-cycling unless user hovers/focuses
   useEffect(() => {
     if (isPaused) return
     const timer = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % ATELIER_CARDS.length)
+      setMobileIndex((prev) => (prev + 1) % MOBILE_DECK_CARDS.length)
     }, 4500)
     return () => window.clearInterval(timer)
   }, [isPaused])
@@ -66,107 +82,184 @@ export default function HeroEditorialVisual() {
     setTilt({ rx: 0, ry: 0 })
   }
 
+  const handleMobileTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsPaused(true)
+    touchStartXRef.current = e.touches[0]?.clientX ?? null
+  }
+
+  const handleMobileTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    const startX = touchStartXRef.current
+    const endX = e.changedTouches[0]?.clientX ?? null
+    if (startX !== null && endX !== null) {
+      const diff = startX - endX
+      if (Math.abs(diff) > 36) {
+        if (diff > 0) {
+          setMobileIndex((prev) => (prev + 1) % MOBILE_DECK_CARDS.length)
+        } else {
+          setMobileIndex((prev) => (prev - 1 + MOBILE_DECK_CARDS.length) % MOBILE_DECK_CARDS.length)
+        }
+      }
+    }
+    touchStartXRef.current = null
+    window.setTimeout(() => setIsPaused(false), 3200)
+  }
+
+  const activeMobileCard = MOBILE_DECK_CARDS[mobileIndex] ?? MOBILE_DECK_CARDS[0]
+
   return (
-    <div
-      ref={stageRef}
-      className="stm-atelier-stage"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      aria-label="Interactive Sole Trust Media Featured Atelier Stack"
-    >
-      {/* Top Volumetric Metadata Pill */}
-      <div className="stm-atelier-meta-top">
-        <span className="stm-atelier-vol-tag">
-          <span className="stm-atelier-pulse" aria-hidden="true" />
-          ATELIER // VOL. 26
-        </span>
-        <span className="stm-atelier-coord-tag">BENGALURU · GLOBAL</span>
-      </div>
-
-      {/* Architectural Orbit Hairlines */}
-      <svg
-        className="stm-atelier-orbit-svg"
-        viewBox="0 0 460 460"
-        fill="none"
-        aria-hidden="true"
-      >
-        <circle cx="230" cy="230" r="208" stroke="rgba(30,24,21,0.12)" strokeWidth="1" strokeDasharray="3 5" />
-        <circle cx="230" cy="230" r="158" stroke="rgba(197,155,109,0.28)" strokeWidth="1" />
-        <line x1="22" y1="230" x2="438" y2="230" stroke="rgba(30,24,21,0.08)" strokeWidth="1" />
-        <line x1="230" y1="22" x2="230" y2="438" stroke="rgba(30,24,21,0.08)" strokeWidth="1" />
-      </svg>
-
-      {/* 3D Interactive Focal Card Stack */}
+    <>
+      {/* ====================================================================
+          MOBILE (< 768px): SLEEK SWIPEABLE 4:5 EDITORIAL CARD DECK
+          ==================================================================== */}
       <div
-        className="stm-atelier-3d-deck"
-        style={{
-          transform: `perspective(1200px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
-        }}
+        className="stm-atelier-mobile-deck"
+        onTouchStart={handleMobileTouchStart}
+        onTouchEnd={handleMobileTouchEnd}
+        aria-label="Swipeable featured projects deck"
       >
-        {ATELIER_CARDS.map((card, idx) => {
-          const offset = (idx - activeIndex + ATELIER_CARDS.length) % ATELIER_CARDS.length
-          const isFront = offset === 0
-          const isMid = offset === 1
+        <div className="stm-mobile-deck-card">
+          <div className="stm-mobile-deck-media">
+            <img
+              key={activeMobileCard.id}
+              src={activeMobileCard.image}
+              alt={`${activeMobileCard.title} — ${activeMobileCard.discipline}`}
+            />
+            <span className="stm-mobile-deck-idx">
+              {activeMobileCard.index} / 0{MOBILE_DECK_CARDS.length}
+            </span>
+            <span className="stm-mobile-deck-metric">{activeMobileCard.metric}</span>
+          </div>
 
-          const layerTransform = isFront
-            ? 'translate3d(0px, 0px, 44px) rotate(0deg) scale(1)'
-            : isMid
-            ? 'translate3d(34px, -22px, -16px) rotate(4.5deg) scale(0.93)'
-            : 'translate3d(-30px, 24px, -56px) rotate(-4.5deg) scale(0.88)'
+          <Link href={activeMobileCard.href} className="stm-mobile-deck-foot">
+            <div>
+              <span className="stm-mobile-deck-cat">{activeMobileCard.discipline}</span>
+              <strong className="stm-mobile-deck-title">{activeMobileCard.title}</strong>
+            </div>
+            <span className="stm-mobile-deck-arrow" aria-hidden="true">
+              <ArrowUpRight size={15} />
+            </span>
+          </Link>
+        </div>
 
-          return (
-            <button
-              key={card.id}
-              type="button"
-              onClick={() => setActiveIndex(idx)}
-              className={`stm-atelier-card ${isFront ? 'is-front' : ''}`}
-              style={{
-                transform: layerTransform,
-                zIndex: isFront ? 30 : isMid ? 20 : 10,
-                opacity: isFront ? 1 : isMid ? 0.88 : 0.72,
-              }}
-              aria-label={`Bring ${card.title} to front`}
-              aria-pressed={isFront}
-            >
-              <div className="stm-atelier-card-media">
-                <img src={card.image} alt={`${card.title} — ${card.discipline}`} />
-                <span className="stm-atelier-card-index">{card.index}</span>
-                <span className="stm-atelier-card-metric">{card.metric}</span>
-              </div>
-              <div className="stm-atelier-card-footer">
-                <div>
-                  <span className="stm-atelier-card-cat">{card.discipline}</span>
-                  <strong className="stm-atelier-card-title">{card.title}</strong>
-                </div>
-                <span className="stm-atelier-card-arrow" aria-hidden="true">
-                  <ArrowUpRight size={14} />
-                </span>
-              </div>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Interactive Layer Switcher Bar */}
-      <div className="stm-atelier-controls" role="tablist" aria-label="Select featured hero commission">
-        {ATELIER_CARDS.map((card, idx) => {
-          const active = idx === activeIndex
-          return (
+        {/* Pagination Dots */}
+        <div className="stm-mobile-deck-dots" role="tablist" aria-label="Featured commission slides">
+          {MOBILE_DECK_CARDS.map((card, idx) => (
             <button
               key={card.id}
               type="button"
               role="tab"
-              aria-selected={active}
-              onClick={() => setActiveIndex(idx)}
-              className={`stm-atelier-dot-btn ${active ? 'active' : ''}`}
-            >
-              <span>{card.index}</span>
-              <span>{card.title}</span>
-            </button>
-          )
-        })}
+              aria-selected={idx === mobileIndex}
+              aria-label={`View ${card.title}`}
+              onClick={() => {
+                setIsPaused(true)
+                setMobileIndex(idx)
+              }}
+              className={`stm-mobile-deck-dot ${idx === mobileIndex ? 'active' : ''}`}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* ====================================================================
+          DESKTOP / TABLET (>= 768px): 3D ATELIER STAGE (UNTOUCHED)
+          ==================================================================== */}
+      <div
+        ref={stageRef}
+        className="stm-atelier-stage stm-atelier-desktop-stage"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        aria-label="Interactive Sole Trust Media Featured Atelier Stack"
+      >
+        <div className="stm-atelier-meta-top">
+          <span className="stm-atelier-vol-tag">
+            <span className="stm-atelier-pulse" aria-hidden="true" />
+            ATELIER // VOL. 26
+          </span>
+          <span className="stm-atelier-coord-tag">BENGALURU · GLOBAL</span>
+        </div>
+
+        <svg
+          className="stm-atelier-orbit-svg"
+          viewBox="0 0 460 460"
+          fill="none"
+          aria-hidden="true"
+        >
+          <circle cx="230" cy="230" r="208" stroke="rgba(30,24,21,0.12)" strokeWidth="1" strokeDasharray="3 5" />
+          <circle cx="230" cy="230" r="158" stroke="rgba(197,155,109,0.28)" strokeWidth="1" />
+          <line x1="22" y1="230" x2="438" y2="230" stroke="rgba(30,24,21,0.08)" strokeWidth="1" />
+          <line x1="230" y1="22" x2="230" y2="438" stroke="rgba(30,24,21,0.08)" strokeWidth="1" />
+        </svg>
+
+        <div
+          className="stm-atelier-3d-deck"
+          style={{
+            transform: `perspective(1200px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,
+          }}
+        >
+          {ATELIER_CARDS.map((card, idx) => {
+            const offset = (idx - activeIndex + ATELIER_CARDS.length) % ATELIER_CARDS.length
+            const isFront = offset === 0
+            const isMid = offset === 1
+
+            const layerTransform = isFront
+              ? 'translate3d(0px, 0px, 44px) rotate(0deg) scale(1)'
+              : isMid
+              ? 'translate3d(34px, -22px, -16px) rotate(4.5deg) scale(0.93)'
+              : 'translate3d(-30px, 24px, -56px) rotate(-4.5deg) scale(0.88)'
+
+            return (
+              <button
+                key={card.id}
+                type="button"
+                onClick={() => setActiveIndex(idx)}
+                className={`stm-atelier-card ${isFront ? 'is-front' : ''}`}
+                style={{
+                  transform: layerTransform,
+                  zIndex: isFront ? 30 : isMid ? 20 : 10,
+                  opacity: isFront ? 1 : isMid ? 0.88 : 0.72,
+                }}
+                aria-label={`Bring ${card.title} to front`}
+                aria-pressed={isFront}
+              >
+                <div className="stm-atelier-card-media">
+                  <img src={card.image} alt={`${card.title} — ${card.discipline}`} />
+                  <span className="stm-atelier-card-index">{card.index}</span>
+                  <span className="stm-atelier-card-metric">{card.metric}</span>
+                </div>
+                <div className="stm-atelier-card-footer">
+                  <div>
+                    <span className="stm-atelier-card-cat">{card.discipline}</span>
+                    <strong className="stm-atelier-card-title">{card.title}</strong>
+                  </div>
+                  <span className="stm-atelier-card-arrow" aria-hidden="true">
+                    <ArrowUpRight size={14} />
+                  </span>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="stm-atelier-controls" role="tablist" aria-label="Select featured hero commission">
+          {ATELIER_CARDS.map((card, idx) => {
+            const active = idx === activeIndex
+            return (
+              <button
+                key={card.id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setActiveIndex(idx)}
+                className={`stm-atelier-dot-btn ${active ? 'active' : ''}`}
+              >
+                <span>{card.index}</span>
+                <span>{card.title}</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    </>
   )
 }

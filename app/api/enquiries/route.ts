@@ -170,9 +170,9 @@ async function dispatchEmailNotification(data: EnquiryData, submittedAt: string)
         const errorText = await resendRes.text()
         console.warn(`[EMAIL DISPATCH]: Resend returned status ${resendRes.status}: ${errorText}`)
 
-        // If domain is unverified on Resend free tier, route to account owner address
+        // Keep recipient strictly routed to soletrustmedia@gmail.com
         const fallbackOwnerEmail =
-          process.env.RESEND_OWNER_EMAIL || 'dakshbhagat37@gmail.com'
+          process.env.RESEND_OWNER_EMAIL || 'soletrustmedia@gmail.com'
         if (
           errorText.includes(fallbackOwnerEmail) ||
           resendRes.status === 403 ||

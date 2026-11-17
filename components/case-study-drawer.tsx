@@ -286,7 +286,8 @@ export default function CaseStudyDrawer({
             }}
             aria-label="Close case study drawer"
           >
-            <X size={18} />
+            <X size={16} />
+            <span className="stm-drawer-close-label">CLOSE</span>
           </button>
         </div>
 
