@@ -1,4 +1,4 @@
-import { ArrowUpRight, Mail, MapPin, Plus } from 'lucide-react'
+import { ArrowUpRight, Mail, MapPin } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import SiteNav from '@/components/site-nav'
@@ -139,29 +139,22 @@ export default function ServicesPage() {
               {cat.description}
             </p>
 
-            {/* Service list */}
-            <div className="service-list" style={{ borderTop: '1px solid var(--line)', marginBottom: '36px' }}>
-              {cat.services.map((service, i) => (
-                <div
-                  className="service-row"
-                  key={service}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '20px',
-                    padding: '20px 0',
-                    borderBottom: '1px solid var(--line)',
-                  }}
-                >
-                  <span style={{ fontSize: '11px', fontFamily: 'var(--font-utility)', color: 'var(--brown)', minWidth: '24px' }}>
-                    0{i + 1}
-                  </span>
-                  <h3 style={{ margin: 0, fontSize: 'clamp(18px, 2.2vw, 28px)', fontWeight: 500, flex: 1, fontFamily: 'var(--font-display)' }}>
-                    {service}
-                  </h3>
-                  <Plus size={18} style={{ color: 'var(--muted)' }} />
-                </div>
-              ))}
+            {/* Compact pill-shaped deliverables */}
+            <div style={{ marginBottom: '36px' }}>
+              <span
+                className="editorial-label"
+                style={{ fontSize: '10px', color: 'var(--muted)', display: 'block', marginBottom: '14px' }}
+              >
+                Deliverables &amp; Core Output
+              </span>
+              <ul className="capability-pill-list" aria-label={`${cat.heading} deliverables`}>
+                {cat.services.map((service) => (
+                  <li key={service} className="capability-pill-tag">
+                    <span className="capability-pill-dot" aria-hidden="true" />
+                    <span>{service}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Value proposition */}
@@ -208,22 +201,22 @@ export default function ServicesPage() {
       ))}
 
       {/* CTA */}
-      <section className="statement services-cta" style={{ background: 'var(--brown)', color: 'var(--cream)', padding: '140px 4vw 120px', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-utility)', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.8 }}>
-          Ready to build something?
+      <section className="statement services-cta" style={{ background: 'var(--bg-olive)', color: 'var(--text-cream)', padding: '140px 4vw 120px', textAlign: 'center' }}>
+        <p className="editorial-label" style={{ opacity: 0.82 }}>
+          * Ready to build something? *
         </p>
         <h2 className="services-cta-title" style={{ fontSize: 'clamp(44px, 7vw, 96px)', margin: '24px 0 36px', lineHeight: 1.05 }}>
           Let&apos;s make it{' '}
-          <i>enduring.</i>
+          <i style={{ fontFamily: 'var(--font-editorial)', fontWeight: 400 }}>enduring.</i>
         </h2>
-        <div className="services-cta-actions" style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
-          <Link className="button button-light" href="/contact">
+        <div className="services-cta-actions" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <Link className="stm-btn-terracotta" href="/contact">
             Start a project <ArrowUpRight size={14} />
           </Link>
           <Link
             className="button button-outline"
             href="/work"
-            style={{ color: 'var(--cream)', borderColor: 'rgba(243, 235, 221, 0.4)' }}
+            style={{ color: 'var(--text-cream)', borderColor: 'rgba(246, 241, 233, 0.4)' }}
           >
             Explore Selected Work <ArrowUpRight size={14} />
           </Link>

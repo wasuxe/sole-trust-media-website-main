@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowUpRight, ArrowRight, ArrowDown, Mail, MapPin, Plus, Check } from "lucide-react"
+import { ArrowUpRight, ArrowDown, Mail, MapPin, Plus, Check, Compass, Layers, Sparkles, Globe } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
@@ -240,6 +240,63 @@ const BUDGET_OPTIONS = [
   "₹8,00,000+",
 ]
 
+const SHOWCASE_FILTERS = [
+  "All Work",
+  "Brand & Strategy",
+  "Digital Flagships",
+  "Creative & Content",
+  "Technology & Systems",
+] as const
+
+const FEATURED_FIVE_SHOWCASE = [
+  {
+    slug: "twine",
+    name: "Twine",
+    category: "Brand & Strategy",
+    image: "/assets/work/twine/twine-01.jpeg",
+    filterKey: "Brand & Strategy",
+  },
+  {
+    slug: "future-luxe",
+    name: "Future Luxe",
+    category: "Digital Flagships",
+    image: "/assets/work/future-luxe/future-luxe-01.png",
+    filterKey: "Digital Flagships",
+  },
+  {
+    slug: "lumora",
+    name: "Lumora",
+    category: "Brand & Strategy",
+    image: "/assets/work/lumora/lumora-01.png",
+    filterKey: "Brand & Strategy",
+  },
+  {
+    slug: "13isu",
+    name: "13isu",
+    category: "Creative & Content",
+    image: "/13isu-creative-1.png",
+    filterKey: "Creative & Content",
+  },
+  {
+    slug: "trends-are-a-tool",
+    name: "Trends Are a Tool",
+    category: "Brand & Strategy",
+    image: "/assets/work/trends-are-a-tool/trends-cover.svg",
+    filterKey: "Brand & Strategy",
+  },
+] as const
+
+const OLIVE_CLIENT_ROSTER = [
+  "13ISU",
+  "FARMLYTICS",
+  "TWINE",
+  "FUTURE LUXE",
+  "LUMORA",
+  "CHAINMIND AI",
+  "RAYA SKINCARE",
+  "AURELIA",
+] as const
+
 export default function Page() {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
@@ -247,7 +304,7 @@ export default function Page() {
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  const [workFilter, setWorkFilter] = useState<string>("All")
+  const [workFilter, setWorkFilter] = useState<string>("All Work")
   const [submittedInfo, setSubmittedInfo] = useState<{
     fullName: string
     mailtoUrl: string
@@ -426,16 +483,64 @@ export default function Page() {
     }
   }
 
-  // Filter projects for the portfolio section (loaded dynamically from Supabase with fallback)
-  const filteredProjects = projectsList.filter((p) => {
-    if (workFilter === "All") return true
-    const text = `${p.name} ${p.category} ${p.type} ${p.tags.join(" ")}`.toLowerCase()
-    if (workFilter === "Digital & Web") return /\b(web|website|digital|platform|portal)\b/i.test(text)
-    if (workFilter === "Branding") return /\b(brand|branding|identity|typography|packaging)\b/i.test(text)
-    if (workFilter === "Concepts") return /\b(concept|self-initiated|figma)\b/i.test(text)
-    if (workFilter === "Technology") return /\b(ai|technology|software|automation)\b/i.test(text)
-    return true
-  }).slice(0, 8)
+  // Showcase 5-card vertical strip (dynamically filtered & synced with Supabase)
+  const showcaseCards =
+    workFilter === "All Work"
+      ? FEATURED_FIVE_SHOWCASE.map((slot, idx) => {
+          const matched = projectsList.find((p) => p.slug === slot.slug)
+          const targetUrl =
+            slot.slug === "13isu"
+              ? "/work/13isu"
+              : slot.slug === "trends-are-a-tool"
+              ? "/work/trends-are-a-tool"
+              : matched?.link || `/work/${slot.slug}`
+          const isExternal = Boolean(matched?.link && !targetUrl.startsWith("/work/"))
+          return {
+            slug: slot.slug,
+            name: slot.name,
+            category: matched?.category || slot.category,
+            image: slot.image,
+            targetUrl,
+            isExternal,
+            index: `0${idx + 1}`,
+          }
+        })
+      : projectsList
+          .filter((p) => {
+            const text = `${p.name} ${p.category} ${p.type} ${p.tags.join(" ")} ${p.services.join(" ")}`.toLowerCase()
+            if (workFilter === "Brand & Strategy") {
+              return /\b(brand|branding|identity|typography|packaging|strategy|framework|twine|lumora|raya|aurelia)\b/i.test(text)
+            }
+            if (workFilter === "Digital Flagships") {
+              return /\b(web|website|digital|platform|portal|flagship|future|luxe|interface|figma)\b/i.test(text)
+            }
+            if (workFilter === "Creative & Content") {
+              return /\b(creative|content|social|music|media|editorial|video|campaign|13isu|dessert|trends)\b/i.test(text)
+            }
+            if (workFilter === "Technology & Systems") {
+              return /\b(ai|technology|software|automation|saas|supply|farmlytics|chainmind|analytics)\b/i.test(text)
+            }
+            return true
+          })
+          .slice(0, 5)
+          .map((project, idx) => {
+            const targetUrl =
+              project.slug === "13isu"
+                ? "/work/13isu"
+                : project.slug === "trends-are-a-tool"
+                ? "/work/trends-are-a-tool"
+                : project.link || `/work/${project.slug}`
+            const isExternal = Boolean(project.link && !targetUrl.startsWith("/work/"))
+            return {
+              slug: project.slug,
+              name: project.name,
+              category: project.category || project.type,
+              image: project.cover_image,
+              targetUrl,
+              isExternal,
+              index: `0${idx + 1}`,
+            }
+          })
 
   return (
     <main className="site-shell">
@@ -445,50 +550,95 @@ export default function Page() {
       <SiteNav />
 
       {/* ====================================================================
-          SECTION B: HERO (PREMIUM EDITORIAL & CINEMATIC STORYTELLING)
+          SECTION B: HERO (EDITORIAL ATELIER + ROTATING STAMP + CIRCULAR MILESTONES)
           ==================================================================== */}
-      <section className="hero" id="top">
+      <section className="hero" id="top" style={{ background: "var(--bg-parchment)" }}>
         <div className="hero-container">
           <div className="hero-copy reveal">
-            <p className="eyebrow hero-eyebrow">
-              Independent Creative Technology Studio
+            <p className="eyebrow hero-eyebrow editorial-label" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+              <span className="editorial-marker">*</span> Independent Creative Technology Studio
             </p>
 
             <h1 className="hero-headline">
-              Ideas into <i>experiences.</i>
+              Ideas into <i style={{ color: "var(--accent-terracotta)" }}>experiences.</i>
               <br />
-              Creativity into <i>growth.</i>
+              Creativity into <i style={{ color: "var(--accent-terracotta)" }}>growth.</i>
             </h1>
 
             <p className="hero-sub">
               We combine strategy, creativity and technology to build meaningful brands, digital experiences and business opportunities.
             </p>
 
-            <div className="hero-actions">
-              <a className="button button-dark" href="#work">
-                Explore Our Work <ArrowDown size={14} />
-              </a>
-              <a className="button button-outline" href="#contact">
-                Start a Project <ArrowUpRight size={14} />
+            <div className="hero-cta-row">
+              <div className="hero-cta-buttons">
+                <a className="button button-dark" href="#work">
+                  Explore Our Work <ArrowDown size={14} />
+                </a>
+                <a className="stm-btn-terracotta" href="#contact" style={{ padding: "14px 24px" }}>
+                  Start a Project <ArrowUpRight size={14} />
+                </a>
+              </div>
+
+              {/* Rotating Circular Stamp Badge */}
+              <a
+                href="#contact"
+                className="hero-stamp-badge"
+                aria-label="Start a Project — Sole Trust Media"
+              >
+                <svg className="hero-stamp-svg" viewBox="0 0 100 100" aria-hidden="true">
+                  <defs>
+                    <path
+                      id="stmStampCirclePath"
+                      d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
+                    />
+                  </defs>
+                  <text
+                    fill="currentColor"
+                    fontSize="7.4"
+                    fontWeight="600"
+                    letterSpacing="1.65"
+                    fontFamily="Space Grotesk, sans-serif"
+                  >
+                    <textPath href="#stmStampCirclePath" startOffset="0%">
+                      START A PROJECT • SOLE TRUST MEDIA •
+                    </textPath>
+                  </text>
+                </svg>
+                <span className="hero-stamp-center" aria-hidden="true">
+                  <ArrowUpRight size={18} strokeWidth={1.75} />
+                </span>
               </a>
             </div>
 
-            <div className="hero-stats" aria-label="Agency milestones">
-              <div className="hero-stat-item">
-                <strong>50+</strong>
-                <span>Brands Shaped</span>
+            {/* 4 Thin-Bordered Circular Milestone Badges with 1px Hairline Dividers */}
+            <div className="hero-milestones-bar" aria-label="Agency milestones">
+              <div className="hero-milestone-item">
+                <span className="hero-milestone-circle" aria-hidden="true">
+                  <Compass size={18} strokeWidth={1.4} />
+                </span>
+                <strong className="hero-milestone-value">50+</strong>
+                <span className="hero-milestone-label">Brands Shaped</span>
               </div>
-              <div className="hero-stat-item">
-                <strong>100+</strong>
-                <span>Projects Delivered</span>
+              <div className="hero-milestone-item">
+                <span className="hero-milestone-circle" aria-hidden="true">
+                  <Layers size={18} strokeWidth={1.4} />
+                </span>
+                <strong className="hero-milestone-value">100+</strong>
+                <span className="hero-milestone-label">Projects Delivered</span>
               </div>
-              <div className="hero-stat-item">
-                <strong>3+</strong>
-                <span>Years of Craft</span>
+              <div className="hero-milestone-item">
+                <span className="hero-milestone-circle" aria-hidden="true">
+                  <Sparkles size={18} strokeWidth={1.4} />
+                </span>
+                <strong className="hero-milestone-value">3+</strong>
+                <span className="hero-milestone-label">Years of Craft</span>
               </div>
-              <div className="hero-stat-item">
-                <strong>Global</strong>
-                <span>Bengaluru · Worldwide</span>
+              <div className="hero-milestone-item">
+                <span className="hero-milestone-circle" aria-hidden="true">
+                  <Globe size={18} strokeWidth={1.4} />
+                </span>
+                <strong className="hero-milestone-value">Global</strong>
+                <span className="hero-milestone-label">Bengaluru · Worldwide</span>
               </div>
             </div>
           </div>
@@ -501,42 +651,41 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION 03: STUDIO INTRODUCTION (EDITORIAL SPLIT & MANIFESTO)
+          SECTION 03: 01 / STUDIO MANIFESTO (ASYMMETRIC EDITORIAL GRID + WIREFRAME SVG)
           ==================================================================== */}
-      <section className="studio-intro-section" id="about">
-        <div className="studio-intro-grid reveal">
+      <section className="manifesto-editorial-section" id="about">
+        <div className="manifesto-asymmetric-grid reveal">
           <div>
             <p
-              className="eyebrow"
+              className="editorial-label"
               style={{
-                fontFamily: "var(--font-utility)",
-                fontSize: "11px",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "var(--brown)",
-                fontWeight: 600,
-                marginBottom: "16px",
+                color: "var(--accent-terracotta)",
+                marginBottom: "18px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
               }}
             >
-              01 / Studio Manifesto
+              <span>*</span> 01 / Studio Manifesto
             </p>
             <h2
               style={{
-                fontSize: "clamp(40px, 5.5vw, 80px)",
+                fontSize: "clamp(42px, 5.5vw, 82px)",
                 lineHeight: 0.96,
-                letterSpacing: "-0.045em",
+                letterSpacing: "-0.04em",
                 margin: "0 0 28px",
                 fontFamily: "var(--font-display)",
+                color: "var(--text-ink)",
               }}
             >
               Good ideas deserve<br />
-              <i style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic", fontWeight: 400 }}>better execution.</i>
+              <i style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic", fontWeight: 400, color: "var(--accent-terracotta)" }}>better execution.</i>
             </h2>
             <p
               style={{
                 fontSize: "clamp(15px, 1.8vw, 18px)",
-                lineHeight: 1.65,
-                color: "var(--dark)",
+                lineHeight: 1.68,
+                color: "var(--text-ink)",
                 marginBottom: "24px",
                 fontWeight: 400,
               }}
@@ -545,13 +694,13 @@ export default function Page() {
             </p>
             <blockquote
               style={{
-                borderLeft: "2px solid var(--brown)",
+                borderLeft: "2px solid var(--accent-terracotta)",
                 paddingLeft: "22px",
                 margin: "30px 0",
                 fontStyle: "italic",
                 color: "var(--muted)",
                 fontSize: "15px",
-                lineHeight: 1.7,
+                lineHeight: 1.72,
               }}
             >
               &ldquo;We built Sole Trust Media to eliminate this divide. We combine strategic brand positioning, cinematic visual craft, bespoke digital engineering, and automated systems to build brands people genuinely remember and trust.&rdquo;
@@ -561,24 +710,24 @@ export default function Page() {
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
                 gap: "20px",
-                paddingTop: "24px",
-                borderTop: "1px solid var(--line)",
+                paddingTop: "26px",
+                borderTop: "1px solid var(--border-hairline)",
               }}
             >
               <div>
-                <strong style={{ display: "block", fontSize: "14px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                <strong style={{ display: "block", fontSize: "13px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
                   01 · Strategy With Intent
                 </strong>
                 <span style={{ fontSize: "13px", color: "var(--muted)" }}>Clarity before aesthetic decoration</span>
               </div>
               <div>
-                <strong style={{ display: "block", fontSize: "14px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                <strong style={{ display: "block", fontSize: "13px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
                   02 · Visceral Craft
                 </strong>
                 <span style={{ fontSize: "13px", color: "var(--muted)" }}>Commanding pricing power &amp; distinction</span>
               </div>
               <div>
-                <strong style={{ display: "block", fontSize: "14px", fontFamily: "var(--font-display)", color: "var(--dark)" }}>
+                <strong style={{ display: "block", fontSize: "13px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
                   03 · Technology That Scales
                 </strong>
                 <span style={{ fontSize: "13px", color: "var(--muted)" }}>Fast flagships &amp; automated pipelines</span>
@@ -586,24 +735,43 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="studio-intro-visual-frame">
-            <img
-              src="/assets/work/twine/twine-01.jpeg"
-              alt="Sole Trust Media Craft & Visual Direction"
-              loading="lazy"
-            />
-            <div className="studio-intro-badge">
-              <div>
-                <span style={{ fontFamily: "var(--font-utility)", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--brown)", display: "block" }}>
-                  DISCIPLINED ATELIER
-                </span>
-                <strong style={{ fontSize: "14px", color: "var(--dark)" }}>
-                  Bengaluru Studio · Worldwide Execution
-                </strong>
+          {/* Vertically Offset Twine Visual Card + 1px Architectural Wireframe Compass SVG Overlay */}
+          <div className="manifesto-visual-offset">
+            <svg
+              className="manifesto-wireframe-overlay"
+              viewBox="0 0 160 160"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle cx="80" cy="80" r="64" stroke="currentColor" strokeWidth="1" strokeDasharray="3 4" />
+              <circle cx="80" cy="80" r="40" stroke="currentColor" strokeWidth="1" />
+              <circle cx="80" cy="80" r="5" stroke="currentColor" strokeWidth="1" />
+              <line x1="80" y1="4" x2="80" y2="156" stroke="currentColor" strokeWidth="1" />
+              <line x1="4" y1="80" x2="156" y2="80" stroke="currentColor" strokeWidth="1" />
+              <path d="M80 28 L88 80 L80 132 L72 80 Z" stroke="currentColor" strokeWidth="1" />
+              <line x1="28" y1="28" x2="132" y2="132" stroke="currentColor" strokeWidth="0.75" opacity="0.5" />
+              <line x1="132" y1="28" x2="28" y2="132" stroke="currentColor" strokeWidth="0.75" opacity="0.5" />
+            </svg>
+
+            <div className="manifesto-visual-frame">
+              <img
+                src="/assets/work/twine/twine-01.jpeg"
+                alt="Sole Trust Media Craft & Visual Direction — Twine"
+                loading="lazy"
+              />
+              <div className="studio-intro-badge">
+                <div>
+                  <span className="editorial-label" style={{ fontSize: "9.5px", color: "var(--accent-terracotta)", display: "block", marginBottom: "2px" }}>
+                    DISCIPLINED ATELIER
+                  </span>
+                  <strong style={{ fontSize: "14px", color: "var(--text-ink)" }}>
+                    Bengaluru Studio · Worldwide Execution
+                  </strong>
+                </div>
+                <Link href="/work" className="stm-btn-terracotta" style={{ padding: "8px 16px", fontSize: "10px" }}>
+                  Explore Craft <ArrowUpRight size={12} />
+                </Link>
               </div>
-              <Link href="/work" className="button button-dark" style={{ padding: "8px 16px", fontSize: "10px" }}>
-                Explore Craft <ArrowUpRight size={12} />
-              </Link>
             </div>
           </div>
         </div>
@@ -653,12 +821,15 @@ export default function Page() {
                     </div>
 
                     <div style={{ marginTop: "16px" }}>
-                      <span style={{ fontSize: "10px", fontFamily: "var(--font-utility)", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)", display: "block", marginBottom: "12px" }}>
+                      <span className="editorial-label" style={{ fontSize: "10px", color: "var(--muted)", display: "block", marginBottom: "12px" }}>
                         Deliverables &amp; Core Output
                       </span>
-                      <ul className="service-items" aria-label={`${cap.title} offerings`}>
+                      <ul className="capability-pill-list" aria-label={`${cap.title} offerings`}>
                         {cap.deliverables.map((item) => (
-                          <li key={item}>{item}</li>
+                          <li key={item} className="capability-pill-tag">
+                            <span className="capability-pill-dot" aria-hidden="true" />
+                            <span>{item}</span>
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -677,59 +848,81 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION D: THE FRICTION BEHIND STAGNANT GROWTH
+          SECTION D: 02 / DIAGNOSTIC — FULL-BLEED ESPRESSO BAND (4-COL HAIRLINE GRID)
           ==================================================================== */}
-      <section className="problems-section section-grid" id="friction">
-        <div className="section-label">02 / Diagnostic</div>
-        <div className="intro-content">
-          <div className="section-heading reveal">
-            <h2>
-              The friction behind<br />
-              <i>stagnant growth.</i>
-            </h2>
-            <p>
+      <section className="diagnostic-espresso-band" id="friction">
+        <div className="diagnostic-espresso-inner">
+          <div className="diagnostic-espresso-header reveal">
+            <div>
+              <p className="editorial-label" style={{ color: "#e49581", margin: "0 0 14px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                <span>*</span> 02 / Diagnostic
+              </p>
+              <h2 style={{ fontSize: "clamp(42px, 5.8vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", margin: 0, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>
+                The friction behind<br />
+                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "#e49581" }}>stagnant growth.</i>
+              </h2>
+            </div>
+            <p style={{ maxWidth: "420px", margin: 0, fontSize: "15px", lineHeight: 1.68, color: "rgba(246, 241, 233, 0.74)" }}>
               Most ambitious businesses do not have a product quality issue — they have an articulation, presentation, or conversion disconnect. Here is where the growth engine breaks.
             </p>
           </div>
 
-          <div className="problems-grid reveal">
+          <div className="diagnostic-four-grid reveal">
             {FRICTION_POINTS.map((prob) => (
-              <div className="problem-card" key={prob.num}>
+              <article className="diagnostic-col-item" key={prob.num}>
                 <div>
-                  <div className="problem-card-top">
-                    <span className="problem-card-num">{prob.num}</span>
-                    <span className="eyebrow">DIAGNOSED HURDLE</span>
-                  </div>
-                  <h3>{prob.title}</h3>
-                  <p className="problem-card-desc">{prob.explanation}</p>
+                  <span className="diagnostic-col-num">{prob.num}</span>
+                  <span className="editorial-label" style={{ fontSize: "9.5px", color: "rgba(246, 241, 233, 0.56)", display: "block", marginBottom: "10px" }}>
+                    Diagnosed Hurdle
+                  </span>
+                  <h3 className="diagnostic-col-title">{prob.title}</h3>
+                  <p className="diagnostic-col-desc">{prob.explanation}</p>
                 </div>
-                <div className="problem-card-consequence">
-                  <strong>Commercial Consequence: </strong>
+                <div className="diagnostic-col-consequence">
+                  <strong>Commercial Consequence</strong>
                   {prob.consequence}
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
       {/* ====================================================================
-          SECTION E: STRATEGY. STRATEGY TO VALUE.
+          SECTION E: 03 / TRANSFORMATION & CLIENT BAND — MUTED OLIVE BAND
           ==================================================================== */}
-      <section className="solutions-section section-grid" id="solutions">
-        <div className="section-label">03 / Transformation</div>
-        <div className="intro-content">
-          <div className="section-heading reveal">
-            <h2>
-              Problem to Strategy.<br />
-              <i>Strategy to Value.</i>
-            </h2>
-            <p>
+      <section className="transformation-olive-band" id="solutions">
+        <div className="transformation-olive-inner">
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "28px" }} className="reveal">
+            <div>
+              <p className="editorial-label" style={{ color: "rgba(246, 241, 233, 0.78)", margin: "0 0 14px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                <span>◆</span> 03 / Transformation &amp; Client Outcomes
+              </p>
+              <h2 style={{ fontSize: "clamp(42px, 5.8vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", margin: 0, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>
+                Problem to Strategy.<br />
+                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400 }}>Strategy to Value.</i>
+              </h2>
+            </div>
+            <p style={{ maxWidth: "420px", margin: 0, fontSize: "15px", lineHeight: 1.68, color: "rgba(246, 241, 233, 0.8)" }}>
               We act as an integrated growth consultancy and creative engineering team, turning systemic operational challenges into measurable commercial leverage.
             </p>
           </div>
 
-          <div className="solutions-flow reveal">
+          {/* Editorial Client Logo & Partner Band with Diamond & Asterisk Dividers */}
+          <div className="olive-client-band reveal" aria-label="Selected client partners and commissions">
+            {OLIVE_CLIENT_ROSTER.map((client, i) => (
+              <span key={client} style={{ display: "inline-flex", alignItems: "center", gap: "24px" }}>
+                <span className="olive-client-name">{client}</span>
+                {i < OLIVE_CLIENT_ROSTER.length - 1 && (
+                  <span className="olive-divider-glyph" aria-hidden="true">
+                    {i % 2 === 0 ? "◆" : "*"}
+                  </span>
+                )}
+              </span>
+            ))}
+          </div>
+
+          <div className="olive-outcomes-grid reveal">
             {[
               {
                 step: "01",
@@ -756,22 +949,24 @@ export default function Page() {
                 value: "Zero dropped enquiries, rapid <1-hour response cadence & scalable infrastructure",
               },
             ].map((item) => (
-              <div key={item.step} className="solution-step-card">
-                <div className="solution-step-header">
-                  <span className="solution-step-num">STAGE {item.step}</span>
+              <div key={item.step} className="olive-outcome-card">
+                <div className="olive-outcome-stage">
+                  <span>STAGE {item.step}</span>
+                  <span>◆</span>
+                  <span>COMMERCIAL OUTCOME</span>
                 </div>
-                <div className="solution-step-grid">
-                  <div className="solution-step-col">
-                    <span className="solution-col-label">01 · Business Friction</span>
-                    <h4>{item.problem}</h4>
+                <div className="olive-outcome-columns">
+                  <div className="olive-outcome-row">
+                    <span className="olive-outcome-label">01 · Business Friction</span>
+                    <h4 style={{ margin: 0, fontSize: "19px", fontWeight: 600, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>{item.problem}</h4>
                   </div>
-                  <div className="solution-step-col">
-                    <span className="solution-col-label">02 · Studio Strategy</span>
-                    <p>{item.strategy}</p>
+                  <div className="olive-outcome-row">
+                    <span className="olive-outcome-label">02 · Studio Strategy</span>
+                    <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "rgba(246, 241, 233, 0.8)" }}>{item.strategy}</p>
                   </div>
-                  <div className="solution-step-col value-col">
-                    <span className="solution-col-label">03 · Commercial Value</span>
-                    <strong>{item.value}</strong>
+                  <div className="olive-outcome-row">
+                    <span className="olive-outcome-label">03 · Commercial Value</span>
+                    <strong style={{ display: "block", fontSize: "14.5px", lineHeight: 1.55, color: "var(--text-cream)", fontWeight: 600 }}>{item.value}</strong>
                   </div>
                 </div>
               </div>
@@ -783,7 +978,7 @@ export default function Page() {
       {/* ====================================================================
           SECTION F: OUR PHILOSOPHY ("REFUSE TO COMPROMISE")
           ==================================================================== */}
-      <section className="pillars-section section-grid" id="about">
+      <section className="pillars-section section-grid" id="philosophy">
         <div className="section-label">04 / Studio Philosophy</div>
         <div className="intro-content">
           <div className="section-heading reveal">
@@ -842,109 +1037,77 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION G: SELECTED WORK (ASYMMETRIC EDITORIAL PORTFOLIO)
+          SECTION G: INTERACTIVE STUDIO SHOWCASE (5-CARD VERTICAL STRIP + PILL FILTERS)
           ==================================================================== */}
-      <section className="work-section section-grid" id="work">
-        <div className="section-label">05 / Selected Work</div>
-        <div className="work-content">
-          <div className="section-heading reveal">
-            <h2>
-              Selected work.<br />
-              <i>Distinctive thinking.</i>
-            </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px", alignItems: "flex-start" }}>
-              <p style={{ margin: 0 }}>
-                An editorial archive of client commissions, digital flagships, and self-initiated concept explorations.
+      <section className="showcase-editorial-section" id="work">
+        <div style={{ maxWidth: "1360px", margin: "0 auto" }}>
+          <div className="showcase-header-bar reveal">
+            <div>
+              <p className="editorial-label" style={{ color: "var(--accent-terracotta)", margin: "0 0 14px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                <span>*</span> 05 / Selected Work
               </p>
-              <Link href="/work" className="text-link" style={{ fontSize: "11px" }}>
-                View complete archive (20+ projects) <ArrowUpRight size={12} />
-              </Link>
+              <h2 style={{ fontSize: "clamp(42px, 5.8vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", margin: 0, color: "var(--text-ink)", fontFamily: "var(--font-display)" }}>
+                Selected work.<br />
+                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-terracotta)" }}>Distinctive thinking.</i>
+              </h2>
             </div>
+            <p style={{ maxWidth: "400px", margin: 0, fontSize: "15px", lineHeight: 1.65, color: "var(--muted)" }}>
+              An editorial archive of client commissions, digital flagships, and self-initiated concept explorations.
+            </p>
           </div>
 
-          {/* Quick Filter Bar */}
-          <div
-            className="portfolio-filter-row reveal"
-            style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "40px" }}
-          >
-            {["All", "Digital & Web", "Branding", "Concepts", "Technology"].map((f) => (
+          {/* Pill-Shaped Category Filter Tabs */}
+          <div className="showcase-filter-pills reveal" role="tablist" aria-label="Studio showcase category filters">
+            {SHOWCASE_FILTERS.map((filter) => (
               <button
-                key={f}
+                key={filter}
                 type="button"
-                onClick={() => setWorkFilter(f)}
-                className={`button ${workFilter === f ? "button-dark" : "button-outline"}`}
-                style={{ padding: "8px 18px", fontSize: "10px" }}
+                role="tab"
+                aria-selected={workFilter === filter}
+                onClick={() => setWorkFilter(filter)}
+                className={`showcase-pill-btn ${workFilter === filter ? "active" : ""}`}
               >
-                {f}
+                {filter}
               </button>
             ))}
           </div>
 
-          {/* Asymmetric Portfolio Grid */}
-          <div className="selected-work-grid reveal">
-            {filteredProjects.map((project, idx) => {
-              const targetUrl =
-                project.slug === "13isu"
-                  ? "/work/13isu"
-                  : project.slug === "trends-are-a-tool"
-                    ? "/work/trends-are-a-tool"
-                    : project.link || `/work/${project.slug}`
-              const isExternal = Boolean(project.link && !targetUrl.startsWith("/work/"))
-
-              return (
-                <div className="selected-card" key={project.slug}>
-                  <a
-                    href={targetUrl}
-                    className="selected-card-image"
-                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    aria-label={`View ${project.name}`}
-                  >
-                    <img
-                      src={project.cover_image}
-                      alt={`${project.name} preview`}
-                      loading="lazy"
-                    />
-                    <span className="selected-card-tag">{project.tag}</span>
-                    <span className="selected-card-marker">{project.marker || `0${idx + 1}`}</span>
-                  </a>
-                  <div className="selected-card-body">
-                    <div>
-                      <div className="selected-card-type">{project.type}</div>
-                      <h3 className="selected-card-title">
-                        <a
-                          href={targetUrl}
-                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                          style={{ color: "inherit", textDecoration: "none" }}
-                        >
-                          {project.name}
-                        </a>
-                      </h3>
-                      <p className="selected-card-desc">{project.description}</p>
-                      <div className="selected-card-services">
-                        {project.services.slice(0, 4).map((s) => (
-                          <span key={s} className="selected-card-service-pill">
-                            {s}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div style={{ marginTop: "24px" }}>
-                      <a
-                        href={targetUrl}
-                        className="selected-card-cta"
-                        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      >
-                        {project.cta} <ArrowUpRight size={14} />
-                      </a>
-                    </div>
-                  </div>
+          {/* Horizontal 5-Card Vertical Showcase Strip (Swipe Carousel on <768px) */}
+          <div className="showcase-five-strip reveal">
+            {showcaseCards.map((card) => (
+              <a
+                key={card.slug}
+                href={card.targetUrl}
+                className="showcase-vertical-card"
+                {...(card.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                aria-label={`View ${card.name}`}
+              >
+                <div className="showcase-vertical-media">
+                  <img src={card.image} alt={`${card.name} preview`} loading="lazy" />
+                  <span className="showcase-vertical-index">{card.index}</span>
                 </div>
-              )
-            })}
+                <div className="showcase-vertical-meta">
+                  <div className="showcase-vertical-title-row">
+                    <h3 className="showcase-vertical-title">{card.name}</h3>
+                    <ArrowUpRight size={13} style={{ color: "var(--accent-terracotta)", flexShrink: 0 }} />
+                  </div>
+                  <span className="showcase-vertical-cat">{card.category}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Pill-Shaped Explore All Work CTA */}
+          <div className="showcase-cta-footer reveal">
+            <span className="editorial-marker">*</span>
+            <Link href="/work" className="stm-btn-terracotta">
+              Explore All Work <ArrowUpRight size={14} />
+            </Link>
+            <span className="editorial-marker">*</span>
           </div>
 
           {/* High-Craft Short-Form Video Reel Strip */}
-          <div className="video-reel-section reveal">
+          <div className="video-reel-section reveal" style={{ marginTop: "72px" }}>
             <div className="video-reel-header">
               <div>
                 <span className="video-reel-tag">
@@ -1227,41 +1390,41 @@ export default function Page() {
       </section>
 
       {/* ====================================================================
-          SECTION K: FINAL CTA & ENQUIRY STUDIO
+          SECTION K: FINAL CTA & ENQUIRY STUDIO (PILL INPUTS + TERRACOTTA CTA)
           ==================================================================== */}
-      <section className="contact" id="contact" style={{ background: "var(--dark)", color: "var(--cream)", padding: "160px 4vw" }}>
+      <section className="contact" id="contact" style={{ background: "var(--bg-espresso)", color: "var(--text-cream)", padding: "clamp(100px, 11vw, 156px) var(--page-gutter)" }}>
         <div className="contact-inner" style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <p
-            className="eyebrow"
+            className="editorial-label"
             style={{
-              fontFamily: "var(--font-utility)",
-              fontSize: "11px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "var(--beige)",
+              color: "#e49581",
               marginBottom: "16px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
-            09 / New Business
+            <span>*</span> 09 / New Business
           </p>
           <h2
             style={{
-              fontSize: "clamp(50px, 8vw, 120px)",
-              lineHeight: 0.95,
+              fontSize: "clamp(48px, 7.5vw, 112px)",
+              lineHeight: 0.94,
               margin: "0 0 24px",
               fontFamily: "var(--font-display)",
+              color: "var(--text-cream)",
             }}
           >
             Have an idea?<br />
-            <i>Let&apos;s make it happen.</i>
+            <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "#e49581" }}>Let&apos;s make it happen.</i>
           </h2>
           <p
             style={{
               maxWidth: "600px",
-              color: "var(--beige)",
+              color: "rgba(246, 241, 233, 0.74)",
               fontSize: "clamp(15px, 1.8vw, 18px)",
               lineHeight: 1.65,
-              marginBottom: "50px",
+              marginBottom: "48px",
             }}
           >
             Tell us what you&apos;re building. Together, we can turn an ambitious idea into something meaningful. We review every enquiry within 24 business hours.
@@ -1358,63 +1521,36 @@ export default function Page() {
                 </div>
 
                 {/* Form fields: Name & Company */}
-                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px" }}>
+                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "18px" }}>
                   <div>
                     <input
                       name="full_name"
                       aria-label="Full Name"
+                      className="stm-pill-input"
                       required
                       placeholder="Your Full Name *"
-                      style={{
-                        background: "transparent",
-                        border: 0,
-                        borderBottom: "1px solid rgba(243, 235, 221, 0.25)",
-                        color: "var(--cream)",
-                        padding: "16px 0",
-                        fontSize: "15px",
-                        width: "100%",
-                        outline: "none",
-                      }}
                     />
                   </div>
                   <div>
                     <input
                       name="company_name"
                       aria-label="Company Name"
+                      className="stm-pill-input"
                       placeholder="Company / Brand Name"
-                      style={{
-                        background: "transparent",
-                        border: 0,
-                        borderBottom: "1px solid rgba(243, 235, 221, 0.25)",
-                        color: "var(--cream)",
-                        padding: "16px 0",
-                        fontSize: "15px",
-                        width: "100%",
-                        outline: "none",
-                      }}
                     />
                   </div>
                 </div>
 
                 {/* Email & Phone */}
-                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px", marginTop: "24px" }}>
+                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "18px", marginTop: "18px" }}>
                   <div>
                     <input
                       type="email"
                       name="email"
                       aria-label="Email"
+                      className="stm-pill-input"
                       required
                       placeholder="Email Address *"
-                      style={{
-                        background: "transparent",
-                        border: 0,
-                        borderBottom: "1px solid rgba(243, 235, 221, 0.25)",
-                        color: "var(--cream)",
-                        padding: "16px 0",
-                        fontSize: "15px",
-                        width: "100%",
-                        outline: "none",
-                      }}
                     />
                   </div>
                   <div>
@@ -1422,17 +1558,8 @@ export default function Page() {
                       type="tel"
                       name="phone"
                       aria-label="Phone Number"
+                      className="stm-pill-input"
                       placeholder="Phone Number / WhatsApp"
-                      style={{
-                        background: "transparent",
-                        border: 0,
-                        borderBottom: "1px solid rgba(243, 235, 221, 0.25)",
-                        color: "var(--cream)",
-                        padding: "16px 0",
-                        fontSize: "15px",
-                        width: "100%",
-                        outline: "none",
-                      }}
                     />
                   </div>
                 </div>
@@ -1440,11 +1567,9 @@ export default function Page() {
                 {/* Budget selector */}
                 <div style={{ marginTop: "32px" }}>
                   <label
+                    className="editorial-label"
                     style={{
-                      fontFamily: "var(--font-utility)",
-                      fontSize: "11px",
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
+                      fontSize: "10px",
                       color: "var(--beige)",
                       display: "block",
                       marginBottom: "12px",
@@ -1459,13 +1584,14 @@ export default function Page() {
                         type="button"
                         onClick={() => setBudget(opt)}
                         style={{
-                          padding: "8px 16px",
+                          padding: "9px 18px",
                           borderRadius: "999px",
                           font: "11px var(--font-utility)",
                           cursor: "pointer",
-                          background: budget === opt ? "var(--cream)" : "transparent",
-                          color: budget === opt ? "var(--dark)" : "var(--cream)",
-                          border: budget === opt ? "1px solid var(--cream)" : "1px solid rgba(243, 235, 221, 0.2)",
+                          background: budget === opt ? "var(--accent-terracotta)" : "rgba(246, 241, 233, 0.05)",
+                          color: "var(--text-cream)",
+                          border: budget === opt ? "1px solid var(--accent-terracotta)" : "1px solid var(--border-hairline-dark)",
+                          transition: "all 0.2s ease",
                         }}
                       >
                         {opt}
@@ -1475,24 +1601,14 @@ export default function Page() {
                 </div>
 
                 {/* Project Description */}
-                <div style={{ marginTop: "32px" }}>
+                <div style={{ marginTop: "28px" }}>
                   <textarea
                     name="project_description"
                     aria-label="Project Description"
+                    className="stm-pill-textarea"
                     rows={4}
                     required
                     placeholder="Tell us about your brand, what you're building, and what success looks like *"
-                    style={{
-                      background: "transparent",
-                      border: 0,
-                      borderBottom: "1px solid rgba(243, 235, 221, 0.25)",
-                      color: "var(--cream)",
-                      padding: "16px 0",
-                      fontSize: "15px",
-                      width: "100%",
-                      outline: "none",
-                      resize: "vertical",
-                    }}
                   />
                 </div>
 
@@ -1500,12 +1616,11 @@ export default function Page() {
                   <p style={{ color: "#F28B82", fontSize: "13px", marginTop: "16px" }}>{formError}</p>
                 )}
 
-                <div style={{ marginTop: "40px" }}>
+                <div style={{ marginTop: "32px" }}>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="button button-light"
-                    style={{ padding: "16px 36px", fontSize: "11px", letterSpacing: "0.1em" }}
+                    className="stm-btn-terracotta"
                   >
                     {submitting ? "Sending..." : "Submit Project Inquiry"} <ArrowUpRight size={14} />
                   </button>

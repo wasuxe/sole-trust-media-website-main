@@ -42,12 +42,12 @@ export default function SiteNav() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: scrolled ? 'rgba(243, 235, 221, 0.94)' : 'rgba(243, 235, 221, 0.85)',
+        background: scrolled ? 'rgba(246, 241, 233, 0.95)' : 'rgba(246, 241, 233, 0.88)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(75, 48, 39, 0.1)',
+        borderBottom: '1px solid var(--border-hairline)',
         transition: 'background 0.3s ease, box-shadow 0.3s ease',
-        boxShadow: scrolled ? '0 10px 30px rgba(40, 34, 31, 0.06)' : 'none',
+        boxShadow: scrolled ? '0 10px 30px rgba(36, 25, 20, 0.06)' : 'none',
       }}
     >
       <Link className="wordmark brand-logo" href="/" aria-label="Sole Trust Media home">

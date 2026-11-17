@@ -107,15 +107,17 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="contact" id="contact" style={{ paddingTop: 180, background: 'var(--dark)', color: 'var(--cream)' }}>
+    <section className="contact" id="contact" style={{ paddingTop: 180, background: 'var(--bg-espresso)', color: 'var(--text-cream)' }}>
       <div className="contact-inner" style={{ maxWidth: 1000, margin: '0 auto' }}>
-        <p className="eyebrow" style={{ color: 'var(--beige)', marginBottom: 16 }}>01 / Start a project</p>
+        <p className="editorial-label" style={{ color: 'var(--beige)', marginBottom: 16, display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+          <span className="editorial-marker">*</span> 01 / Start a project
+        </p>
         <h1 className="contact-page-title" style={{ fontFamily: 'var(--font-display)', margin: '0 0 20px', lineHeight: 0.95 }}>
           Tell us what
           <br />
-          <i style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontWeight: 400 }}>you&apos;re building.</i>
+          <i style={{ fontFamily: 'var(--font-editorial)', fontStyle: 'italic', fontWeight: 400, color: '#e49581' }}>you&apos;re building.</i>
         </h1>
-        <p className="contact-page-description" style={{ color: 'var(--beige)', maxWidth: 560, fontSize: 16, lineHeight: 1.6, marginBottom: 44 }}>
+        <p className="contact-page-description" style={{ color: 'rgba(246, 241, 233, 0.74)', maxWidth: 560, fontSize: 16, lineHeight: 1.6, marginBottom: 44 }}>
           Tell us about your business, what challenges you are facing, and what success looks like. We review every enquiry within 24 business hours.
         </p>
 
@@ -213,10 +215,11 @@ export default function ContactForm() {
             </div>
 
             {/* Name + Email */}
-            <div className="form-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24 }}>
+            <div className="form-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
               <input
                 name="full_name"
                 aria-label="Full name"
+                className="stm-pill-input"
                 required
                 minLength={2}
                 maxLength={120}
@@ -225,6 +228,7 @@ export default function ContactForm() {
               <input
                 name="email"
                 aria-label="Email address"
+                className="stm-pill-input"
                 type="email"
                 required
                 placeholder="Email address *"
@@ -232,23 +236,25 @@ export default function ContactForm() {
             </div>
 
             {/* Company + Phone */}
-            <div className="form-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 24, marginTop: 24 }}>
+            <div className="form-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18, marginTop: 18 }}>
               <input
                 name="company_name"
                 aria-label="Company or brand name"
+                className="stm-pill-input"
                 placeholder="Company / brand name"
               />
               <input
                 name="phone"
                 aria-label="Phone number"
+                className="stm-pill-input"
                 type="tel"
-                placeholder="Phone number (optional)"
+                placeholder="Phone / WhatsApp (optional)"
               />
             </div>
 
             {/* Budget options pills */}
             <div style={{ marginTop: 32 }}>
-              <span style={{ color: 'var(--beige)', fontSize: 11, fontFamily: 'var(--font-utility)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>
+              <span className="editorial-label" style={{ color: 'var(--beige)', fontSize: 10, display: 'block', marginBottom: 12 }}>
                 Project Budget Scope
               </span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -258,13 +264,13 @@ export default function ContactForm() {
                     type="button"
                     onClick={() => setBudget(opt)}
                     style={{
-                      padding: '8px 16px',
+                      padding: '9px 18px',
                       borderRadius: 999,
                       font: "11px 'DM Mono', monospace",
                       cursor: 'pointer',
-                      background: budget === opt ? 'var(--cream)' : 'transparent',
-                      color: budget === opt ? 'var(--dark)' : 'var(--cream)',
-                      border: budget === opt ? '1px solid var(--cream)' : '1px solid rgba(243, 235, 221, 0.2)',
+                      background: budget === opt ? 'var(--accent-terracotta)' : 'rgba(246, 241, 233, 0.05)',
+                      color: 'var(--text-cream)',
+                      border: budget === opt ? '1px solid var(--accent-terracotta)' : '1px solid var(--border-hairline-dark)',
                       transition: 'all 0.2s ease',
                     }}
                   >
@@ -278,25 +284,26 @@ export default function ContactForm() {
             <textarea
               name="project_description"
               aria-label="Project description"
+              className="stm-pill-textarea"
               required
               minLength={10}
               maxLength={5000}
               placeholder="Tell us about your project — what you're building, what challenges you're facing, and what success looks like for you..."
               rows={5}
-              style={{ marginTop: 32 }}
+              style={{ marginTop: 28 }}
             />
 
             <button
-              className="button button-light"
+              className="stm-btn-terracotta"
               type="submit"
               disabled={submitting}
-              style={{ marginTop: 16, padding: '16px 36px', fontSize: 11, letterSpacing: '0.1em' }}
+              style={{ marginTop: 12 }}
             >
               {submitting ? (
                 'Sending…'
               ) : (
                 <>
-                  Send enquiry <ArrowUpRight data-icon="inline-end" />
+                  Send enquiry <ArrowUpRight size={14} />
                 </>
               )}
             </button>

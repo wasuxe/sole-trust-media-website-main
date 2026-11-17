@@ -31,13 +31,19 @@ interface Project {
 }
 
 const CATEGORIES = [
-  "All Projects",
-  "Web / Digital",
-  "Branding & Identity",
-  "Packaging Design",
-  "Concepts",
-  "AI & Technology",
+  "All Work",
+  "Brand & Strategy",
+  "Digital Flagships",
   "Creative & Content",
+  "Technology & Systems",
+] as const
+
+const FEATURED_SHOWCASE_SLUGS = [
+  { slug: "twine", fallbackName: "Twine", fallbackImage: "/assets/work/twine/twine-01.jpeg", fallbackCat: "Brand & Strategy" },
+  { slug: "future-luxe", fallbackName: "Future Luxe", fallbackImage: "/assets/work/future-luxe/future-luxe-01.png", fallbackCat: "Digital Flagships" },
+  { slug: "lumora", fallbackName: "Lumora", fallbackImage: "/assets/work/lumora/lumora-01.png", fallbackCat: "Brand & Strategy" },
+  { slug: "13isu", fallbackName: "13isu", fallbackImage: "/13isu-creative-1.png", fallbackCat: "Creative & Content" },
+  { slug: "trends-are-a-tool", fallbackName: "Trends Are a Tool", fallbackImage: "/assets/work/trends-are-a-tool/trends-cover.svg", fallbackCat: "Brand & Strategy" },
 ] as const
 
 const INITIAL_PROJECTS: Project[] = PROJECTS.map((p) => ({
@@ -64,7 +70,7 @@ const INITIAL_PROJECTS: Project[] = PROJECTS.map((p) => ({
 }))
 
 export default function WorkPage() {
-  const [activeCategory, setActiveCategory] = useState<string>("All Projects")
+  const [activeCategory, setActiveCategory] = useState<string>("All Work")
   const [projects, setProjects] = useState<Project[]>(INITIAL_PROJECTS)
 
   useEffect(() => {
@@ -137,7 +143,7 @@ export default function WorkPage() {
   }, [])
 
   function matchesCategory(project: Project, cat: string): boolean {
-    if (cat === "All Projects") return true
+    if (cat === "All Work") return true
     const text = [
       project.title,
       project.name,
@@ -150,18 +156,14 @@ export default function WorkPage() {
       .toLowerCase()
 
     switch (cat) {
-      case "Web / Digital":
-        return /\b(web|website|digital|interface|figma|portal|platform)\b/i.test(text)
-      case "Branding & Identity":
-        return /\b(brand|branding|identity|typography)\b/i.test(text)
-      case "Packaging Design":
-        return /\b(packaging|pack|box|unboxing)\b/i.test(text)
-      case "Concepts":
-        return /\b(concept|exploratory|self-initiated)\b/i.test(text)
-      case "AI & Technology":
-        return /\b(ai|technology|automation|saas|supply chain)\b/i.test(text)
+      case "Brand & Strategy":
+        return /\b(brand|branding|identity|typography|packaging|strategy|framework|concept|raya|lumora|twine|aurelia)\b/i.test(text)
+      case "Digital Flagships":
+        return /\b(web|website|digital|interface|figma|portal|platform|flagship|future|luxe|e-commerce)\b/i.test(text)
       case "Creative & Content":
-        return /\b(creative|content|social|music|media|editorial|video|campaign)\b/i.test(text)
+        return /\b(creative|content|social|music|media|editorial|video|campaign|13isu|dessert|trends)\b/i.test(text)
+      case "Technology & Systems":
+        return /\b(ai|technology|automation|saas|supply chain|farmlytics|chainmind|system|analytics)\b/i.test(text)
       default:
         return true
     }
@@ -172,8 +174,26 @@ export default function WorkPage() {
     return acc
   }, {} as Record<string, number>)
 
+  const featuredShowcase = FEATURED_SHOWCASE_SLUGS.map((slot, index) => {
+    const found = projects.find((p) => p.slug === slot.slug)
+    return {
+      slug: slot.slug,
+      title: found?.title || slot.fallbackName,
+      cover_image: slot.fallbackImage,
+      category: found?.category || slot.fallbackCat,
+      href:
+        slot.slug === "13isu"
+          ? "/work/13isu"
+          : slot.slug === "trends-are-a-tool"
+          ? "/work/trends-are-a-tool"
+          : found?.link || `/work/${slot.slug}`,
+      isExternal: Boolean(found?.link && slot.slug !== "13isu" && slot.slug !== "trends-are-a-tool"),
+      index: `0${index + 1}`,
+    }
+  })
+
   const filteredProjects =
-    activeCategory === "All Projects"
+    activeCategory === "All Work"
       ? projects
       : projects.filter((project) => matchesCategory(project, activeCategory))
 
@@ -183,46 +203,85 @@ export default function WorkPage() {
       <SiteNav />
 
       {/* Hero Header */}
-      <section className="work-page-hero">
-        <p className="eyebrow">04 / Complete portfolio</p>
+      <section className="work-page-hero" style={{ background: "var(--bg-parchment)" }}>
+        <p className="editorial-label" style={{ color: "var(--accent-terracotta)", marginBottom: "14px" }}>
+          * 04 / Complete Portfolio
+        </p>
         <h1>
           Selected work.<br />
-          <i>Distinctive thinking.</i>
+          <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-terracotta)" }}>Distinctive thinking.</i>
         </h1>
         <p>
           Live digital flagships, conceptual brand systems, and performance architectures built to help ambitious businesses command attention and grow.
         </p>
       </section>
 
-      {/* Filter and Portfolio Grid */}
-      <section className="portfolio-section">
-        <div className="filter-bar" role="tablist" aria-label="Portfolio filters">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              className={activeCategory === cat ? "active" : ""}
-              onClick={() => setActiveCategory(cat)}
-              role="tab"
-              aria-selected={activeCategory === cat}
-            >
-              {cat} <span style={{ opacity: 0.65, fontSize: "9px", marginLeft: "4px" }}>({categoryCounts[cat] ?? 0})</span>
-            </button>
-          ))}
-        </div>
-
-        {filteredProjects.length === 0 ? (
-          <div className="portfolio-empty" style={{ textAlign: "center", padding: "60px 20px" }}>
-            <p style={{ color: "var(--muted)", margin: "0 0 16px" }}>No projects found under &ldquo;{activeCategory}&rdquo;.</p>
-            <button
-              className="button button-dark"
-              onClick={() => setActiveCategory("All Projects")}
-              style={{ padding: "10px 18px", fontSize: "10px" }}
-            >
-              Reset Filters
-            </button>
+      {/* Featured 5-Card Vertical Showcase Strip */}
+      <section className="showcase-editorial-section" style={{ paddingTop: "64px", paddingBottom: "48px" }}>
+        <div style={{ maxWidth: "1360px", margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+            <span className="editorial-label" style={{ color: "var(--muted)" }}>
+              Featured Commissions &bull; 01—05
+            </span>
+            <span className="editorial-marker">+</span>
           </div>
-        ) : (
-          <div className="selected-work-grid">
+
+          <div className="showcase-five-strip">
+            {featuredShowcase.map((item) => (
+              <a
+                key={item.slug}
+                href={item.href}
+                className="showcase-vertical-card"
+                {...(item.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <div className="showcase-vertical-media">
+                  <img src={item.cover_image} alt={`${item.title} showcase`} loading="lazy" />
+                  <span className="showcase-vertical-index">{item.index}</span>
+                </div>
+                <div className="showcase-vertical-meta">
+                  <div className="showcase-vertical-title-row">
+                    <h2 className="showcase-vertical-title">{item.title}</h2>
+                    <ArrowUpRight size={13} style={{ color: "var(--accent-terracotta)", flexShrink: 0 }} />
+                  </div>
+                  <span className="showcase-vertical-cat">{item.category}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Filter and Complete Portfolio Grid */}
+      <section className="portfolio-section" style={{ background: "var(--bg-parchment)", paddingTop: "40px" }}>
+        <div style={{ maxWidth: "1360px", margin: "0 auto" }}>
+          <div className="showcase-filter-pills" role="tablist" aria-label="Portfolio filters">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`showcase-pill-btn ${activeCategory === cat ? "active" : ""}`}
+                onClick={() => setActiveCategory(cat)}
+                role="tab"
+                aria-selected={activeCategory === cat}
+              >
+                {cat} <span style={{ opacity: 0.65, fontSize: "9px", marginLeft: "4px" }}>({categoryCounts[cat] ?? 0})</span>
+              </button>
+            ))}
+          </div>
+
+          {filteredProjects.length === 0 ? (
+            <div className="portfolio-empty" style={{ textAlign: "center", padding: "60px 20px" }}>
+              <p style={{ color: "var(--muted)", margin: "0 0 16px" }}>No projects found under &ldquo;{activeCategory}&rdquo;.</p>
+              <button
+                className="stm-btn-terracotta"
+                onClick={() => setActiveCategory("All Work")}
+                style={{ padding: "11px 22px", fontSize: "10px" }}
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            <div className="selected-work-grid">
             {filteredProjects.map((project) => {
               const isExternal = Boolean(project.link && project.slug !== "13isu" && project.slug !== "trends-are-a-tool")
               const targetUrl =
@@ -293,18 +352,19 @@ export default function WorkPage() {
             })}
           </div>
         )}
+        </div>
       </section>
 
       {/* Contact CTA */}
-      <section className="contact portfolio-contact">
+      <section className="contact portfolio-contact" style={{ background: "var(--bg-espresso)", color: "var(--text-cream)" }}>
         <div className="contact-inner">
-          <p className="eyebrow">Have a good one?</p>
+          <p className="editorial-label" style={{ color: "var(--beige)", marginBottom: "14px" }}>* Have a good one?</p>
           <h2>
             Let&apos;s make<br />
-            <i>something memorable.</i>
+            <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "#e49581" }}>something memorable.</i>
           </h2>
-          <a className="button button-light" href="/contact">
-            Start a project <ArrowUpRight data-icon="inline-end" />
+          <a className="stm-btn-terracotta" href="/contact">
+            Start a project <ArrowUpRight size={14} />
           </a>
         </div>
       </section>
