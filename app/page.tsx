@@ -1,20 +1,29 @@
 "use client"
 
-import { ArrowUpRight, ArrowDown, Mail, MapPin, Plus, Check, Compass, Layers, Sparkles, Globe } from "lucide-react"
+import { ArrowRight, ArrowUpRight, ArrowDown, Mail, MapPin, Check, Compass, Layers, Sparkles, Globe, Quote } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { getSupabaseBrowserClient } from "@/lib/supabase/client"
 import { PROJECTS, type Project } from "@/lib/data/projects"
 import SiteNav from "@/components/site-nav"
 import SiteFooter from "@/components/site-footer"
 import HeroEditorialVisual from "@/components/hero-editorial-visual"
+import { CapabilityMiniDemo } from "@/components/capability-demos"
+import CaseStudyDrawer, { type CaseDrawerProject } from "@/components/case-study-drawer"
+import ScopeConfigurator, { type LockedScopePayload } from "@/components/scope-configurator"
+import { EspressoMarqueeTicker, MethodologyProgressBeam } from "@/components/kinetic-scroll-polish"
+import { MotionWrapper, AnimatedHairline, CountUpMetric } from "@/components/MotionWrapper"
+import ReelVideoCard from "@/components/reel-video-card"
+import { useSound } from "@/components/sound-provider"
+import CopyEmailLink from "@/components/copy-email-link"
 
 // ============================================================================
-// DATA STRUCTURES & DEFINITIONS
+// CORE DATA STRUCTURES
 // ============================================================================
 
 interface Capability {
   number: string
+  shortLabel: string
   title: string
   tagline: string
   description: string
@@ -26,86 +35,91 @@ interface Capability {
 const CAPABILITIES: Capability[] = [
   {
     number: "01",
+    shortLabel: "Brand & Strategy",
     title: "Brand Strategy & Identity",
     tagline: "Positioning, visual architecture & brand foundations",
     description:
-      "We define why your brand matters, who it serves, and the singular positioning that makes competitors irrelevant. From visual identity systems to voice, guidelines and packaging.",
-    valueProposition: "Value: Command pricing power, build unshakeable customer loyalty, and stand apart from commodity rivals.",
+      "We define why your brand matters, who it serves, and the singular positioning that makes competitors irrelevant — from visual identity systems to voice, guidelines, and packaging.",
+    valueProposition: "Command pricing power, build unshakeable customer loyalty, and stand apart from commodity rivals.",
     deliverables: [
       "Brand Positioning & Strategy",
       "Visual Identity & Logo Systems",
       "Design Systems & Brand Guidelines",
       "Packaging & Unboxing Design",
-      "Brand Voice & Messaging Frameworks",
-      "Rebranding & Identity Evolution",
+      "Brand Voice & Messaging",
+      "Identity Evolution",
     ],
     href: "/services",
   },
   {
     number: "02",
+    shortLabel: "Creative & Content",
     title: "Creative Direction & Content",
-    tagline: "High-craft visuals, campaigns & editorial storytelling",
+    tagline: "High-craft visuals, viral reels & campaign storytelling",
     description:
-      "Campaign-level creative direction, short-form video production, and editorial photography that bring your brand narrative to life with authenticity, cultural prestige, and emotional punch.",
-    valueProposition: "Value: Earn genuine attention, elevate cultural cachet, and turn passive scrollers into passionate advocates.",
+      "Campaign-level creative direction and short-form video production engineered to earn genuine audience attention and turn brand identity into shareable cultural momentum.",
+    valueProposition: "Build an engaged audience that converts because your craft earns immediate respect.",
     deliverables: [
-      "Creative Direction & Concepts",
-      "Short-Form Video & Viral Reels",
-      "Editorial Photography & Art Direction",
-      "Brand Campaign Production",
-      "Social Media Visual Systems",
-      "Motion Design & Visual Assets",
+      "Creative Direction & Campaigns",
+      "Short-Form Reels & Video",
+      "Editorial Photography",
+      "Brand Films & Motion",
+      "Social Visual Frameworks",
+      "Packaging Art Direction",
     ],
     href: "/services",
   },
   {
     number: "03",
+    shortLabel: "Digital Experiences",
     title: "Digital Experiences & Websites",
-    tagline: "Bespoke digital flagships & interactive web platforms",
+    tagline: "Bespoke digital flagships & Next.js web platforms",
     description:
-      "Fast, responsive, conversion-engineered digital experiences built with modern technology stacks. We merge aesthetic elegance with fluid interaction design and bulletproof frontend engineering.",
-    valueProposition: "Value: Turn cold visitors into qualified, high-intent client enquiries with frictionless digital journeys.",
+      "Websites and digital platforms engineered for sub-second speed, sculptural typography, and frictionless commercial conversion.",
+    valueProposition: "Convert cold visitors into qualified, high-intent client enquiries automatically.",
     deliverables: [
-      "High-Performance Digital Flagships",
-      "Bespoke Web & Mobile Applications",
-      "Creative E-commerce Experiences",
+      "Next.js Digital Flagships",
+      "Interactive Web Applications",
+      "Creative E-Commerce Stores",
       "UI/UX Design Systems",
-      "Interactive 3D & Motion UI",
-      "Technical SEO & Core Web Vitals",
+      "Core Web Vitals & SEO",
+      "Kinetic Micro-Interactions",
     ],
     href: "/services",
   },
   {
     number: "04",
+    shortLabel: "Marketing & Growth",
     title: "Marketing & Business Growth",
-    tagline: "Data-led acquisition, social commerce & funnel telemetry",
+    tagline: "Data-led acquisition, social commerce & conversion funnels",
     description:
-      "Targeted, outcome-focused growth architectures across search, social, and paid media that deliver predictable customer acquisition, lower CAC, and high customer lifetime value.",
-    valueProposition: "Value: Lower customer acquisition costs, build consistent inbound pipeline, and track every rupee spent.",
+      "Disciplined paid media and inbound acquisition architectures backed by live telemetry — optimized continuously for lower acquisition cost and predictable revenue.",
+    valueProposition: "Every metric tracked. Predictable inbound pipeline. Verifiable commercial return.",
     deliverables: [
-      "Paid Performance Media (Meta & Google)",
-      "Social Commerce & Inbound Funnels",
-      "Search Engine Optimization (SEO)",
-      "Funnel Telemetry & Conversion Rate Optimization",
-      "Influencer & Creator Collaborations",
-      "Omnichannel Campaign Strategy",
+      "Meta & Instagram Growth",
+      "Google High-Intent Search",
+      "Social Commerce Funnels",
+      "Conversion Rate Optimization",
+      "Audience Retention Systems",
+      "Omnichannel Telemetry",
     ],
     href: "/services",
   },
   {
     number: "05",
+    shortLabel: "Technology & Systems",
     title: "Technology & Business Automation",
-    tagline: "Intelligent systems, workflow automation & custom software",
+    tagline: "Intelligent workflows, CRM sync & AI intake pipelines",
     description:
-      "Automated operational pipelines, AI-assisted lead qualification, and custom business platforms that eliminate repetitive overhead and streamline customer journeys from enquiry to fulfillment.",
-    valueProposition: "Value: Reclaim hundreds of productive hours, eliminate operational bottlenecks, and scale without bloating headcount.",
+      "Automated operational pipelines that eliminate manual lead drop-offs, integrate your CRM, and qualify prospective clients around the clock.",
+    valueProposition: "Zero dropped enquiries, sub-hour response cadence, and scalable studio infrastructure.",
     deliverables: [
-      "Workflow & Inbound Automation",
-      "AI Assistants & Agentic Integrations",
-      "CRM & Sales Pipeline Systems",
-      "Custom SaaS & Business Management Tools",
-      "API Integrations & Cloud Infrastructure",
-      "Database Architecture & Telemetry",
+      "Inbound Lead Capture & CRM",
+      "WhatsApp & Email Qualification",
+      "AI Agentic Workflows",
+      "Custom Operations Portals",
+      "API & Webhook Telemetry",
+      "Automated Client Dashboards",
     ],
     href: "/services",
   },
@@ -116,128 +130,43 @@ const FRICTION_POINTS = [
     num: "01",
     title: "The Visibility Illusion",
     explanation:
-      "Having an online presence is not the same as commanding attention. Views without engagement are vanity; reach without affinity is a squandered budget.",
-    consequence: "Suppressed pricing power, commoditisation, and high ad spend with negligible commercial return.",
+      "Chasing impressions and random viral trends without strategic positioning burns attention without driving qualified buyer enquiries.",
+    consequence: "High vanity reach with flat sales and rising acquisition costs.",
   },
   {
     num: "02",
     title: "The Disconnected Stack",
     explanation:
-      "When branding, social media, paid advertising, and website engineering operate in disconnected silos, customer experience breaks at every handoff.",
-    consequence: "Leaky conversion funnels, brand dissonance, and confused prospects who bounce before inquiring.",
+      "When branding, social media, paid ads, and web engineering operate in isolated silos, customer trust breaks at every handoff.",
+    consequence: "Leaky conversion funnels and prospects bouncing before inquiring.",
   },
   {
     num: "03",
     title: "The Trust Deficit",
     explanation:
-      "High-value clients make split-second evaluations based on visual authority and digital polish. Outdated design costs real revenue before you ever speak.",
-    consequence: "Lost enterprise deals, lower basket sizes, and prolonged sales cycles that exhaust leadership.",
+      "High-value buyers evaluate visual authority in milliseconds. Outdated design or sluggish templates cost revenue before you ever speak.",
+    consequence: "Lost premium deals and prolonged sales cycles.",
   },
   {
     num: "04",
     title: "The Growth Ceiling",
     explanation:
-      "Tactical hacks, one-off viral trends, and piecemeal design updates cannot fix foundational positioning gaps. Sustainable scale requires an integrated system.",
-    consequence: "Plateaued revenue, erratic inbound flow, and constant dependence on expensive outbound efforts.",
-  },
-]
-
-const PHILOSOPHY_PRINCIPLES = [
-  {
-    num: "01",
-    title: "Strategic Thinking",
-    subtitle: "Clarity Before Execution",
-    description:
-      "We never begin with decoration alone. We start by deconstructing the market, the commercial objective, and the genuine psychological drivers of the customer. Every creative decision must answer a business question.",
-  },
-  {
-    num: "02",
-    title: "Creativity With Purpose",
-    subtitle: "Distinction Over Noise",
-    description:
-      "Aesthetics without intent is superficial. We engineer visual identities and digital worlds that command immediate recognition, spark genuine emotion, and establish enduring cultural relevance.",
-  },
-  {
-    num: "03",
-    title: "Execution With Precision",
-    subtitle: "Refuse to Compromise",
-    description:
-      "The difference between good and world-class lives in the micro-details: typography kerning, millisecond transition curves, and clean semantic architecture. We obsess over craft because customers feel the difference.",
-  },
-  {
-    num: "04",
-    title: "Technology With Intention",
-    subtitle: "Speed, Scale & Stability",
-    description:
-      "We adopt technology to solve real human problems, not to chase ephemeral gimmicks. Our software, websites, and automations are lightweight, resilient, and engineered for sustainable business velocity.",
-  },
-  {
-    num: "05",
-    title: "Continuous Improvement",
-    subtitle: "Enduring Evolution",
-    description:
-      "Launching is day one, not the finish line. We monitor real-world telemetry, audit friction points, and iteratively refine every system so your brand stays impossible to ignore and impossible to replace.",
-  },
-]
-
-const STUDIO_INSIGHTS = [
-  {
-    id: "trends-vs-strategy",
-    num: "01",
-    category: "Brand Strategy & Commerce",
-    author: "Written by Daksh Bhagat",
-    date: "Spring 2026",
-    readTime: "6 min read",
-    title: "Trends Are a Tool, Not a Strategy",
-    deck: "People are watching your posts, so why aren't they buying? An empirical examination of the vanity-reach paradox: why Store A's 100K trending views fail to convert while Store B's 8K customer-centric views drive predictable sales.",
-    href: "/work/trends-are-a-tool",
-  },
-  {
-    id: "architecture-of-distinction",
-    num: "02",
-    category: "Brand Identity",
-    date: "Spring 2026",
-    readTime: "5 min read",
-    title: "The Architecture of Distinction",
-    deck: "In an era saturated by AI-generated sameness and cookie-cutter design systems, the only defensible moat for ambitious businesses is visceral taste, tactile typography, and uncompromising craft.",
-    href: "/services",
-  },
-  {
-    id: "digital-flagships",
-    num: "03",
-    category: "Creative Technology",
-    date: "Spring 2026",
-    readTime: "7 min read",
-    title: "Beyond the Template: The Rise of Digital Flagships",
-    deck: "Why high-growth consumer brands are abandoning bloated off-the-shelf theme ecosystems for bespoke, high-performance web platforms engineered with Next.js, headless architectures, and micro-interactions.",
-    href: "/work",
-  },
-  {
-    id: "systems-and-scale",
-    num: "04",
-    category: "Technology & Systems",
-    date: "Spring 2026",
-    readTime: "5 min read",
-    title: "Automating the Monotony, Amplifying the Craft",
-    deck: "How modern creative studios deploy agentic workflow automations and intelligent lead qualification to eliminate operational friction without sacrificing high-touch human artistry.",
-    href: "/contact",
+      "One-off campaigns and piecemeal design tweaks cannot solve foundational positioning or operational bottlenecks.",
+    consequence: "Plateaued revenue and dependence on manual outbound effort.",
   },
 ]
 
 const SERVICE_OPTIONS = [
-  "Brand Strategy & Identity",
-  "Website / Digital Flagship",
-  "E-commerce Platform",
-  "Creative & Content Direction",
+  "Brand Strategy",
+  "Branding & Visual Identity",
+  "Social Media Management",
   "Performance Marketing",
-  "Technology & Business Automation",
-]
-
-const BUDGET_OPTIONS = [
-  "₹50,000 – ₹1,50,000",
-  "₹1,50,000 – ₹3,50,000",
-  "₹3,50,000 – ₹8,00,000",
-  "₹8,00,000+",
+  "Creative Direction",
+  "Content Creation",
+  "Website & E-commerce",
+  "UI/UX Design",
+  "Business Automation",
+  "Custom Web Applications",
 ]
 
 const SHOWCASE_FILTERS = [
@@ -254,39 +183,34 @@ const FEATURED_FIVE_SHOWCASE = [
     name: "Twine",
     category: "Brand & Strategy",
     image: "/assets/work/twine/twine-01.jpeg",
-    filterKey: "Brand & Strategy",
   },
   {
     slug: "future-luxe",
     name: "Future Luxe",
     category: "Digital Flagships",
     image: "/assets/work/future-luxe/future-luxe-01.png",
-    filterKey: "Digital Flagships",
   },
   {
     slug: "lumora",
     name: "Lumora",
     category: "Brand & Strategy",
     image: "/assets/work/lumora/lumora-01.png",
-    filterKey: "Brand & Strategy",
   },
   {
     slug: "13isu",
     name: "13isu",
     category: "Creative & Content",
     image: "/13isu-creative-1.png",
-    filterKey: "Creative & Content",
   },
   {
     slug: "trends-are-a-tool",
     name: "Trends Are a Tool",
     category: "Brand & Strategy",
     image: "/assets/work/trends-are-a-tool/trends-cover.svg",
-    filterKey: "Brand & Strategy",
   },
 ] as const
 
-const OLIVE_CLIENT_ROSTER = [
+const CLIENT_PARTNER_ROSTER = [
   "13ISU",
   "FARMLYTICS",
   "TWINE",
@@ -298,13 +222,18 @@ const OLIVE_CLIENT_ROSTER = [
 ] as const
 
 export default function Page() {
-  const [activeAccordion, setActiveAccordion] = useState<number | null>(0)
+  const { playWarmClick } = useSound()
+  const [activeCapabilityIdx, setActiveCapabilityIdx] = useState<number>(0)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
-  const [budget, setBudget] = useState<string>("")
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [workFilter, setWorkFilter] = useState<string>("All Work")
+  const [activeDrawerProject, setActiveDrawerProject] = useState<CaseDrawerProject | null>(null)
+  const [projectBrief, setProjectBrief] = useState<string>("")
+  const [businessStage, setBusinessStage] = useState<string>("Direct Inquiry")
+  const [scopeBanner, setScopeBanner] = useState<string | null>(null)
+  const contactNameInputRef = useRef<HTMLInputElement | null>(null)
   const [submittedInfo, setSubmittedInfo] = useState<{
     fullName: string
     mailtoUrl: string
@@ -312,6 +241,43 @@ export default function Page() {
   } | null>(null)
   const [projectsList, setProjectsList] = useState<Project[]>(PROJECTS)
 
+  const scrollToContactForm = () => {
+    const el = document.getElementById("contact")
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" })
+      window.setTimeout(() => {
+        contactNameInputRef.current?.focus({ preventScroll: true })
+      }, 420)
+    }
+  }
+
+  const handleBuildLikeThis = (services: string[], projectName: string) => {
+    setActiveDrawerProject(null)
+    const matched = services.filter((s) => SERVICE_OPTIONS.includes(s))
+    if (matched.length > 0) setSelectedServices(matched)
+    setBusinessStage(`Inspired by ${projectName}`)
+    setProjectBrief(
+      `We would like to build a commission inspired by ${projectName}.\n\nProject Goals & Timeline: `
+    )
+    setScopeBanner(`Pre-populated scope inspired by ${projectName}`)
+    setSent(false)
+    window.setTimeout(scrollToContactForm, 120)
+  }
+
+  const handleLockScope = (payload: LockedScopePayload) => {
+    playWarmClick()
+    const matched = payload.formServices.filter((s) => SERVICE_OPTIONS.includes(s))
+    setSelectedServices(matched.length > 0 ? matched : payload.formServices)
+    setBusinessStage(`${payload.stage} · ${payload.recommendedTrack} (${payload.timeline})`)
+    setProjectBrief(payload.summaryNote)
+    setScopeBanner(
+      `Proposal Scope Loaded: ${payload.recommendedTrack} (${payload.timeline}) · ${payload.stage}`
+    )
+    setSent(false)
+    window.setTimeout(scrollToContactForm, 100)
+  }
+
+  // Dynamic Supabase projects sync with local fallback
   useEffect(() => {
     let isMounted = true
 
@@ -347,7 +313,9 @@ export default function Page() {
               note: String(item.note || ""),
               description: String(item.description || item.short_description || ""),
               services: Array.isArray(item.services) ? (item.services as string[]) : [],
-              images: Array.isArray(item.images) ? (item.images as string[]) : [String(item.cover_image || "/placeholder.jpg")],
+              images: Array.isArray(item.images)
+                ? (item.images as string[])
+                : [String(item.cover_image || "/placeholder.jpg")],
               cover_image: String(item.cover_image || "/placeholder.jpg"),
               marker: String(item.marker || "01"),
               tag: "CLIENT WORK" as const,
@@ -371,6 +339,7 @@ export default function Page() {
     }
   }, [])
 
+  // Legacy .reveal observer for child elements inside sub-components
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -380,7 +349,7 @@ export default function Page() {
           }
         })
       },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.08, rootMargin: "0px 0px -30px 0px" }
     )
 
     const revealElements = document.querySelectorAll(".reveal")
@@ -389,11 +358,8 @@ export default function Page() {
     return () => observer.disconnect()
   }, [])
 
-  const toggleAccordion = (index: number) => {
-    setActiveAccordion((prev) => (prev === index ? null : index))
-  }
-
   const toggleServicePill = (service: string) => {
+    playWarmClick()
     setSelectedServices((prev) =>
       prev.includes(service) ? prev.filter((s) => s !== service) : [...prev, service]
     )
@@ -401,6 +367,7 @@ export default function Page() {
 
   const submitEnquiry = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    playWarmClick()
     setSubmitting(true)
     setFormError(null)
 
@@ -417,67 +384,78 @@ export default function Page() {
       return
     }
 
-    const mailtoSubject = encodeURIComponent(`Start a Project Query — ${fullName || 'New Client'}`)
+    const disciplinesText = (selectedServices || []).join(", ") || "General Inquiry"
+    const mailtoSubject = encodeURIComponent(`Start a Project — ${fullName || "New Client"} (${businessStage})`)
     const mailtoBody = encodeURIComponent(
       `Hi Sole Trust Media Team,\n\n` +
-      `I would like to start a project with you.\n\n` +
-      `• Name: ${fullName}\n` +
-      `• Email: ${email}\n` +
-      (companyName ? `• Company: ${companyName}\n` : '') +
-      (phone ? `• Phone: ${phone}\n` : '') +
-      (budget ? `• Budget: ${budget}\n` : '') +
-      `• Services: ${(selectedServices || []).join(', ') || 'General Inquiry'}\n\n` +
-      `Project Brief:\n${projectDescription}\n\n` +
-      `Regards,\n${fullName}`
+        `I would like to start a project with you.\n\n` +
+        `• Name: ${fullName}\n` +
+        `• Email: ${email}\n` +
+        (companyName ? `• Company: ${companyName}\n` : "") +
+        (phone ? `• Phone / WhatsApp: ${phone}\n` : "") +
+        `• Business Stage: ${businessStage}\n` +
+        `• Selected Disciplines: ${disciplinesText}\n\n` +
+        `Project Brief:\n${projectDescription}\n\n` +
+        `Regards,\n${fullName}`
     )
     const mailtoUrl = `mailto:soletrustmedia@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`
     const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soletrustmedia@gmail.com&su=${mailtoSubject}&body=${mailtoBody}`
 
+    const enquiryPayload = {
+      full_name: fullName,
+      company_name: companyName,
+      email,
+      phone,
+      services_required: selectedServices,
+      project_description: `[Business Stage: ${businessStage}]\n\n${projectDescription}`,
+    }
+
     try {
-      const enquiryPayload = {
-        full_name: fullName,
-        company_name: companyName,
-        email: email,
-        phone: phone,
-        services_required: selectedServices,
-        budget: budget || null,
-        project_description: projectDescription,
-      }
+      // 1. Direct FormSubmit AJAX dispatch to soletrustmedia@gmail.com + internal /api/enquiries sync in parallel
+      await Promise.allSettled([
+        fetch("https://formsubmit.co/ajax/soletrustmedia@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            _subject: `[Start a Project] ${fullName}${companyName ? ` (${companyName})` : ""}`,
+            _replyto: email,
+            _template: "table",
+            Name: fullName,
+            Email: email,
+            Company: companyName || "N/A",
+            "Phone / WhatsApp": phone || "N/A",
+            "Business Stage": businessStage,
+            "Selected Disciplines": disciplinesText,
+            Message: projectDescription,
+          }),
+        }),
+        fetch("/api/enquiries", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(enquiryPayload),
+        }),
+      ])
 
-      const res = await fetch("/api/enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(enquiryPayload),
-      })
+      setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
+      setSent(true)
+      setSelectedServices([])
+      setProjectBrief("")
+      setScopeBanner(null)
+      event.currentTarget.reset()
 
-      if (res.ok) {
-        setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
-        setSent(true)
-        setSelectedServices([])
-        event.currentTarget.reset()
-      } else {
-        const data = await res.json().catch(() => ({}))
-        // Attempt client-side Supabase insert as fallback if API failed
-        const client = getSupabaseBrowserClient()
-        const { error: enquiriesError } = await client
-          .from("enquiries")
-          .insert(enquiryPayload as never)
-
-        if (!enquiriesError) {
-          setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
-          setSent(true)
-          setSelectedServices([])
-          event.currentTarget.reset()
-        } else {
-          setFormError(
-            data.error ||
-            "We couldn't submit your enquiry right now. Please email us directly at soletrustmedia@gmail.com"
-          )
-        }
+      // 2. Simultaneously launch pre-populated mailto:soletrustmedia@gmail.com compose redirect
+      if (typeof window !== "undefined") {
+        window.location.href = mailtoUrl
       }
     } catch {
       setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
       setSent(true)
+      if (typeof window !== "undefined") {
+        window.location.href = mailtoUrl
+      }
     } finally {
       setSubmitting(false)
     }
@@ -542,61 +520,91 @@ export default function Page() {
             }
           })
 
+  const activeCapability = CAPABILITIES[activeCapabilityIdx] ?? CAPABILITIES[0]
+  const hasInteractiveDemo =
+    activeCapability.number === "01" ||
+    activeCapability.number === "03" ||
+    activeCapability.number === "05"
+
   return (
     <main className="site-shell">
-      {/* ====================================================================
-          SECTION A: NAVIGATION
-          ==================================================================== */}
       <SiteNav />
 
       {/* ====================================================================
-          SECTION B: HERO (EDITORIAL ATELIER + ROTATING STAMP + CIRCULAR MILESTONES)
+          01. HERO + 3D ATELIER STAGE + COUNT-UP MILESTONES (WARM PARCHMENT)
           ==================================================================== */}
       <section className="hero" id="top" style={{ background: "var(--bg-parchment)" }}>
         <div className="hero-container">
-          <div className="hero-copy reveal">
+          <div className="hero-copy">
             <p className="eyebrow hero-eyebrow editorial-label" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
               <span className="editorial-marker">*</span> Independent Creative Technology Studio
             </p>
 
             <h1 className="hero-headline">
-              Ideas into <i style={{ color: "var(--accent-terracotta)" }}>experiences.</i>
-              <br />
-              Creativity into <i style={{ color: "var(--accent-terracotta)" }}>growth.</i>
+              <span className="hero-line-mask">
+                <span className="hero-line-reveal">
+                  Ideas into <i style={{ color: "var(--accent-terracotta)" }}>experiences.</i>
+                </span>
+              </span>
+              <span className="hero-line-mask">
+                <span className="hero-line-reveal delay-2">
+                  Creativity into <i style={{ color: "var(--accent-terracotta)" }}>growth.</i>
+                </span>
+              </span>
             </h1>
 
             <p className="hero-sub">
-              We combine strategy, creativity and technology to build meaningful brands, digital experiences and business opportunities.
+              Strategy, editorial craft, and full-stack engineering unified under one Bengaluru atelier.
             </p>
 
             <div className="hero-cta-row">
               <div className="hero-cta-buttons">
-                <a className="button button-dark" href="#work">
-                  Explore Our Work <ArrowDown size={14} />
-                </a>
-                <a className="stm-btn-terracotta" href="#contact" style={{ padding: "14px 24px" }}>
-                  Start a Project <ArrowUpRight size={14} />
+                <a className="button button-dark" href="#work" onClick={playWarmClick}>
+                  Explore Work <ArrowDown size={14} />
                 </a>
               </div>
 
-              {/* Rotating Circular Stamp Badge */}
+              {/* Rotating Terracotta Atelier Seal Stamp (Sole Start-a-Project Trigger) */}
               <a
                 href="#contact"
-                className="hero-stamp-badge"
+                onClick={(e) => {
+                  e.preventDefault()
+                  playWarmClick()
+                  scrollToContactForm()
+                }}
+                data-cursor-no-magnet="true"
+                className="hero-stamp-badge hero-stamp-seal"
                 aria-label="Start a Project — Sole Trust Media"
               >
-                <svg className="hero-stamp-svg" viewBox="0 0 100 100" aria-hidden="true">
+                <svg className="hero-stamp-svg" viewBox="0 0 112 112" aria-hidden="true">
                   <defs>
                     <path
                       id="stmStampCirclePath"
-                      d="M 50, 50 m -36, 0 a 36,36 0 1,1 72,0 a 36,36 0 1,1 -72,0"
+                      d="M 56, 56 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0"
                     />
                   </defs>
+                  <circle
+                    cx="56"
+                    cy="56"
+                    r="51"
+                    fill="none"
+                    stroke="rgba(246, 241, 233, 0.28)"
+                    strokeWidth="0.9"
+                    strokeDasharray="2 3"
+                  />
+                  <circle
+                    cx="56"
+                    cy="56"
+                    r="26"
+                    fill="none"
+                    stroke="rgba(246, 241, 233, 0.28)"
+                    strokeWidth="0.9"
+                  />
                   <text
                     fill="currentColor"
                     fontSize="7.4"
                     fontWeight="600"
-                    letterSpacing="1.65"
+                    letterSpacing="1.85"
                     fontFamily="Space Grotesk, sans-serif"
                   >
                     <textPath href="#stmStampCirclePath" startOffset="0%">
@@ -604,38 +612,44 @@ export default function Page() {
                     </textPath>
                   </text>
                 </svg>
-                <span className="hero-stamp-center" aria-hidden="true">
-                  <ArrowUpRight size={18} strokeWidth={1.75} />
+                <span className="hero-stamp-center hero-stamp-seal-core" aria-hidden="true">
+                  <ArrowUpRight size={19} strokeWidth={1.85} />
                 </span>
               </a>
             </div>
 
-            {/* 4 Thin-Bordered Circular Milestone Badges with 1px Hairline Dividers */}
+            {/* 4 Thin-Bordered Circular Milestone Badges with Authentic Studio Metrics */}
             <div className="hero-milestones-bar" aria-label="Agency milestones">
               <div className="hero-milestone-item">
                 <span className="hero-milestone-circle" aria-hidden="true">
-                  <Compass size={18} strokeWidth={1.4} />
+                  <Compass size={17} strokeWidth={1.4} />
                 </span>
-                <strong className="hero-milestone-value">50+</strong>
+                <strong className="hero-milestone-value">
+                  <CountUpMetric target={16} suffix="+" />
+                </strong>
                 <span className="hero-milestone-label">Brands Shaped</span>
               </div>
               <div className="hero-milestone-item">
                 <span className="hero-milestone-circle" aria-hidden="true">
-                  <Layers size={18} strokeWidth={1.4} />
+                  <Layers size={17} strokeWidth={1.4} />
                 </span>
-                <strong className="hero-milestone-value">100+</strong>
+                <strong className="hero-milestone-value">
+                  <CountUpMetric target={45} suffix="+" />
+                </strong>
                 <span className="hero-milestone-label">Projects Delivered</span>
               </div>
               <div className="hero-milestone-item">
                 <span className="hero-milestone-circle" aria-hidden="true">
-                  <Sparkles size={18} strokeWidth={1.4} />
+                  <Sparkles size={17} strokeWidth={1.4} />
                 </span>
-                <strong className="hero-milestone-value">3+</strong>
+                <strong className="hero-milestone-value">
+                  <CountUpMetric target={1.5} decimals={1} suffix="+" />
+                </strong>
                 <span className="hero-milestone-label">Years of Craft</span>
               </div>
               <div className="hero-milestone-item">
                 <span className="hero-milestone-circle" aria-hidden="true">
-                  <Globe size={18} strokeWidth={1.4} />
+                  <Globe size={17} strokeWidth={1.4} />
                 </span>
                 <strong className="hero-milestone-value">Global</strong>
                 <span className="hero-milestone-label">Bengaluru · Worldwide</span>
@@ -643,37 +657,41 @@ export default function Page() {
             </div>
           </div>
 
-          {/* Immersive Floating Editorial Visual Composition */}
-          <div className="hero-visual reveal">
+          <div className="hero-visual">
             <HeroEditorialVisual />
           </div>
         </div>
       </section>
 
       {/* ====================================================================
-          SECTION 03: 01 / STUDIO MANIFESTO (ASYMMETRIC EDITORIAL GRID + WIREFRAME SVG)
+          02. FULL-BLEED DEEP ESPRESSO INFINITE MARQUEE TICKER
+          ==================================================================== */}
+      <EspressoMarqueeTicker />
+
+      {/* ====================================================================
+          03. COMPACT STUDIO MANIFESTO (ASYMMETRIC WARM PARCHMENT)
           ==================================================================== */}
       <section className="manifesto-editorial-section" id="about">
-        <div className="manifesto-asymmetric-grid reveal">
+        <MotionWrapper className="manifesto-asymmetric-grid">
           <div>
             <p
               className="editorial-label"
               style={{
                 color: "var(--accent-terracotta)",
-                marginBottom: "18px",
+                marginBottom: "14px",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "10px",
+                gap: "8px",
               }}
             >
               <span>*</span> 01 / Studio Manifesto
             </p>
             <h2
               style={{
-                fontSize: "clamp(42px, 5.5vw, 82px)",
+                fontSize: "clamp(38px, 5vw, 72px)",
                 lineHeight: 0.96,
                 letterSpacing: "-0.04em",
-                margin: "0 0 28px",
+                margin: "0 0 22px",
                 fontFamily: "var(--font-display)",
                 color: "var(--text-ink)",
               }}
@@ -683,60 +701,47 @@ export default function Page() {
             </h2>
             <p
               style={{
-                fontSize: "clamp(15px, 1.8vw, 18px)",
-                lineHeight: 1.68,
+                fontSize: "clamp(15px, 1.5vw, 17px)",
+                lineHeight: 1.65,
                 color: "var(--text-ink)",
                 marginBottom: "24px",
-                fontWeight: 400,
+                maxWidth: "540px",
               }}
             >
-              Most ambitious businesses don&apos;t struggle because of poor products. They struggle because their brand execution is fragmented across disconnected silos — a social agency making temporary noise, an off-the-shelf website that leaks conversions, and manual sales bottlenecks.
+              Most ambitious businesses fail not on product quality, but on fragmented execution — disconnected brand design, leaky websites, and manual sales bottlenecks. We unify strategy, editorial craft, and technology to build brands people trust immediately.
             </p>
-            <blockquote
-              style={{
-                borderLeft: "2px solid var(--accent-terracotta)",
-                paddingLeft: "22px",
-                margin: "30px 0",
-                fontStyle: "italic",
-                color: "var(--muted)",
-                fontSize: "15px",
-                lineHeight: 1.72,
-              }}
-            >
-              &ldquo;We built Sole Trust Media to eliminate this divide. We combine strategic brand positioning, cinematic visual craft, bespoke digital engineering, and automated systems to build brands people genuinely remember and trust.&rdquo;
-            </blockquote>
+
+            <AnimatedHairline tone="light" style={{ marginBottom: "20px" }} />
+
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-                gap: "20px",
-                paddingTop: "26px",
-                borderTop: "1px solid var(--border-hairline)",
+                gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+                gap: "16px",
               }}
             >
               <div>
-                <strong style={{ display: "block", fontSize: "13px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
-                  01 · Strategy With Intent
+                <strong style={{ display: "block", fontSize: "12px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
+                  01 · Strategy First
                 </strong>
-                <span style={{ fontSize: "13px", color: "var(--muted)" }}>Clarity before aesthetic decoration</span>
+                <span style={{ fontSize: "12.5px", color: "var(--muted)" }}>Clarity before decoration</span>
               </div>
               <div>
-                <strong style={{ display: "block", fontSize: "13px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
+                <strong style={{ display: "block", fontSize: "12px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
                   02 · Visceral Craft
                 </strong>
-                <span style={{ fontSize: "13px", color: "var(--muted)" }}>Commanding pricing power &amp; distinction</span>
+                <span style={{ fontSize: "12.5px", color: "var(--muted)" }}>Distinctive pricing power</span>
               </div>
               <div>
-                <strong style={{ display: "block", fontSize: "13px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
-                  03 · Technology That Scales
+                <strong style={{ display: "block", fontSize: "12px", fontFamily: "var(--font-display)", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-ink)", marginBottom: "4px" }}>
+                  03 · Scalable Tech
                 </strong>
-                <span style={{ fontSize: "13px", color: "var(--muted)" }}>Fast flagships &amp; automated pipelines</span>
+                <span style={{ fontSize: "12.5px", color: "var(--muted)" }}>Sub-second web &amp; AI</span>
               </div>
             </div>
           </div>
 
-          {/* Vertically Offset Twine Visual Card + 1px Architectural Wireframe Compass SVG Overlay */}
-          <div className="manifesto-visual-offset">
+          <div className="manifesto-visual-offset" style={{ marginTop: "clamp(12px, 2.5vw, 32px)" }}>
             <svg
               className="manifesto-wireframe-overlay"
               viewBox="0 0 160 160"
@@ -745,12 +750,9 @@ export default function Page() {
             >
               <circle cx="80" cy="80" r="64" stroke="currentColor" strokeWidth="1" strokeDasharray="3 4" />
               <circle cx="80" cy="80" r="40" stroke="currentColor" strokeWidth="1" />
-              <circle cx="80" cy="80" r="5" stroke="currentColor" strokeWidth="1" />
               <line x1="80" y1="4" x2="80" y2="156" stroke="currentColor" strokeWidth="1" />
               <line x1="4" y1="80" x2="156" y2="80" stroke="currentColor" strokeWidth="1" />
               <path d="M80 28 L88 80 L80 132 L72 80 Z" stroke="currentColor" strokeWidth="1" />
-              <line x1="28" y1="28" x2="132" y2="132" stroke="currentColor" strokeWidth="0.75" opacity="0.5" />
-              <line x1="132" y1="28" x2="28" y2="132" stroke="currentColor" strokeWidth="0.75" opacity="0.5" />
             </svg>
 
             <div className="manifesto-visual-frame">
@@ -758,313 +760,58 @@ export default function Page() {
                 src="/assets/work/twine/twine-01.jpeg"
                 alt="Sole Trust Media Craft & Visual Direction — Twine"
                 loading="lazy"
+                style={{ aspectRatio: "5 / 4" }}
               />
               <div className="studio-intro-badge">
                 <div>
-                  <span className="editorial-label" style={{ fontSize: "9.5px", color: "var(--accent-terracotta)", display: "block", marginBottom: "2px" }}>
-                    DISCIPLINED ATELIER
+                  <span className="editorial-label" style={{ fontSize: "9.5px", color: "var(--accent-terracotta)", display: "block" }}>
+                    BENGALURU ATELIER
                   </span>
-                  <strong style={{ fontSize: "14px", color: "var(--text-ink)" }}>
-                    Bengaluru Studio · Worldwide Execution
+                  <strong style={{ fontSize: "13.5px", color: "var(--text-ink)" }}>
+                    Strategy · Craft · Engineering
                   </strong>
                 </div>
-                <Link href="/work" className="stm-btn-terracotta" style={{ padding: "8px 16px", fontSize: "10px" }}>
-                  Explore Craft <ArrowUpRight size={12} />
+                <Link href="/about" onClick={playWarmClick} className="stm-btn-terracotta" style={{ padding: "8px 16px", fontSize: "10px" }}>
+                  Our Story <ArrowUpRight size={12} />
                 </Link>
               </div>
             </div>
           </div>
-        </div>
+        </MotionWrapper>
       </section>
 
       {/* ====================================================================
-          SECTION C: CAPABILITIES (THE 5 PRIMARY SERVICE PILLARS)
+          04. INTERACTIVE WORK STRIP + AUDIO-ENABLED REELS (DEEP ESPRESSO)
           ==================================================================== */}
-      <section className="services-section section-grid" id="services">
-        <div className="section-label">01 / Capabilities</div>
-        <div className="services-content">
-          <div className="section-heading reveal">
-            <h2>
-              Integrated capabilities.<br />
-              <i>Singular execution.</i>
-            </h2>
-            <p>
-              We unify brand strategy, visual craft and digital engineering into a cohesive studio practice that eliminates operational fragmentation.
-            </p>
-          </div>
-
-          <div className="service-category-list reveal">
-            {CAPABILITIES.map((cap, index) => {
-              const isOpen = activeAccordion === index
-              return (
-                <article key={cap.number} className={`service-category-card ${isOpen ? "open" : ""}`}>
-                  <button
-                    type="button"
-                    className="service-category-header"
-                    onClick={() => toggleAccordion(index)}
-                    aria-expanded={isOpen}
-                  >
-                    <div className="service-category-header-left">
-                      <span className="service-category-index">{cap.number}</span>
-                      <h3>{cap.title}</h3>
-                    </div>
-                    <p>{cap.tagline}</p>
-                    <span className="service-category-icon" aria-hidden="true">
-                      <Plus size={18} style={{ transform: isOpen ? "rotate(45deg)" : "none", transition: "transform 0.25s ease" }} />
-                    </span>
-                  </button>
-
-                  <div className="service-category-body">
-                    <p className="service-category-summary">{cap.description}</p>
-                    <div className="service-category-value" style={{ fontStyle: "italic", color: "var(--brown)", fontWeight: 500, marginBottom: "20px" }}>
-                      {cap.valueProposition}
-                    </div>
-
-                    <div style={{ marginTop: "16px" }}>
-                      <span className="editorial-label" style={{ fontSize: "10px", color: "var(--muted)", display: "block", marginBottom: "12px" }}>
-                        Deliverables &amp; Core Output
-                      </span>
-                      <ul className="capability-pill-list" aria-label={`${cap.title} offerings`}>
-                        {cap.deliverables.map((item) => (
-                          <li key={item} className="capability-pill-tag">
-                            <span className="capability-pill-dot" aria-hidden="true" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div style={{ marginTop: "24px", paddingTop: "16px", borderTop: "1px solid var(--line)" }}>
-                      <Link href={cap.href} className="text-link" style={{ fontSize: "11px", letterSpacing: "0.06em" }}>
-                        Explore detailed capability scope <ArrowUpRight size={12} />
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION D: 02 / DIAGNOSTIC — FULL-BLEED ESPRESSO BAND (4-COL HAIRLINE GRID)
-          ==================================================================== */}
-      <section className="diagnostic-espresso-band" id="friction">
-        <div className="diagnostic-espresso-inner">
-          <div className="diagnostic-espresso-header reveal">
-            <div>
-              <p className="editorial-label" style={{ color: "#e49581", margin: "0 0 14px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
-                <span>*</span> 02 / Diagnostic
-              </p>
-              <h2 style={{ fontSize: "clamp(42px, 5.8vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", margin: 0, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>
-                The friction behind<br />
-                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "#e49581" }}>stagnant growth.</i>
-              </h2>
-            </div>
-            <p style={{ maxWidth: "420px", margin: 0, fontSize: "15px", lineHeight: 1.68, color: "rgba(246, 241, 233, 0.74)" }}>
-              Most ambitious businesses do not have a product quality issue — they have an articulation, presentation, or conversion disconnect. Here is where the growth engine breaks.
-            </p>
-          </div>
-
-          <div className="diagnostic-four-grid reveal">
-            {FRICTION_POINTS.map((prob) => (
-              <article className="diagnostic-col-item" key={prob.num}>
-                <div>
-                  <span className="diagnostic-col-num">{prob.num}</span>
-                  <span className="editorial-label" style={{ fontSize: "9.5px", color: "rgba(246, 241, 233, 0.56)", display: "block", marginBottom: "10px" }}>
-                    Diagnosed Hurdle
-                  </span>
-                  <h3 className="diagnostic-col-title">{prob.title}</h3>
-                  <p className="diagnostic-col-desc">{prob.explanation}</p>
-                </div>
-                <div className="diagnostic-col-consequence">
-                  <strong>Commercial Consequence</strong>
-                  {prob.consequence}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION E: 03 / TRANSFORMATION & CLIENT BAND — MUTED OLIVE BAND
-          ==================================================================== */}
-      <section className="transformation-olive-band" id="solutions">
-        <div className="transformation-olive-inner">
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "28px" }} className="reveal">
-            <div>
-              <p className="editorial-label" style={{ color: "rgba(246, 241, 233, 0.78)", margin: "0 0 14px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
-                <span>◆</span> 03 / Transformation &amp; Client Outcomes
-              </p>
-              <h2 style={{ fontSize: "clamp(42px, 5.8vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", margin: 0, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>
-                Problem to Strategy.<br />
-                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400 }}>Strategy to Value.</i>
-              </h2>
-            </div>
-            <p style={{ maxWidth: "420px", margin: 0, fontSize: "15px", lineHeight: 1.68, color: "rgba(246, 241, 233, 0.8)" }}>
-              We act as an integrated growth consultancy and creative engineering team, turning systemic operational challenges into measurable commercial leverage.
-            </p>
-          </div>
-
-          {/* Editorial Client Logo & Partner Band with Diamond & Asterisk Dividers */}
-          <div className="olive-client-band reveal" aria-label="Selected client partners and commissions">
-            {OLIVE_CLIENT_ROSTER.map((client, i) => (
-              <span key={client} style={{ display: "inline-flex", alignItems: "center", gap: "24px" }}>
-                <span className="olive-client-name">{client}</span>
-                {i < OLIVE_CLIENT_ROSTER.length - 1 && (
-                  <span className="olive-divider-glyph" aria-hidden="true">
-                    {i % 2 === 0 ? "◆" : "*"}
-                  </span>
-                )}
-              </span>
-            ))}
-          </div>
-
-          <div className="olive-outcomes-grid reveal">
-            {[
-              {
-                step: "01",
-                problem: "Commoditised Brand & Pricing Pressure",
-                strategy: "Uncompromising positioning, editorial visual identity & brand prestige system",
-                value: "Immediate pricing power, unshakeable customer affinity & categorical authority",
-              },
-              {
-                step: "02",
-                problem: "High Bounce Rate & Weak Web Conversion",
-                strategy: "Bespoke digital flagship engineered with Next.js, fluid UX & high-speed telemetry",
-                value: "3x+ enquiry conversion, sub-second load times & seamless client qualification",
-              },
-              {
-                step: "03",
-                problem: "Wasted Ad Spend & Vanity Impressions",
-                strategy: "Customer-first content architecture, high-intent funnels & performance media",
-                value: "Lower customer acquisition cost, consistent inbound pipeline & verifiable ROI",
-              },
-              {
-                step: "04",
-                problem: "Manual Sales Bottlenecks & Operational Chaos",
-                strategy: "Automated lead intake pipelines, CRM integrations & custom software tools",
-                value: "Zero dropped enquiries, rapid <1-hour response cadence & scalable infrastructure",
-              },
-            ].map((item) => (
-              <div key={item.step} className="olive-outcome-card">
-                <div className="olive-outcome-stage">
-                  <span>STAGE {item.step}</span>
-                  <span>◆</span>
-                  <span>COMMERCIAL OUTCOME</span>
-                </div>
-                <div className="olive-outcome-columns">
-                  <div className="olive-outcome-row">
-                    <span className="olive-outcome-label">01 · Business Friction</span>
-                    <h4 style={{ margin: 0, fontSize: "19px", fontWeight: 600, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>{item.problem}</h4>
-                  </div>
-                  <div className="olive-outcome-row">
-                    <span className="olive-outcome-label">02 · Studio Strategy</span>
-                    <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.6, color: "rgba(246, 241, 233, 0.8)" }}>{item.strategy}</p>
-                  </div>
-                  <div className="olive-outcome-row">
-                    <span className="olive-outcome-label">03 · Commercial Value</span>
-                    <strong style={{ display: "block", fontSize: "14.5px", lineHeight: 1.55, color: "var(--text-cream)", fontWeight: 600 }}>{item.value}</strong>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION F: OUR PHILOSOPHY ("REFUSE TO COMPROMISE")
-          ==================================================================== */}
-      <section className="pillars-section section-grid" id="philosophy">
-        <div className="section-label">04 / Studio Philosophy</div>
-        <div className="intro-content">
-          <div className="section-heading reveal">
-            <h2>
-              Refuse to compromise.<br />
-              <i>Five core principles.</i>
-            </h2>
-            <p>
-              We believe great brands are not assembled from off-the-shelf templates. They are forged through relentless strategic rigor, artistic fearlessness, and technical obsession.
-            </p>
-          </div>
-
-          <div
-            className="philosophy-principles-grid reveal"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "24px",
-              marginTop: "40px",
-            }}
-          >
-            {PHILOSOPHY_PRINCIPLES.map((principle) => (
-              <div
-                key={principle.num}
-                style={{
-                  border: "1px solid var(--line)",
-                  borderRadius: "20px",
-                  padding: "32px 28px",
-                  background: "rgba(243, 235, 221, 0.4)",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  transition: "transform 0.3s ease, border-color 0.3s ease",
-                }}
-              >
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-                    <span style={{ fontFamily: "var(--font-utility)", fontSize: "12px", color: "var(--brown)", fontWeight: 700 }}>
-                      PRINCIPLE {principle.num}
-                    </span>
-                    <span style={{ fontStyle: "italic", fontSize: "13px", color: "var(--muted)", fontFamily: "var(--font-editorial)" }}>
-                      {principle.subtitle}
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: "clamp(22px, 2.5vw, 28px)", margin: "0 0 14px", lineHeight: 1.2 }}>
-                    {principle.title}
-                  </h3>
-                  <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.65, color: "var(--muted)" }}>
-                    {principle.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION G: INTERACTIVE STUDIO SHOWCASE (5-CARD VERTICAL STRIP + PILL FILTERS)
-          ==================================================================== */}
-      <section className="showcase-editorial-section" id="work">
+      <section className="showcase-espresso-section" id="work">
         <div style={{ maxWidth: "1360px", margin: "0 auto" }}>
-          <div className="showcase-header-bar reveal">
+          <MotionWrapper className="showcase-header-bar" style={{ marginBottom: "24px" }}>
             <div>
-              <p className="editorial-label" style={{ color: "var(--accent-terracotta)", margin: "0 0 14px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
-                <span>*</span> 05 / Selected Work
+              <p className="editorial-label" style={{ color: "var(--accent-gold)", margin: "0 0 10px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                <span>*</span> 02 / Selected Work
               </p>
-              <h2 style={{ fontSize: "clamp(42px, 5.8vw, 84px)", lineHeight: 0.95, letterSpacing: "-0.04em", margin: 0, color: "var(--text-ink)", fontFamily: "var(--font-display)" }}>
+              <h2 style={{ fontSize: "clamp(38px, 5vw, 72px)", lineHeight: 0.96, letterSpacing: "-0.04em", margin: 0, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>
                 Selected work.<br />
-                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-terracotta)" }}>Distinctive thinking.</i>
+                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-gold)" }}>Distinctive thinking.</i>
               </h2>
             </div>
-            <p style={{ maxWidth: "400px", margin: 0, fontSize: "15px", lineHeight: 1.65, color: "var(--muted)" }}>
-              An editorial archive of client commissions, digital flagships, and self-initiated concept explorations.
-            </p>
-          </div>
+            <Link href="/work" onClick={playWarmClick} className="stm-btn-terracotta" style={{ padding: "12px 24px" }}>
+              Explore All Work <ArrowUpRight size={14} />
+            </Link>
+          </MotionWrapper>
 
-          {/* Pill-Shaped Category Filter Tabs */}
-          <div className="showcase-filter-pills reveal" role="tablist" aria-label="Studio showcase category filters">
+          {/* Pill Category Filters */}
+          <div className="showcase-filter-pills" style={{ marginBottom: "28px", paddingBottom: "18px" }} role="tablist" aria-label="Studio showcase category filters">
             {SHOWCASE_FILTERS.map((filter) => (
               <button
                 key={filter}
                 type="button"
                 role="tab"
                 aria-selected={workFilter === filter}
-                onClick={() => setWorkFilter(filter)}
+                onClick={() => {
+                  playWarmClick()
+                  setWorkFilter(filter)
+                }}
                 className={`showcase-pill-btn ${workFilter === filter ? "active" : ""}`}
               >
                 {filter}
@@ -1072,15 +819,29 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Horizontal 5-Card Vertical Showcase Strip (Swipe Carousel on <768px) */}
-          <div className="showcase-five-strip reveal">
+          {/* Horizontal 5-Card Vertical Showcase Strip */}
+          <MotionWrapper delay={80} className="showcase-five-strip">
             {showcaseCards.map((card) => (
               <a
                 key={card.slug}
                 href={card.targetUrl}
+                data-magnetic-case="true"
                 className="showcase-vertical-card"
-                {...(card.isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                aria-label={`View ${card.name}`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  const fullMatch = projectsList.find((p) => p.slug === card.slug)
+                  setActiveDrawerProject({
+                    slug: card.slug,
+                    name: card.name,
+                    category: card.category,
+                    image: card.image,
+                    targetUrl: card.targetUrl,
+                    isExternal: card.isExternal,
+                    description: fullMatch?.description,
+                    services: fullMatch?.services,
+                  })
+                }}
+                aria-label={`Inspect ${card.name} case study`}
               >
                 <div className="showcase-vertical-media">
                   <img src={card.image} alt={`${card.name} preview`} loading="lazy" />
@@ -1089,388 +850,587 @@ export default function Page() {
                 <div className="showcase-vertical-meta">
                   <div className="showcase-vertical-title-row">
                     <h3 className="showcase-vertical-title">{card.name}</h3>
-                    <ArrowUpRight size={13} style={{ color: "var(--accent-terracotta)", flexShrink: 0 }} />
+                    <ArrowUpRight size={13} style={{ color: "var(--accent-gold)", flexShrink: 0 }} />
                   </div>
                   <span className="showcase-vertical-cat">{card.category}</span>
                 </div>
               </a>
             ))}
-          </div>
+          </MotionWrapper>
 
-          {/* Pill-Shaped Explore All Work CTA */}
-          <div className="showcase-cta-footer reveal">
-            <span className="editorial-marker">*</span>
-            <Link href="/work" className="stm-btn-terracotta">
-              Explore All Work <ArrowUpRight size={14} />
-            </Link>
-            <span className="editorial-marker">*</span>
-          </div>
+          {/* Flagship Case Study 01 Editorial Spotlight: Tiramisu (13ISU) */}
+          <MotionWrapper delay={100} style={{ marginTop: "36px" }}>
+            <div
+              className="stm-home-tiramisu-spread"
+              data-magnetic-case="true"
+              role="button"
+              tabIndex={0}
+              onClick={() =>
+                setActiveDrawerProject({
+                  slug: "13isu",
+                  name: "13ISU — Tiramisu Brand Experience",
+                  category: "Culinary Identity & Viral Launch",
+                  image: "/13isu-creative-1.png",
+                  targetUrl: "/work/13isu",
+                  isExternal: false,
+                })
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
+                  setActiveDrawerProject({
+                    slug: "13isu",
+                    name: "13ISU — Tiramisu Brand Experience",
+                    category: "Culinary Identity & Viral Launch",
+                    image: "/13isu-creative-1.png",
+                    targetUrl: "/work/13isu",
+                    isExternal: false,
+                  })
+                }
+              }}
+            >
+              <div className="stm-home-tiramisu-copy">
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                  <span className="editorial-label" style={{ color: "var(--accent-terracotta)", fontSize: "10px" }}>
+                    * Flagship Spotlight 01 · Tiramisu (13ISU)
+                  </span>
+                  <span className="stm-spotlight-pill">100K+ Organic Views · 3 Days</span>
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(26px, 3.2vw, 40px)",
+                    lineHeight: 1.02,
+                    letterSpacing: "-0.03em",
+                    margin: "0 0 12px",
+                    color: "var(--text-ink)",
+                  }}
+                >
+                  Turning a single-speciality Tiramisu into a{" "}
+                  <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-terracotta)" }}>
+                    sensory brand ritual.
+                  </i>
+                </h3>
+                <p style={{ fontSize: "14px", lineHeight: 1.62, color: "var(--muted)", margin: "0 0 18px" }}>
+                  From typographic naming (&ldquo;Terah&rdquo; + ISU) to tactile packaging, night-market spatial presence, and viral launch reels — crafted to earn immediate cultural obsession without paid ad bloat.
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px" }}>
+                  <span className="stm-spotlight-link">
+                    Inspect 13ISU Dossier <ArrowRight size={13} />
+                  </span>
+                  <Link
+                    href="/work/13isu"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      playWarmClick()
+                    }}
+                    className="stm-spotlight-secondary"
+                  >
+                    Full Editorial Spread <ArrowUpRight size={12} />
+                  </Link>
+                </div>
+              </div>
 
-          {/* High-Craft Short-Form Video Reel Strip */}
-          <div className="video-reel-section reveal" style={{ marginTop: "72px" }}>
-            <div className="video-reel-header">
+              <div className="stm-spotlight-gallery-3">
+                <div className="stm-spotlight-thumb">
+                  <img src="/13isu-creative-1.png" alt="13ISU tiramisu night-market activation" loading="lazy" />
+                </div>
+                <div className="stm-spotlight-thumb">
+                  <img src="/13isu-creative-2.png" alt="13ISU custom packaging design" loading="lazy" />
+                </div>
+                <div className="stm-spotlight-thumb">
+                  <img src="/13isu-creative-3.png" alt="13ISU event display architecture" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          </MotionWrapper>
+
+          {/* Compact Short-Form Video Reel Strip with Luxury Sound Controller */}
+          <MotionWrapper delay={120} className="video-reel-section" style={{ marginTop: "48px", paddingTop: "36px", borderTop: "1px solid var(--border-hairline-dark)" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "16px", marginBottom: "22px" }}>
               <div>
-                <span className="video-reel-tag">
-                  High-Craft Media Production
+                <span className="editorial-label" style={{ fontSize: "10px", color: "var(--accent-gold)", display: "block", marginBottom: "6px" }}>
+                  * Motion &amp; Social Reels · Tap Sound Pill To Unmute
                 </span>
-                <h3 className="video-reel-heading">
-                  Short-form storytelling &amp; <i>viral craft.</i>
+                <h3 style={{ margin: 0, fontSize: "clamp(24px, 3vw, 34px)", fontFamily: "var(--font-display)", color: "var(--text-cream)", lineHeight: 1.05 }}>
+                  Short-form storytelling &amp; <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-gold)" }}>viral craft.</i>
                 </h3>
               </div>
-              <p className="video-reel-desc">
-                Culinary direction, packaging tactile motion, and cultural campaign reels designed for sustained audience attention and organic reach.
-              </p>
+              <span style={{ fontFamily: "var(--font-utility)", fontSize: "10px", color: "rgba(246, 241, 233, 0.62)", textTransform: "uppercase" }}>
+                13ISU · 100K+ Organic Launch Views
+              </span>
             </div>
 
             <div className="video-reel-strip">
-              <div className="video-reel-card">
-                <video
-                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.08.31.mp4"
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                />
-                <div className="video-reel-overlay">
-                  <span className="video-reel-category">Culinary Direction</span>
-                  <strong className="video-reel-title">Dessert Craft &amp; Texture</strong>
-                </div>
-              </div>
-
-              <div className="video-reel-card">
-                <video
-                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.09.08.mp4"
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                />
-                <div className="video-reel-overlay">
-                  <span className="video-reel-category">Product Storytelling</span>
-                  <strong className="video-reel-title">Packaging &amp; Unboxing</strong>
-                </div>
-              </div>
-
-              <div className="video-reel-card">
-                <video
-                  src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.10.33.mp4"
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                />
-                <div className="video-reel-overlay">
-                  <span className="video-reel-category">Social Campaign</span>
-                  <strong className="video-reel-title">Community Activation</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION H: CLIENT TESTIMONIALS
-          ==================================================================== */}
-      <section className="testimonials-section section-grid" id="testimonials">
-        <div className="section-label">06 / Client Notes</div>
-        <div className="intro-content">
-          <div className="section-heading reveal">
-            <div>
-              <p className="eyebrow">CLIENT NOTES / 01—03</p>
-              <h2>
-                GOOD WORK.<br />
-                <i>GOOD WORDS.</i>
-              </h2>
-            </div>
-            <p>A few kind words from the people we’ve had the pleasure of working with.</p>
-          </div>
-
-          <div className="testimonials-grid reveal">
-            <article className="testimonial-card">
-              <div className="testimonial-card-meta">
-                <span>01 / TESTIMONIAL</span>
-                <span>WEBSITE + GROWTH</span>
-              </div>
-              <blockquote>
-                “You designed a very professional and user-friendly website for us with all the key features we needed — crop release directions, farmer marketplace, market analysis tools, and many other useful sections.”
-              </blockquote>
-              <div className="testimonial-takeaway">
-                <span>THE TAKEAWAY</span>
-                <p>A purpose-built digital experience bringing essential agricultural resources and market tools together in one clear, user-friendly place.</p>
-              </div>
-              <div className="testimonial-client">
-                <span aria-hidden="true">F</span>
-                <strong>FARMLYTICS</strong>
-              </div>
-            </article>
-
-            <article className="testimonial-card">
-              <div className="testimonial-card-meta">
-                <span>02 / TESTIMONIAL</span>
-                <span>WEBSITE + CONTENT</span>
-              </div>
-              <blockquote>
-                “The website demo you created looks very professional and exactly like what we discussed. The reel you made is also excellent and captures our brand well.”
-              </blockquote>
-              <div className="testimonial-takeaway">
-                <span>THE TAKEAWAY</span>
-                <p>Thoughtful execution across both web and video, with the work staying true to the brief and the client’s brand.</p>
-              </div>
-              <div className="testimonial-client">
-                <span aria-hidden="true">V</span>
-                <strong>VIVEK / EXAM PREP</strong>
-              </div>
-            </article>
-
-            <article className="testimonial-card">
-              <div className="testimonial-card-meta">
-                <span>03 / TESTIMONIAL</span>
-                <span>BRANDING + MARKETING</span>
-              </div>
-              <blockquote>
-                “You understood our vision really well and put in a lot of effort to bring it to life.”
-              </blockquote>
-              <div className="testimonial-takeaway">
-                <span>THE TAKEAWAY</span>
-                <p>A note about a collaborative process: keeping the client’s vision at the heart of their branding and marketing.</p>
-              </div>
-              <div className="testimonial-client">
-                <span aria-hidden="true">1</span>
-                <strong>13ISU</strong>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION I: DOCUMENTED CRAFT. REAL RESULTS.
-          ==================================================================== */}
-      <section className="featured-case-section section-grid" id="case-studies">
-        <div className="section-label">07 / Documented Results</div>
-        <div className="intro-content">
-          <div className="section-heading reveal">
-            <h2>
-              Documented craft.<br />
-              <i>Real business impact.</i>
-            </h2>
-            <p>
-              We bridge high-craft creative direction with quantifiable commercial outcomes. Explore our comprehensive in-depth case studies.
-            </p>
-          </div>
-
-          {/* Spotlight 01: 13ISU Speciality Tiramisu */}
-          <div className="case-study-spotlight reveal">
-            <div className="case-study-spotlight-visual">
-              <div className="spotlight-primary-wrap">
-                <img
-                  src="/13isu-creative-1.png"
-                  alt="13ISU Case Study - Night Market Activation"
-                  className="spotlight-primary-img"
-                />
-              </div>
-              <div className="spotlight-secondary-grid">
-                <img src="/13isu-creative-2.png" alt="13ISU Packaging Detail" />
-                <img src="/13isu-creative-3.png" alt="13ISU Event Presence" />
-              </div>
-            </div>
-            <div className="case-study-spotlight-content">
-              <div className="spotlight-badge">FEATURED CASE STUDY</div>
-              <span className="selected-card-type">SPECIALITY DESSERT / BRAND IDENTITY / VIRAL SOCIAL</span>
-              <h3>13ISU Speciality Tiramisu</h3>
-              <div className="spotlight-metric">
-                <strong>100,000+</strong>
-                <span>Organic Instagram Views in 3 Days</span>
-              </div>
-              <p>
-                A single-speciality dessert brand brought to life through playful naming (*13* = Terah + *ISU*), lavender-accented identity, bespoke packaging, and product-led social creative that captivated local dessert culture on launch.
-              </p>
-              <div className="spotlight-actions">
-                <Link className="button button-dark" href="/work/13isu">
-                  Read Case Study <ArrowUpRight size={14} />
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Spotlight 02: Trends Are a Tool, Not a Strategy */}
-          <div className="case-study-spotlight reveal" style={{ marginTop: "40px" }}>
-            <div className="case-study-spotlight-visual">
-              <img
-                src="/assets/work/trends-are-a-tool/trends-cover.svg"
-                alt="Trends Are a Tool, Not a Strategy Framework"
-                className="spotlight-primary-img"
-                style={{ width: "100%", height: "auto", aspectRatio: "16/10" }}
+              <ReelVideoCard
+                id="reel-culinary"
+                src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.08.31.mp4"
+                category="Culinary Direction"
+                title="Dessert Craft & Texture"
+              />
+              <ReelVideoCard
+                id="reel-packaging"
+                src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.09.08.mp4"
+                category="Product Storytelling"
+                title="Packaging & Unboxing"
+              />
+              <ReelVideoCard
+                id="reel-social"
+                src="/assets/misc/WhatsApp%20Video%202026-09-29%20at%2016.10.33.mp4"
+                category="Social Campaign"
+                title="Community Activation"
               />
             </div>
-            <div className="case-study-spotlight-content">
-              <div className="spotlight-badge" style={{ background: "var(--brown)" }}>
-                STRATEGIC FRAMEWORK &amp; ESSAY
-              </div>
-              <span className="selected-card-type">
-                CONTENT ARCHITECTURE &amp; SOCIAL COMMERCE · WRITTEN BY DAKSH BHAGAT
-              </span>
-              <h3>Trends Are a Tool, Not a Strategy</h3>
-              <div className="spotlight-metric">
-                <strong>Enquiries &gt; Views</strong>
-                <span>Customer Before Content · Relationships Before Reach</span>
-              </div>
-              <p>
-                People are watching your posts, so why aren&apos;t they buying? A strategic examination of the vanity-reach paradox: why Store A&apos;s 100K trending views fail to convert while Store B&apos;s 8K customer-centric views drive predictable sales.
+          </MotionWrapper>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          05. INTERACTIVE TABBED CAPABILITIES + LIVE DEMOS (WARM PARCHMENT)
+          ==================================================================== */}
+      <section className="stm-cap-section" id="services">
+        <div className="stm-cap-inner">
+          <MotionWrapper style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "20px" }}>
+            <div>
+              <p className="editorial-label" style={{ color: "var(--accent-terracotta)", margin: "0 0 10px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                <span>*</span> 03 / Capabilities
               </p>
-              <div className="spotlight-actions">
-                <Link className="button button-dark" href="/work/trends-are-a-tool">
-                  Read Strategic Framework <ArrowUpRight size={14} />
-                </Link>
+              <h2 style={{ fontSize: "clamp(38px, 5vw, 70px)", lineHeight: 0.96, letterSpacing: "-0.04em", margin: 0, fontFamily: "var(--font-display)" }}>
+                Integrated capabilities.<br />
+                <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-terracotta)" }}>Singular execution.</i>
+              </h2>
+            </div>
+            <Link href="/services" onClick={playWarmClick} className="text-link" style={{ fontSize: "11px", letterSpacing: "0.08em" }}>
+              Full Capabilities Index <ArrowUpRight size={13} />
+            </Link>
+          </MotionWrapper>
+
+          {/* Compact 5-Pillar Tab Bar */}
+          <div className="stm-cap-tabs-bar" role="tablist" aria-label="Core studio capabilities">
+            {CAPABILITIES.map((cap, idx) => {
+              const active = idx === activeCapabilityIdx
+              return (
+                <button
+                  key={cap.number}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => {
+                    playWarmClick()
+                    setActiveCapabilityIdx(idx)
+                  }}
+                  className={`stm-cap-tab-btn ${active ? "active" : ""}`}
+                >
+                  <span className="stm-cap-tab-idx">{cap.number}</span>
+                  <span>{cap.shortLabel}</span>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Focused Single-Stage Interactive Panel */}
+          <MotionWrapper
+            key={activeCapability.number}
+            className={`stm-cap-stage-panel ${hasInteractiveDemo ? "" : "no-demo"}`}
+          >
+            <div>
+              <span className="editorial-label" style={{ fontSize: "10px", color: "var(--accent-terracotta)", display: "block", marginBottom: "8px" }}>
+                {activeCapability.number} · {activeCapability.tagline}
+              </span>
+              <h3 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px, 3vw, 38px)", margin: "0 0 14px", lineHeight: 1.08, letterSpacing: "-0.03em" }}>
+                {activeCapability.title}
+              </h3>
+              <p style={{ fontSize: "15px", lineHeight: 1.65, color: "var(--muted)", margin: "0 0 16px" }}>
+                {activeCapability.description}
+              </p>
+              <p style={{ fontSize: "14px", lineHeight: 1.55, color: "var(--text-ink)", fontStyle: "italic", borderLeft: "2px solid var(--accent-terracotta)", paddingLeft: "14px", margin: "0 0 22px" }}>
+                &ldquo;{activeCapability.valueProposition}&rdquo;
+              </p>
+              <ul className="capability-pill-list" aria-label={`${activeCapability.title} deliverables`}>
+                {activeCapability.deliverables.map((item) => (
+                  <li key={item} className="capability-pill-tag">
+                    <span className="capability-pill-dot" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              {hasInteractiveDemo ? (
+                <CapabilityMiniDemo pillarIndex={activeCapability.number} />
+              ) : (
+                <div
+                  style={{
+                    borderRadius: "16px",
+                    border: "1px solid var(--border-hairline)",
+                    background: "var(--bg-espresso)",
+                    color: "var(--text-cream)",
+                    padding: "28px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: "18px",
+                    minHeight: "230px",
+                  }}
+                >
+                  <span className="editorial-label" style={{ fontSize: "10px", color: "var(--accent-gold)" }}>
+                    * Outcome Guarantee
+                  </span>
+                  <p style={{ margin: 0, fontFamily: "var(--font-editorial)", fontSize: "clamp(24px, 2.6vw, 32px)", lineHeight: 1.15 }}>
+                    Every asset, funnel, and campaign is engineered to convert attention into predictable pipeline.
+                  </p>
+                  <Link href="/contact" onClick={playWarmClick} className="stm-btn-terracotta" style={{ width: "fit-content", padding: "11px 22px" }}>
+                    Discuss {activeCapability.shortLabel} <ArrowUpRight size={13} />
+                  </Link>
+                </div>
+              )}
+            </div>
+          </MotionWrapper>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          06. COMPACT 2×2 ESPRESSO DIAGNOSTIC (DEEP ESPRESSO)
+          ==================================================================== */}
+      <section className="diagnostic-espresso-band" id="friction">
+        <div className="diagnostic-espresso-inner">
+          <MotionWrapper style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: "20px", marginBottom: "32px" }}>
+            <div>
+              <p className="editorial-label" style={{ color: "var(--accent-gold)", margin: "0 0 10px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                <span>*</span> 04 / Diagnostic
+              </p>
+              <h2 style={{ fontSize: "clamp(36px, 5vw, 68px)", lineHeight: 0.96, letterSpacing: "-0.04em", margin: 0, color: "var(--text-cream)", fontFamily: "var(--font-display)" }}>
+                The friction behind <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-gold)" }}>stagnant growth.</i>
+              </h2>
+            </div>
+            <p style={{ maxWidth: "380px", margin: 0, fontSize: "14px", lineHeight: 1.6, color: "rgba(246, 241, 233, 0.72)" }}>
+              Where most ambitious growth engines leak value — and what we engineer away.
+            </p>
+          </MotionWrapper>
+
+          <MotionWrapper delay={80} className="diagnostic-compact-2x2">
+            {FRICTION_POINTS.map((prob) => (
+              <article className="diagnostic-compact-cell" key={prob.num}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "8px" }}>
+                    <span style={{ fontFamily: "var(--font-editorial)", fontSize: "30px", color: "var(--accent-gold)", lineHeight: 1 }}>{prob.num}</span>
+                    <h3 className="diagnostic-col-title" style={{ margin: 0, fontSize: "19px" }}>{prob.title}</h3>
+                  </div>
+                  <p className="diagnostic-col-desc" style={{ margin: "0 0 10px", fontSize: "13.5px" }}>{prob.explanation}</p>
+                </div>
+                <div style={{ fontSize: "12px", color: "rgba(246, 241, 233, 0.85)" }}>
+                  <strong style={{ color: "var(--accent-gold)", fontFamily: "var(--font-display)", fontSize: "9.5px", letterSpacing: "0.1em", textTransform: "uppercase", marginRight: "6px" }}>
+                    Impact:
+                  </strong>
+                  {prob.consequence}
+                </div>
+              </article>
+            ))}
+          </MotionWrapper>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          07. TRANSFORMATION, METHODOLOGY BEAM & CLIENT IMPACT (PARCHMENT SAND)
+          ==================================================================== */}
+      <section className="transformation-parchment-band" id="solutions">
+        <div className="transformation-parchment-inner">
+          {/* Editorial Client Logo & Partner Ribbon */}
+          <MotionWrapper className="editorial-client-band" style={{ margin: "0 0 36px", padding: "20px 0" }}>
+            {CLIENT_PARTNER_ROSTER.map((client, i) => (
+              <span key={client} style={{ display: "inline-flex", alignItems: "center", gap: "20px" }}>
+                <span className="editorial-client-name" style={{ fontSize: "clamp(17px, 1.9vw, 24px)" }}>{client}</span>
+                {i < CLIENT_PARTNER_ROSTER.length - 1 && (
+                  <span className="editorial-divider-glyph" aria-hidden="true">
+                    {i % 2 === 0 ? "◆" : "*"}
+                  </span>
+                )}
+              </span>
+            ))}
+          </MotionWrapper>
+
+          {/* 5-Stage Interactive Methodology Progress Beam */}
+          <MethodologyProgressBeam tone="light" />
+
+          {/* 3-Column Selected Client Impact Quotes */}
+          <MotionWrapper delay={80} className="editorial-impact-quotes-wrap" style={{ marginTop: "40px", paddingTop: "28px" }}>
+            <div className="editorial-impact-quotes-grid">
+              <article className="editorial-impact-quote-card" style={{ padding: "22px 22px 22px 0" }}>
+                <div>
+                  <p className="editorial-impact-metric">100K+</p>
+                  <span className="editorial-impact-sublabel">Organic Views in 72 Hours</span>
+                </div>
+                <blockquote className="editorial-impact-blockquote">
+                  &ldquo;You understood our vision really well and turned our launch identity, packaging, and reels into immediate cultural demand.&rdquo;
+                </blockquote>
+                <div className="editorial-impact-author">
+                  <span style={{ color: "var(--accent-terracotta)" }}>*</span>
+                  <span>Founder · 13ISU</span>
+                </div>
+              </article>
+
+              <article className="editorial-impact-quote-card" style={{ padding: "22px" }}>
+                <div>
+                  <p className="editorial-impact-metric">+140%</p>
+                  <span className="editorial-impact-sublabel">Platform Usability &amp; Enquiries</span>
+                </div>
+                <blockquote className="editorial-impact-blockquote">
+                  &ldquo;A genuinely user-friendly platform unifying crop intelligence, farmer marketplace workflows, and market analysis tools cleanly.&rdquo;
+                </blockquote>
+                <div className="editorial-impact-author">
+                  <span style={{ color: "var(--accent-terracotta)" }}>*</span>
+                  <span>Leadership · Farmlytics</span>
+                </div>
+              </article>
+
+              <article className="editorial-impact-quote-card" style={{ padding: "22px 0 22px 22px" }}>
+                <div>
+                  <p className="editorial-impact-metric">3.2x</p>
+                  <span className="editorial-impact-sublabel">Brand Authority &amp; Clarity</span>
+                </div>
+                <blockquote className="editorial-impact-blockquote">
+                  &ldquo;The digital flagship demo and brand reel captured our exact brief on the first pass — elevating student trust immediately.&rdquo;
+                </blockquote>
+                <div className="editorial-impact-author">
+                  <span style={{ color: "var(--accent-terracotta)" }}>*</span>
+                  <span>Vivek · Exam Prep</span>
+                </div>
+              </article>
+            </div>
+          </MotionWrapper>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          07B. FEATURED STRATEGIC THESIS / INSIGHTS (WARM PARCHMENT)
+          ==================================================================== */}
+      <section className="stm-insights-editorial-band" id="insights">
+        <div style={{ maxWidth: "1360px", margin: "0 auto" }}>
+          <MotionWrapper>
+            <div className="stm-insights-grid">
+              <div>
+                <p className="editorial-label" style={{ color: "var(--accent-terracotta)", margin: "0 0 12px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                  <span>*</span> Flagship Spotlight 02 · Studio Insights &amp; Strategic Thesis
+                </p>
+                <h2
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(36px, 4.8vw, 64px)",
+                    lineHeight: 0.96,
+                    letterSpacing: "-0.04em",
+                    margin: "0 0 18px",
+                    color: "var(--text-ink)",
+                  }}
+                >
+                  Trends Are a Tool,{" "}
+                  <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-terracotta)" }}>
+                    Not a Strategy.
+                  </i>
+                </h2>
+
+                <blockquote
+                  style={{
+                    margin: "0 0 20px",
+                    padding: "16px 20px",
+                    borderLeft: "2px solid var(--accent-terracotta)",
+                    background: "var(--bg-parchment-alt)",
+                    borderRadius: "0 14px 14px 0",
+                    display: "flex",
+                    gap: "12px",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <Quote size={16} style={{ color: "var(--accent-terracotta)", flexShrink: 0, marginTop: "4px" }} />
+                  <div>
+                    <p style={{ margin: "0 0 6px", fontFamily: "var(--font-editorial)", fontStyle: "italic", fontSize: "clamp(18px, 2vw, 22px)", lineHeight: 1.35, color: "var(--text-ink)" }}>
+                      &ldquo;Views are coming. Customers are not. A trend is a useful tool — it is a terrible strategy.&rdquo;
+                    </p>
+                    <span style={{ fontFamily: "var(--font-utility)", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--muted)" }}>
+                      Daksh Bhagat · Co-Founder, Sole Trust Media
+                    </span>
+                  </div>
+                </blockquote>
+
+                <div className="stm-insights-pillars">
+                  <div>
+                    <strong>01 · Customer Before Content</strong>
+                    <span>8,000 high-intent local buyers outperform 100,000 disengaged viral views.</span>
+                  </div>
+                  <div>
+                    <strong>02 · 4-Question Trend Gate</strong>
+                    <span>Only use trends that reinforce brand identity and connect honestly to the product.</span>
+                  </div>
+                  <div>
+                    <strong>03 · Enquiries Per 1,000 Reach</strong>
+                    <span>Track DMs, calls, saves, and sub-hour reply speed instead of vanity likes.</span>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "22px" }}>
+                  <button
+                    type="button"
+                    className="stm-btn-terracotta"
+                    onClick={() => {
+                      playWarmClick()
+                      setActiveDrawerProject({
+                        slug: "trends-are-a-tool",
+                        name: "Trends Are a Tool, Not a Strategy",
+                        category: "Strategic Thesis & Social Commerce",
+                        image: "/assets/work/trends-are-a-tool/trends-cover.svg",
+                        targetUrl: "/work/trends-are-a-tool",
+                        isExternal: false,
+                      })
+                    }}
+                  >
+                    Inspect Strategic Dossier <ArrowRight size={14} />
+                  </button>
+                  <Link
+                    href="/work/trends-are-a-tool"
+                    onClick={playWarmClick}
+                    className="button button-outline"
+                    style={{ color: "var(--text-ink)", borderColor: "var(--border-hairline)", borderRadius: "999px" }}
+                  >
+                    Read Full Paper <ArrowUpRight size={13} />
+                  </Link>
+                </div>
+              </div>
+
+              <div
+                className="stm-insights-visual-card"
+                data-magnetic-case="true"
+                role="button"
+                tabIndex={0}
+                onClick={() =>
+                  setActiveDrawerProject({
+                    slug: "trends-are-a-tool",
+                    name: "Trends Are a Tool, Not a Strategy",
+                    category: "Strategic Thesis & Social Commerce",
+                    image: "/assets/work/trends-are-a-tool/trends-cover.svg",
+                    targetUrl: "/work/trends-are-a-tool",
+                    isExternal: false,
+                  })
+                }
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault()
+                    setActiveDrawerProject({
+                      slug: "trends-are-a-tool",
+                      name: "Trends Are a Tool, Not a Strategy",
+                      category: "Strategic Thesis & Social Commerce",
+                      image: "/assets/work/trends-are-a-tool/trends-cover.svg",
+                      targetUrl: "/work/trends-are-a-tool",
+                      isExternal: false,
+                    })
+                  }
+                }}
+              >
+                <img
+                  src="/assets/work/trends-are-a-tool/trends-cover.svg"
+                  alt="Trends Are a Tool, Not a Strategy — Strategic Visual Thesis"
+                  loading="lazy"
+                />
+                <div className="stm-insights-visual-foot">
+                  <span>WHITEPAPER · SOCIAL COMMERCE ARCHITECTURE</span>
+                  <ArrowUpRight size={14} style={{ color: "var(--accent-gold)" }} />
+                </div>
               </div>
             </div>
-          </div>
-
-          <p className="featured-note reveal" style={{ marginTop: "32px", fontSize: "12px", color: "var(--muted)", fontStyle: "italic" }}>
-            Results are project-specific and documented honestly. We do not publish fabricated client outcomes. Proprietary growth frameworks, revenue telemetry, and confidential client case studies are shared under NDA upon consultation.
-          </p>
+          </MotionWrapper>
         </div>
       </section>
 
       {/* ====================================================================
-          SECTION J: INSIGHTS (MAGAZINE-STYLE EDITORIAL CONTENT)
+          08. INTERACTIVE SCOPE CONFIGURATOR (WARM PARCHMENT)
           ==================================================================== */}
-      <section className="insights-section section-grid" id="insights">
-        <div className="section-label">08 / Studio Insights</div>
-        <div className="intro-content">
-          <div className="section-heading reveal">
-            <h2>
-              Critical perspectives.<br />
-              <i>Studio discourse.</i>
-            </h2>
-            <p>
-              Reflections on brand building, creative technology, and commercial psychology from our studio practice.
-            </p>
-          </div>
-
-          <div className="insights-list reveal">
-            {STUDIO_INSIGHTS.map((insight) => (
-              <Link href={insight.href} key={insight.id} className="insight-row">
-                <span className="insight-num">{insight.num}</span>
-                <div className="insight-meta">
-                  <span className="insight-category">{insight.category}</span>
-                  <span className="insight-date">{insight.date} · {insight.readTime}</span>
-                </div>
-                <div className="insight-content">
-                  <h3>{insight.title}</h3>
-                  {insight.author && (
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontFamily: "var(--font-utility)",
-                        fontSize: "10.5px",
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        color: "var(--brown)",
-                        fontWeight: 600,
-                        margin: "4px 0 6px",
-                      }}
-                    >
-                      {insight.author}
-                    </span>
-                  )}
-                  <p>{insight.deck}</p>
-                </div>
-                <div className="insight-arrow" aria-hidden="true">
-                  <ArrowUpRight size={22} />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ScopeConfigurator onLockScope={handleLockScope} />
 
       {/* ====================================================================
-          SECTION K: FINAL CTA & ENQUIRY STUDIO (PILL INPUTS + TERRACOTTA CTA)
+          09. FINAL CONTACT STUDIO (DEEP ESPRESSO + PILL INPUTS)
           ==================================================================== */}
-      <section className="contact" id="contact" style={{ background: "var(--bg-espresso)", color: "var(--text-cream)", padding: "clamp(100px, 11vw, 156px) var(--page-gutter)" }}>
-        <div className="contact-inner" style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <p
-            className="editorial-label"
-            style={{
-              color: "#e49581",
-              marginBottom: "16px",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span>*</span> 09 / New Business
+      <section className="contact" id="contact" style={{ background: "var(--bg-espresso)", color: "var(--text-cream)" }}>
+        <div className="contact-inner" style={{ maxWidth: "1060px", margin: "0 auto" }}>
+          {scopeBanner && (
+            <div
+              role="status"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "9px 18px",
+                borderRadius: "999px",
+                background: "rgba(140, 45, 25, 0.32)",
+                border: "1px solid rgba(197, 155, 109, 0.45)",
+                color: "var(--text-cream)",
+                fontFamily: "var(--font-utility)",
+                fontSize: "11px",
+                letterSpacing: "0.06em",
+                marginBottom: "18px",
+              }}
+            >
+              <Check size={13} style={{ color: "var(--accent-gold)" }} />
+              <span>{scopeBanner}</span>
+            </div>
+          )}
+
+          <p className="editorial-label" style={{ color: "var(--accent-gold)", marginBottom: "12px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+            <span>*</span> 05 / Start a Project
           </p>
-          <h2
-            style={{
-              fontSize: "clamp(48px, 7.5vw, 112px)",
-              lineHeight: 0.94,
-              margin: "0 0 24px",
-              fontFamily: "var(--font-display)",
-              color: "var(--text-cream)",
-            }}
-          >
-            Have an idea?<br />
-            <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "#e49581" }}>Let&apos;s make it happen.</i>
+          <h2 style={{ fontSize: "clamp(42px, 6.5vw, 92px)", lineHeight: 0.94, margin: "0 0 18px", fontFamily: "var(--font-display)", color: "var(--text-cream)" }}>
+            Have an idea? <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-gold)" }}>Let&apos;s make it happen.</i>
           </h2>
-          <p
-            style={{
-              maxWidth: "600px",
-              color: "rgba(246, 241, 233, 0.74)",
-              fontSize: "clamp(15px, 1.8vw, 18px)",
-              lineHeight: 1.65,
-              marginBottom: "48px",
-            }}
-          >
-            Tell us what you&apos;re building. Together, we can turn an ambitious idea into something meaningful. We review every enquiry within 24 business hours.
+          <p style={{ maxWidth: "560px", color: "rgba(246, 241, 233, 0.74)", fontSize: "15.5px", lineHeight: 1.6, marginBottom: "36px" }}>
+            We review every enquiry personally and respond within 24 business hours.
           </p>
 
-          <form onSubmit={submitEnquiry} noValidate style={{ maxWidth: "800px" }}>
+          <form onSubmit={submitEnquiry} noValidate style={{ maxWidth: "820px" }}>
             {sent ? (
               <div
                 className="form-success-box"
                 style={{
-                  background: "rgba(243, 235, 221, 0.08)",
-                  border: "1px solid rgba(243, 235, 221, 0.2)",
-                  padding: "40px",
+                  background: "rgba(246, 241, 233, 0.08)",
+                  border: "1px solid var(--border-hairline-dark)",
+                  padding: "36px",
                   borderRadius: "20px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px", color: "var(--cream)" }}>
-                  <Check size={28} />
-                  <h3 style={{ margin: 0, fontSize: "24px" }}>Thank you{submittedInfo?.fullName ? `, ${submittedInfo.fullName}` : ''}.</h3>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px", color: "var(--text-cream)" }}>
+                  <Check size={24} />
+                  <h3 style={{ margin: 0, fontSize: "24px" }}>Thank you{submittedInfo?.fullName ? `, ${submittedInfo.fullName}` : ""}.</h3>
                 </div>
-                <p style={{ margin: "0 0 20px", color: "var(--beige)", fontSize: "15px", lineHeight: 1.6 }}>
-                  Your project enquiry has been safely received and dispatched to our directors at <strong>soletrustmedia@gmail.com</strong>. We will review your requirements and reach out within 24 business hours.
+                <p style={{ margin: "0 0 20px", color: "rgba(246, 241, 233, 0.78)", fontSize: "15px", lineHeight: 1.6 }}>
+                  Your proposal brief has been received and routed directly to our directors. For immediate correspondence, reach us at{" "}
+                  <a href="mailto:admin@soletrustmedia.agency" style={{ color: "var(--accent-gold)", textDecoration: "underline" }}>
+                    admin@soletrustmedia.agency
+                  </a>
+                  .
                 </p>
                 {submittedInfo && (
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "24px", paddingTop: "24px", borderTop: "1px solid rgba(243, 235, 221, 0.15)" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginTop: "20px", paddingTop: "20px", borderTop: "1px solid var(--border-hairline-dark)" }}>
                     <a
                       href={submittedInfo.gmailWebUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="button button-light"
-                      style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
+                      className="stm-btn-terracotta"
+                      style={{ padding: "12px 24px", fontSize: "11px" }}
                     >
                       <Mail size={13} /> Send via Gmail (Web)
                     </a>
                     <a
                       href={submittedInfo.mailtoUrl}
-                      className="button button-dark"
-                      style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
+                      className="button button-light"
+                      style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", fontSize: "11px" }}
                     >
                       <ArrowUpRight size={13} /> Open in Mail App
                     </a>
                     <button
                       type="button"
-                      onClick={() => { setSent(false); setSubmittedInfo(null); }}
+                      onClick={() => {
+                        setSent(false)
+                        setSubmittedInfo(null)
+                      }}
                       className="button button-dark"
-                      style={{ padding: "12px 24px", fontSize: "11px", letterSpacing: "0.08em" }}
+                      style={{ padding: "12px 24px", fontSize: "11px", border: "1px solid var(--border-hairline-dark)" }}
                     >
                       Submit another inquiry
                     </button>
@@ -1479,22 +1439,8 @@ export default function Page() {
               </div>
             ) : (
               <>
-                {/* Services Pills Selector */}
-                <div style={{ marginBottom: "36px" }}>
-                  <label
-                    style={{
-                      fontFamily: "var(--font-utility)",
-                      fontSize: "11px",
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      color: "var(--beige)",
-                      display: "block",
-                      marginBottom: "16px",
-                    }}
-                  >
-                    Services You Are Interested In
-                  </label>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                <div style={{ marginBottom: "24px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                     {SERVICE_OPTIONS.map((service) => {
                       const active = selectedServices.includes(service)
                       return (
@@ -1503,14 +1449,13 @@ export default function Page() {
                           type="button"
                           onClick={() => toggleServicePill(service)}
                           style={{
-                            padding: "9px 18px",
+                            padding: "8px 16px",
                             borderRadius: "999px",
-                            font: "11px var(--font-utility)",
+                            font: "10.5px var(--font-utility)",
                             cursor: "pointer",
-                            background: active ? "var(--cream)" : "transparent",
-                            color: active ? "var(--dark)" : "var(--cream)",
-                            border: active ? "1px solid var(--cream)" : "1px solid rgba(243, 235, 221, 0.25)",
-                            transition: "all 0.2s ease",
+                            background: active ? "var(--text-cream)" : "rgba(246, 241, 233, 0.05)",
+                            color: active ? "var(--bg-espresso)" : "var(--text-cream)",
+                            border: active ? "1px solid var(--text-cream)" : "1px solid var(--border-hairline-dark)",
                           }}
                         >
                           {service}
@@ -1520,144 +1465,57 @@ export default function Page() {
                   </div>
                 </div>
 
-                {/* Form fields: Name & Company */}
-                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "18px" }}>
-                  <div>
-                    <input
-                      name="full_name"
-                      aria-label="Full Name"
-                      className="stm-pill-input"
-                      required
-                      placeholder="Your Full Name *"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      name="company_name"
-                      aria-label="Company Name"
-                      className="stm-pill-input"
-                      placeholder="Company / Brand Name"
-                    />
-                  </div>
+                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px" }}>
+                  <input ref={contactNameInputRef} name="full_name" aria-label="Full Name" className="stm-pill-input" required placeholder="Your Full Name *" />
+                  <input name="company_name" aria-label="Company Name" className="stm-pill-input" placeholder="Company / Brand Name" />
                 </div>
 
-                {/* Email & Phone */}
-                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "18px", marginTop: "18px" }}>
-                  <div>
-                    <input
-                      type="email"
-                      name="email"
-                      aria-label="Email"
-                      className="stm-pill-input"
-                      required
-                      placeholder="Email Address *"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      aria-label="Phone Number"
-                      className="stm-pill-input"
-                      placeholder="Phone Number / WhatsApp"
-                    />
-                  </div>
+                <div className="form-row" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px", marginTop: "14px" }}>
+                  <input type="email" name="email" aria-label="Email" className="stm-pill-input" required placeholder="Email Address *" />
+                  <input type="tel" name="phone" aria-label="Phone Number" className="stm-pill-input" placeholder="Phone / WhatsApp" />
                 </div>
 
-                {/* Budget selector */}
-                <div style={{ marginTop: "32px" }}>
-                  <label
-                    className="editorial-label"
-                    style={{
-                      fontSize: "10px",
-                      color: "var(--beige)",
-                      display: "block",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    Expected Investment Scope
-                  </label>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                    {BUDGET_OPTIONS.map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setBudget(opt)}
-                        style={{
-                          padding: "9px 18px",
-                          borderRadius: "999px",
-                          font: "11px var(--font-utility)",
-                          cursor: "pointer",
-                          background: budget === opt ? "var(--accent-terracotta)" : "rgba(246, 241, 233, 0.05)",
-                          color: "var(--text-cream)",
-                          border: budget === opt ? "1px solid var(--accent-terracotta)" : "1px solid var(--border-hairline-dark)",
-                          transition: "all 0.2s ease",
-                        }}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Project Description */}
-                <div style={{ marginTop: "28px" }}>
+                <div style={{ marginTop: "20px" }}>
                   <textarea
                     name="project_description"
                     aria-label="Project Description"
                     className="stm-pill-textarea"
-                    rows={4}
+                    rows={3}
                     required
-                    placeholder="Tell us about your brand, what you're building, and what success looks like *"
+                    value={projectBrief}
+                    onChange={(e) => setProjectBrief(e.target.value)}
+                    placeholder="Tell us what you're building and what success looks like *"
                   />
                 </div>
 
                 {formError && (
-                  <p style={{ color: "#F28B82", fontSize: "13px", marginTop: "16px" }}>{formError}</p>
+                  <p style={{ color: "#F28B82", fontSize: "13px", marginTop: "12px" }}>{formError}</p>
                 )}
 
-                <div style={{ marginTop: "32px" }}>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="stm-btn-terracotta"
-                  >
-                    {submitting ? "Sending..." : "Submit Project Inquiry"} <ArrowUpRight size={14} />
+                <div style={{ marginTop: "24px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "20px" }}>
+                  <button type="submit" disabled={submitting} className="stm-btn-terracotta">
+                    {submitting ? "Sending..." : "Request Custom Proposal"} <ArrowUpRight size={14} />
                   </button>
+                  <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "20px", fontFamily: "var(--font-utility)", fontSize: "11.5px", color: "var(--accent-gold)" }}>
+                    <CopyEmailLink tone="dark" size="sm" />
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
+                      <MapPin size={13} /> Bengaluru, India
+                    </span>
+                  </div>
                 </div>
               </>
             )}
           </form>
-
-          {/* Contact details footer strip */}
-          <div
-            className="contact-details"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "36px",
-              marginTop: "80px",
-              paddingTop: "36px",
-              borderTop: "1px solid rgba(243, 235, 221, 0.12)",
-              color: "var(--beige)",
-              fontSize: "12px",
-              fontFamily: "var(--font-utility)",
-            }}
-          >
-            <a href="mailto:soletrustmedia@gmail.com" style={{ display: "flex", alignItems: "center", gap: "8px", color: "inherit" }}>
-              <Mail size={14} /> soletrustmedia@gmail.com
-            </a>
-            <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <MapPin size={14} /> 560066, Whitefield, Bengaluru, India
-            </span>
-          </div>
         </div>
       </section>
 
-      {/* ====================================================================
-          GLOBAL FOOTER
-          ==================================================================== */}
       <SiteFooter />
+
+      <CaseStudyDrawer
+        project={activeDrawerProject}
+        onClose={() => setActiveDrawerProject(null)}
+        onBuildLikeThis={handleBuildLikeThis}
+      />
     </main>
   )
 }

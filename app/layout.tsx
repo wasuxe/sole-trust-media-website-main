@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import CinematicPreloader from '@/components/cinematic-preloader'
+import LoadingScreen from '@/components/LoadingScreen'
+import CustomCursor from '@/components/CustomCursor'
+import { SoundProvider } from '@/components/sound-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -87,9 +89,12 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        <CinematicPreloader />
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <SoundProvider>
+          <LoadingScreen />
+          <CustomCursor />
+          {children}
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </SoundProvider>
       </body>
     </html>
   )

@@ -1186,63 +1186,120 @@ export default async function CaseStudyPage({
       {/* 1. Nav */}
       <SiteNav />
 
-      {/* 2. Hero section */}
-      <section className="case-hero">
-        <a className="text-link" href="/work">
-          <ArrowLeft data-icon="inline-start" /> Back to work
-        </a>
-        <p className="eyebrow">{project.category}</p>
-        <h1>{project.title}</h1>
-        {project.author && (
-          <p
-            className="case-author"
+      {/* 2. Deep Espresso Editorial Case Study Hero */}
+      <section
+        className="case-hero"
+        style={{
+          background: "var(--bg-espresso)",
+          color: "var(--text-cream)",
+          padding: "clamp(112px, 11vw, 152px) var(--page-gutter) clamp(48px, 6vw, 76px)",
+          borderBottom: "1px solid var(--border-hairline-dark)",
+        }}
+      >
+        <div style={{ maxWidth: "1360px", margin: "0 auto" }}>
+          <a
+            className="text-link"
+            href="/work"
+            style={{ color: "var(--accent-gold)", marginBottom: "22px", display: "inline-flex", alignItems: "center", gap: "8px" }}
+          >
+            <ArrowLeft size={14} /> Back to Selected Work
+          </a>
+          <p className="editorial-label" style={{ color: "var(--accent-gold)", margin: "0 0 12px" }}>
+            * {project.category} · {project.type}
+          </p>
+          <h1
             style={{
-              fontFamily: "'DM Mono', monospace",
-              fontSize: "11px",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--brown)",
-              fontWeight: 600,
-              margin: "12px 0 0",
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(42px, 6.4vw, 94px)",
+              lineHeight: 0.94,
+              letterSpacing: "-0.04em",
+              margin: 0,
+              color: "var(--text-cream)",
             }}
           >
-            Written by {project.author}
-          </p>
-        )}
-        {project.tagline && (
-          <p
-            className="case-tagline"
-            style={{
-              fontStyle: "italic",
-              fontSize: "clamp(18px, 2.2vw, 26px)",
-              fontFamily: "'Playfair Display', serif",
-              margin: "16px 0 24px",
-              color: "var(--brown)",
-              maxWidth: "760px",
-              lineHeight: 1.35,
-            }}
-          >
-            &ldquo;{project.tagline}&rdquo;
-          </p>
-        )}
-        <p>{project.type}</p>
-        {project.live_url && (
-          <div style={{ marginTop: "28px" }}>
-            <a
-              className="button button-dark"
-              href={project.live_url}
-              target="_blank"
-              rel="noopener noreferrer"
+            {project.title}
+          </h1>
+          {project.author && (
+            <p
+              className="case-author"
+              style={{
+                fontFamily: "var(--font-utility)",
+                fontSize: "11px",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--accent-gold)",
+                fontWeight: 600,
+                margin: "14px 0 0",
+              }}
             >
-              {project.cta_label || "OPEN LIVE WEBSITE"} <ArrowUpRight data-icon="inline-end" />
+              Written by {project.author}
+            </p>
+          )}
+          {project.tagline && (
+            <p
+              className="case-tagline"
+              style={{
+                fontStyle: "italic",
+                fontSize: "clamp(19px, 2.3vw, 28px)",
+                fontFamily: "var(--font-editorial)",
+                margin: "18px 0 0",
+                color: "rgba(246, 241, 233, 0.86)",
+                maxWidth: "780px",
+                lineHeight: 1.32,
+              }}
+            >
+              &ldquo;{project.tagline}&rdquo;
+            </p>
+          )}
+          <div style={{ marginTop: "28px", display: "flex", flexWrap: "wrap", gap: "12px" }}>
+            <a
+              className="stm-btn-terracotta"
+              href={`/contact?project=${encodeURIComponent(project.title)}`}
+            >
+              Start a Similar Project <ArrowUpRight size={14} />
             </a>
+            {project.live_url && (
+              <a
+                className="button button-outline"
+                href={project.live_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "var(--text-cream)",
+                  borderColor: "var(--border-hairline-dark)",
+                  borderRadius: "999px",
+                }}
+              >
+                {project.cta_label || "OPEN LIVE WEBSITE"} <ArrowUpRight size={14} />
+              </a>
+            )}
           </div>
-        )}
+        </div>
       </section>
 
-      {/* 3. Full-width cover image */}
-      <div className="case-cover">
-        <img src={project.cover_image} alt={`${project.title} cover`} />
+      {/* 3. Full-width editorial cover showcase */}
+      <div
+        className="case-cover"
+        style={{
+          background: "var(--bg-parchment)",
+          padding: "clamp(28px, 4vw, 48px) var(--page-gutter) 0",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1360px",
+            margin: "0 auto",
+            borderRadius: "20px",
+            overflow: "hidden",
+            border: "1px solid var(--border-hairline)",
+          }}
+        >
+          <img
+            src={project.cover_image}
+            alt={`${project.title} cover`}
+            style={{ width: "100%", maxHeight: "560px", objectFit: "cover", display: "block" }}
+          />
+        </div>
       </div>
 
       {isTrendsStrategy ? (
@@ -2476,21 +2533,28 @@ export default async function CaseStudyPage({
             </div>
           </section>
 
-          {/* 6. Challenge & Objectives section */}
+          {/* 6. Challenge & Objectives section (Deep Espresso Band) */}
           {(project.business_challenge || project.objectives) && (
-            <section className="case-challenge section-grid">
-              <div className="section-label">02 / Challenge</div>
+            <section
+              className="case-challenge section-grid"
+              style={{
+                background: "var(--bg-espresso)",
+                color: "var(--text-cream)",
+                borderTop: "1px solid var(--border-hairline-dark)",
+              }}
+            >
+              <div className="section-label" style={{ color: "var(--accent-gold)" }}>02 / Challenge</div>
               <div className="challenge-columns">
                 {project.business_challenge && (
                   <div>
-                    <h3>The Challenge</h3>
-                    <p>{project.business_challenge}</p>
+                    <h3 style={{ color: "var(--text-cream)" }}>The Challenge</h3>
+                    <p style={{ color: "rgba(246, 241, 233, 0.78)" }}>{project.business_challenge}</p>
                   </div>
                 )}
                 {project.objectives && (
                   <div>
-                    <h3>The Objectives</h3>
-                    <p>{project.objectives}</p>
+                    <h3 style={{ color: "var(--text-cream)" }}>The Objectives</h3>
+                    <p style={{ color: "rgba(246, 241, 233, 0.78)" }}>{project.objectives}</p>
                   </div>
                 )}
               </div>
@@ -2652,16 +2716,29 @@ export default async function CaseStudyPage({
         </section>
       )}
 
-      {/* 13. Statement / Contact CTA banner */}
-      <section className="statement">
+      {/* 13. Deep Espresso Contact CTA Banner */}
+      <section
+        className="statement"
+        style={{
+          background: "var(--bg-espresso)",
+          color: "var(--text-cream)",
+          padding: "clamp(56px, 6vw, 88px) var(--page-gutter)",
+          borderTop: "1px solid var(--border-hairline-dark)",
+        }}
+      >
         <div className="statement-inner">
-          <p className="eyebrow">Ready to begin?</p>
-          <h2>
+          <p className="editorial-label" style={{ color: "var(--accent-gold)", marginBottom: "12px" }}>
+            * Ready to begin?
+          </p>
+          <h2 style={{ color: "var(--text-cream)", marginBottom: "28px" }}>
             Let&apos;s build something<br />
-            <i>that endures.</i>
+            <i style={{ fontFamily: "var(--font-editorial)", fontWeight: 400, color: "var(--accent-gold)" }}>that endures.</i>
           </h2>
-          <a className="button button-dark" href="/contact">
-            Start a conversation <ArrowUpRight data-icon="inline-end" />
+          <a
+            className="stm-btn-terracotta"
+            href={`/contact?project=${encodeURIComponent(project.title)}`}
+          >
+            Start a Similar Project <ArrowUpRight size={14} />
           </a>
         </div>
       </section>

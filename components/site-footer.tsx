@@ -1,14 +1,15 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import CopyEmailLink from '@/components/copy-email-link'
 
 export default function SiteFooter() {
   return (
     <footer
       className="footer-espresso"
       style={{
-        background: 'var(--bg-espresso)',
+        background: 'var(--bg-espresso-deep)',
         color: 'var(--text-cream)',
-        padding: '96px 0 0',
+        padding: '64px 0 0',
         borderTop: '1px solid var(--border-hairline-dark)',
       }}
     >
@@ -16,10 +17,10 @@ export default function SiteFooter() {
         style={{
           maxWidth: '1360px',
           margin: '0 auto',
-          padding: '0 var(--page-gutter) 64px',
+          padding: '0 var(--page-gutter) 44px',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
-          gap: '48px',
+          gap: '36px',
         }}
       >
         <div style={{ maxWidth: '340px' }}>
@@ -105,16 +106,7 @@ export default function SiteFooter() {
             >
               Start a Project <ArrowUpRight size={13} />
             </Link>
-            <a
-              href="mailto:soletrustmedia@gmail.com"
-              style={{
-                fontSize: '13px',
-                color: 'var(--beige)',
-                textDecoration: 'none',
-              }}
-            >
-              soletrustmedia@gmail.com
-            </a>
+            <CopyEmailLink tone="dark" size="sm" />
           </div>
           <div className="socials" style={{ display: 'flex', gap: '14px' }}>
             <a

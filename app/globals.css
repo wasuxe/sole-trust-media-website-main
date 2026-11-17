@@ -160,28 +160,30 @@
 }
 
 :root {
-  /* Tactile Editorial & Atelier Tokens */
+  /* Strict High-Contrast Warm Parchment & Deep Espresso Editorial System */
   --bg-parchment: #F6F1E9;
+  --bg-parchment-alt: #EDE5D8;
   --bg-espresso: #241914;
-  --bg-olive: #4A4E3B;
+  --bg-espresso-deep: #170F0C;
   --accent-terracotta: #8C2D19;
+  --accent-gold: #C59B6D;
   --text-ink: #1E1815;
   --text-cream: #F6F1E9;
-  --border-hairline: rgba(30, 24, 21, 0.15);
-  --border-hairline-dark: rgba(246, 241, 233, 0.15);
+  --border-hairline: rgba(30, 24, 21, 0.14);
+  --border-hairline-dark: rgba(246, 241, 233, 0.14);
 
-  /* Core Brand Aliases Harmonized with Tactile Editorial System */
+  /* Core Brand Aliases Harmonized with Parchment & Espresso System */
   --cream: #F6F1E9;
-  --cream-deep: #EAE1D2;
+  --cream-deep: #EDE5D8;
   --brown: #4b3027;
   --walnut: #76513e;
-  --muted-tan: #b99a78;
+  --muted-tan: #C59B6D;
   --dark: #241914;
-  --dark-surface: #1b120e;
+  --dark-surface: #170F0C;
   --soft-white: #faf7f1;
   --muted: #5d4d43;
-  --beige: #cbb8a2;
-  --line: rgba(30, 24, 21, 0.15);
+  --beige: #C59B6D;
+  --line: rgba(30, 24, 21, 0.14);
   --line-strong: rgba(30, 24, 21, 0.28);
   --font-display: 'Space Grotesk', sans-serif;
   --font-editorial: 'Instrument Serif', 'Playfair Display', serif;
@@ -5957,20 +5959,21 @@ html.stm-skip-preloader .stm-architectural-loader {
 }
 
 /* --------------------------------------------------------------------------
-   F. 03 / TRANSFORMATION & CLIENT BAND — MUTED OLIVE BAND
+   F. 03 / TRANSFORMATION & CLIENT BAND — WARM PARCHMENT SAND BAND
    -------------------------------------------------------------------------- */
-.transformation-olive-band {
-  background: var(--bg-olive);
-  color: var(--text-cream);
-  padding: clamp(92px, 10vw, 148px) var(--page-gutter);
+.transformation-parchment-band {
+  background: var(--bg-parchment-alt);
+  color: var(--text-ink);
+  padding: clamp(88px, 10vw, 148px) var(--page-gutter);
+  border-top: 1px solid var(--border-hairline);
 }
 
-.transformation-olive-inner {
+.transformation-parchment-inner {
   max-width: 1360px;
   margin: 0 auto;
 }
 
-.olive-client-band {
+.editorial-client-band {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -5978,43 +5981,49 @@ html.stm-skip-preloader .stm-architectural-loader {
   gap: 18px 24px;
   padding: 28px 0;
   margin: 36px 0 56px;
-  border-top: 1px solid var(--border-hairline-dark);
-  border-bottom: 1px solid var(--border-hairline-dark);
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
 }
 
-.olive-client-name {
+.editorial-client-name {
   font-family: var(--font-editorial);
   font-size: clamp(20px, 2.2vw, 28px);
   letter-spacing: 0.04em;
-  color: var(--text-cream);
+  color: var(--text-ink);
   opacity: 0.92;
   white-space: nowrap;
 }
 
-.olive-divider-glyph {
-  color: rgba(246, 241, 233, 0.45);
+.editorial-divider-glyph {
+  color: var(--accent-terracotta);
   font-size: 11px;
   line-height: 1;
   user-select: none;
 }
 
-.olive-outcomes-grid {
+.editorial-outcomes-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
-.olive-outcome-card {
-  border: 1px solid var(--border-hairline-dark);
+.editorial-outcome-card {
+  border: 1px solid var(--border-hairline);
   border-radius: 18px;
   padding: 28px;
-  background: rgba(246, 241, 233, 0.05);
+  background: var(--bg-parchment);
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 
-.olive-outcome-stage {
+.editorial-outcome-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-terracotta);
+}
+
+.editorial-outcome-stage {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -6023,37 +6032,37 @@ html.stm-skip-preloader .stm-architectural-loader {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(246, 241, 233, 0.72);
+  color: var(--accent-terracotta);
 }
 
-.olive-outcome-columns {
+.editorial-outcome-columns {
   display: grid;
   grid-template-columns: 1fr;
   gap: 14px;
 }
 
-.olive-outcome-row {
+.editorial-outcome-row {
   padding-top: 12px;
-  border-top: 1px solid rgba(246, 241, 233, 0.12);
+  border-top: 1px solid var(--border-hairline);
 }
 
-.olive-outcome-row:first-child {
+.editorial-outcome-row:first-child {
   border-top: none;
   padding-top: 0;
 }
 
-.olive-outcome-label {
+.editorial-outcome-label {
   display: block;
   font-family: var(--font-utility);
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(246, 241, 233, 0.62);
+  color: var(--muted);
   margin-bottom: 4px;
 }
 
 @media (max-width: 860px) {
-  .olive-outcomes-grid {
+  .editorial-outcomes-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -6302,5 +6311,3009 @@ html.stm-skip-preloader .stm-architectural-loader {
 @media (prefers-reduced-motion: reduce) {
   .hero-stamp-svg {
     animation: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   PHASE 2: INTERACTIVE SHOWPIECE UPGRADES (DEMOS, CURSOR, DRAWER, ESTIMATOR)
+   ========================================================================== */
+
+/* 1. Interactive Capability Mini-Demos */
+.stm-demo-card {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border-hairline);
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.stm-demo-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stm-demo-switcher {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline);
+  background: rgba(246, 241, 233, 0.85);
+}
+
+.stm-demo-tab {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 6px 13px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.stm-demo-tab.active {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+}
+
+/* Brand DNA Specimen */
+.stm-dna-stage {
+  border-radius: 14px;
+  border: 1px solid var(--border-hairline);
+  padding: 20px;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+.stm-dna-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.stm-dna-swatches {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stm-dna-swatch-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stm-dna-swatch-chip {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .stm-dna-swatches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Flagship Before / After Comparison */
+.stm-flagship-compare-stage {
+  position: relative;
+  min-height: 158px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline);
+  background: #eceae4;
+}
+
+.stm-flagship-layer {
+  padding: 18px 20px;
+  min-height: 158px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.stm-flagship-template {
+  background: #e9e7e1;
+}
+
+.stm-flagship-upgraded {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #241914 0%, #342119 100%);
+  box-shadow: inset 0 1px 0 rgba(246, 241, 233, 0.12);
+  transition: clip-path 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stm-flagship-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.stm-wire-pill {
+  display: inline-block;
+  height: 10px;
+  border-radius: 999px;
+  background: #d2cfc7;
+}
+
+.stm-wire-line {
+  display: block;
+  height: 7px;
+  border-radius: 4px;
+  background: #d5d2ca;
+}
+
+.stm-flagship-perf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(140, 45, 25, 0.35);
+  border: 1px solid rgba(228, 149, 129, 0.45);
+  color: #f6f1e9;
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+}
+
+.stm-flagship-divider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent-terracotta);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.stm-flagship-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.stm-flagship-range {
+  flex: 1;
+  accent-color: var(--accent-terracotta);
+  cursor: pointer;
+}
+
+/* AI Inbound Pipeline Simulator */
+.stm-pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stm-pipeline-node {
+  border-radius: 12px;
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-parchment);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.stm-pipeline-node.active {
+  border-color: var(--accent-terracotta);
+  background: rgba(140, 45, 25, 0.08);
+  transform: translateY(-2px);
+}
+
+.stm-pipeline-node.done {
+  border-color: var(--accent-gold);
+  background: rgba(197, 155, 109, 0.14);
+}
+
+.stm-pipeline-node-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stm-pipeline-num {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+.stm-pipeline-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  font-family: var(--font-utility);
+  font-size: 8.5px;
+  color: var(--muted);
+}
+
+.stm-pipeline-node.done .stm-pipeline-status {
+  background: var(--bg-espresso);
+  color: var(--accent-gold);
+}
+
+.stm-pipeline-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  animation: stmPulseDot 0.9s ease-in-out infinite;
+}
+
+@keyframes stmPulseDot {
+  0%, 100% { transform: scale(0.85); opacity: 0.6; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+
+.stm-pipeline-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--text-ink);
+  line-height: 1.2;
+}
+
+.stm-pipeline-detail {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.stm-pipeline-footer {
+  margin-top: 12px;
+  font-family: var(--font-utility);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+@media (max-width: 767px) {
+  .stm-pipeline-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 2. Magnetic Custom Pill Cursor (Desktop Fine Pointer Only) */
+.stm-magnetic-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--accent-terracotta);
+  color: var(--text-cream);
+  border: 1px solid rgba(246, 241, 233, 0.35);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 12px 28px rgba(36, 25, 20, 0.28);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform, opacity;
+  white-space: nowrap;
+}
+
+.stm-magnetic-cursor.visible {
+  opacity: 1;
+}
+
+@media (pointer: fine) {
+  [data-magnetic-case='true'] {
+    cursor: none;
+  }
+}
+
+@media (pointer: coarse), (max-width: 767px) {
+  .stm-magnetic-cursor {
+    display: none !important;
+  }
+}
+
+/* 3. Editorial Slide-Over Case Study Drawer */
+.stm-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(36, 25, 20, 0.56);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: flex-end;
+  animation: stmFadeIn 0.22s ease;
+}
+
+.stm-drawer-panel {
+  width: 100%;
+  max-width: 42rem; /* max-w-2xl */
+  height: 100%;
+  background: var(--bg-parchment);
+  color: var(--text-ink);
+  border-left: 1px solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -24px 0 60px rgba(36, 25, 20, 0.24);
+  animation: stmSlideInRight 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+@keyframes stmFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes stmSlideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.stm-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border-hairline);
+  background: var(--bg-parchment);
+  flex-shrink: 0;
+}
+
+.stm-drawer-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--text-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.stm-drawer-close:hover {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-color: var(--bg-espresso);
+}
+
+.stm-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 36px;
+}
+
+.stm-drawer-hero {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-hairline);
+  background: var(--cream-deep);
+}
+
+.stm-drawer-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stm-drawer-section {
+  padding: 24px 28px;
+}
+
+.stm-drawer-divider {
+  border-top: 1px solid var(--border-hairline);
+}
+
+.stm-drawer-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--border-hairline);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.stm-drawer-metric-box {
+  padding: 18px 16px;
+  border-right: 1px solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stm-drawer-metric-box:last-child {
+  border-right: none;
+}
+
+.stm-drawer-metric-val {
+  font-family: var(--font-editorial);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--accent-terracotta);
+}
+
+.stm-drawer-metric-label {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stm-drawer-footer-cta {
+  padding: 20px 28px 0;
+  border-top: 1px solid var(--border-hairline);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .stm-drawer-panel {
+    max-width: 100%;
+    height: 100dvh;
+    border-left: none;
+  }
+  .stm-drawer-section,
+  .stm-drawer-header,
+  .stm-drawer-footer-cta {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .stm-drawer-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .stm-drawer-metric-box {
+    border-right: none;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .stm-drawer-metric-box:last-child {
+    border-bottom: none;
+  }
+}
+
+/* 4. Interactive Scope Configurator */
+.stm-configurator-section {
+  background: var(--bg-parchment);
+  color: var(--text-ink);
+  padding: clamp(84px, 9vw, 136px) var(--page-gutter);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.stm-configurator-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.stm-configurator-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 44px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.stm-configurator-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.stm-configurator-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.stm-config-step-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stm-config-step-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-terracotta);
+  color: var(--accent-terracotta);
+  font-family: var(--font-utility);
+  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stm-config-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stm-config-discipline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--text-ink);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.stm-config-discipline-pill:hover {
+  border-color: var(--accent-terracotta);
+}
+
+.stm-config-discipline-pill.active {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-color: var(--bg-espresso);
+}
+
+.stm-config-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.stm-blueprint-panel {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-radius: 22px;
+  padding: 32px;
+  border: 1px solid var(--border-hairline-dark);
+  box-shadow: 0 24px 56px rgba(36, 25, 20, 0.14);
+}
+
+.stm-blueprint-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-hairline-dark);
+}
+
+.stm-blueprint-block {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-hairline-dark);
+}
+
+.stm-blueprint-label {
+  display: block;
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 233, 0.58);
+  margin-bottom: 8px;
+}
+
+.stm-blueprint-track {
+  font-family: var(--font-editorial);
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--text-cream);
+  margin: 0 0 8px;
+}
+
+.stm-blueprint-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-hairline-dark);
+}
+
+.stm-blueprint-stat {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #e49581;
+  font-weight: 600;
+}
+
+.stm-blueprint-deliverables {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px 14px;
+}
+
+.stm-blueprint-deliverables li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(246, 241, 233, 0.85);
+}
+
+.stm-blueprint-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .stm-configurator-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 5. Scroll-Linked Parallax Display Band */
+.stm-parallax-band {
+  width: 100%;
+  overflow: hidden;
+  padding: 18px 0;
+  user-select: none;
+}
+
+.stm-parallax-track {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.stm-parallax-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px;
+  font-family: var(--font-editorial);
+  font-size: clamp(54px, 9.5vw, 136px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.stm-parallax-sep {
+  color: var(--accent-terracotta);
+  opacity: 0.55;
+  font-size: 0.45em;
+}
+
+/* 6. Interactive Methodology Progress Beam (01 — 05) */
+.stm-methodology-beam-wrap {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-hairline-dark);
+}
+
+.stm-methodology-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stm-beam-track-bar {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: rgba(246, 241, 233, 0.2);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.stm-beam-track-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 12px rgba(140, 45, 25, 0.8);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.stm-methodology-five-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.stm-methodology-node {
+  text-align: left;
+  background: rgba(246, 241, 233, 0.04);
+  border: 1px solid rgba(246, 241, 233, 0.14);
+  border-radius: 14px;
+  padding: 18px 16px;
+  color: var(--text-cream);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.stm-methodology-node.lit {
+  border-color: rgba(228, 149, 129, 0.45);
+}
+
+.stm-methodology-node.current {
+  border-color: #e49581;
+  background: rgba(140, 45, 25, 0.28);
+  transform: translateY(-2px);
+}
+
+.stm-methodology-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(246, 241, 233, 0.45);
+  margin-bottom: 4px;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.stm-methodology-node.lit .stm-methodology-dot {
+  background: var(--accent-terracotta);
+  border-color: #e49581;
+}
+
+.stm-methodology-num {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  color: #e49581;
+}
+
+.stm-methodology-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-cream);
+}
+
+.stm-methodology-desc {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(246, 241, 233, 0.74);
+}
+
+@media (max-width: 1024px) {
+  .stm-methodology-five-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .stm-methodology-five-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 7. Selected Client Impact 3-Column Quote Grid (Parchment Sand Band) */
+.editorial-impact-quotes-wrap {
+  margin-top: 60px;
+  padding-top: 44px;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.editorial-impact-quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.editorial-impact-quote-card {
+  padding: 32px 26px;
+  border-right: 1px solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.editorial-impact-quote-card:first-child {
+  padding-left: 0;
+}
+
+.editorial-impact-quote-card:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.editorial-impact-metric {
+  font-family: var(--font-editorial);
+  font-size: clamp(32px, 3.6vw, 46px);
+  line-height: 0.96;
+  color: var(--accent-terracotta);
+  margin: 0 0 6px;
+}
+
+.editorial-impact-sublabel {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.editorial-impact-blockquote {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-ink);
+  font-style: italic;
+}
+
+.editorial-impact-author {
+  font-family: var(--font-utility);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .editorial-impact-quotes-grid {
+    grid-template-columns: 1fr;
+  }
+  .editorial-impact-quote-card {
+    padding: 26px 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border-hairline);
+  }
+  .editorial-impact-quote-card:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stm-drawer-panel,
+  .stm-drawer-backdrop,
+  .stm-pipeline-pulse {
+    animation: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   MASTER UPGRADE: ESPRESSO & PARCHMENT LUXURY, GLOBAL CURSOR & 3D HERO
+   ========================================================================== */
+
+/* Universal Zero Horizontal Overflow Guard */
+html,
+body,
+.site-shell {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* 1. Global Animated Custom Cursor (Desktop Fine Pointer Only) */
+.stm-cursor-aura {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9996;
+  background: radial-gradient(circle, rgba(197, 155, 109, 0.14) 0%, rgba(140, 45, 25, 0.05) 45%, transparent 72%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform, opacity;
+}
+
+.stm-cursor-aura.is-visible {
+  opacity: 1;
+}
+
+.stm-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(246, 241, 233, 0.85);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.25s ease,
+              border-color 0.25s ease,
+              opacity 0.2s ease;
+  will-change: transform, width, height, opacity;
+}
+
+.stm-cursor-ring.is-visible {
+  opacity: 1;
+}
+
+.stm-cursor-ring.variant-link {
+  width: 64px;
+  height: 64px;
+  mix-blend-mode: normal;
+  background: rgba(140, 45, 25, 0.14);
+  border-color: var(--accent-gold);
+  backdrop-filter: blur(2px);
+}
+
+.stm-cursor-ring.variant-lens {
+  width: 96px;
+  height: 96px;
+  mix-blend-mode: difference;
+  background: rgba(246, 241, 233, 0.14);
+  border-color: rgba(246, 241, 233, 0.55);
+}
+
+.stm-cursor-ring.variant-case {
+  width: auto;
+  height: auto;
+  padding: 10px 18px;
+  mix-blend-mode: normal;
+  background: var(--accent-terracotta);
+  border-color: var(--accent-gold);
+  box-shadow: 0 14px 32px rgba(23, 15, 12, 0.35);
+}
+
+.stm-cursor-pill-text {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-cream);
+  white-space: nowrap;
+}
+
+.stm-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  will-change: transform, opacity;
+}
+
+.stm-cursor-dot.is-visible {
+  opacity: 1;
+}
+
+.stm-cursor-dot.variant-case,
+.stm-cursor-dot.variant-lens {
+  opacity: 0;
+}
+
+@media (pointer: coarse), (max-width: 767px) {
+  .stm-cursor-aura,
+  .stm-cursor-ring,
+  .stm-cursor-dot {
+    display: none !important;
+  }
+}
+
+/* 2. Masked Upward Hero Headline Reveal */
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.hero-line-reveal {
+  display: block;
+  animation: stmHeroLineRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.hero-line-reveal.delay-2 {
+  animation-delay: 0.14s;
+}
+
+@keyframes stmHeroLineRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* 3. Interactive Multi-Layered 3D Editorial Atelier Stage (Hero Visual) */
+.stm-atelier-stage {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 52px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stm-atelier-meta-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline);
+  background: rgba(246, 241, 233, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 40;
+}
+
+.stm-atelier-vol-tag,
+.stm-atelier-coord-tag {
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.stm-atelier-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 0 3px rgba(140, 45, 25, 0.22);
+}
+
+.stm-atelier-orbit-svg {
+  position: absolute;
+  inset: 20px auto auto 50%;
+  transform: translateX(-50%);
+  width: 440px;
+  max-width: 96%;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stm-atelier-3d-deck {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 460px;
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+  margin: 18px 0 28px;
+}
+
+.stm-atelier-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline-dark);
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 28px 64px rgba(23, 15, 12, 0.26);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.45s ease,
+              border-color 0.25s ease;
+  will-change: transform, opacity;
+}
+
+.stm-atelier-card.is-front {
+  border-color: rgba(197, 155, 109, 0.48);
+}
+
+.stm-atelier-card-media {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-espresso-deep);
+}
+
+.stm-atelier-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stm-atelier-card.is-front:hover .stm-atelier-card-media img {
+  transform: scale(1.04);
+}
+
+.stm-atelier-card-index {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(23, 15, 12, 0.78);
+  border: 1px solid rgba(246, 241, 233, 0.22);
+  color: var(--text-cream);
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(8px);
+}
+
+.stm-atelier-card-metric {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(140, 45, 25, 0.88);
+  color: var(--text-cream);
+  font-family: var(--font-utility);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stm-atelier-card-footer {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-espresso);
+  border-top: 1px solid var(--border-hairline-dark);
+}
+
+.stm-atelier-card-cat {
+  display: block;
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 3px;
+}
+
+.stm-atelier-card-title {
+  font-family: var(--font-editorial);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--text-cream);
+}
+
+.stm-atelier-card-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 155, 109, 0.45);
+  color: var(--accent-gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stm-atelier-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 35;
+}
+
+.stm-atelier-dot-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  min-height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline);
+  background: rgba(246, 241, 233, 0.85);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.stm-atelier-dot-btn.active {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-color: var(--bg-espresso);
+}
+
+@media (max-width: 767px) {
+  .stm-atelier-stage {
+    padding: 46px 8px 12px;
+  }
+  .stm-atelier-3d-deck {
+    max-width: 310px;
+    height: 390px;
+  }
+}
+
+/* 4. Full-Bleed Deep Espresso Infinite Marquee Ticker */
+.stm-espresso-marquee {
+  width: 100%;
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-top: 1px solid var(--border-hairline-dark);
+  border-bottom: 1px solid var(--border-hairline-dark);
+  padding: 26px 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+.stm-espresso-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.stm-espresso-marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  padding-right: 36px;
+}
+
+.stm-espresso-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 36px;
+  white-space: nowrap;
+}
+
+.stm-marquee-sans {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 38px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-cream);
+}
+
+.stm-marquee-serif {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: clamp(28px, 3.6vw, 46px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--accent-gold);
+}
+
+.stm-marquee-asterisk {
+  color: var(--accent-terracotta);
+  font-family: var(--font-utility);
+  font-size: 20px;
+}
+
+/* 5. Methodology Progress Beam — Light Parchment & Dark Espresso Tones */
+.stm-methodology-beam-wrap.tone-light {
+  border-top-color: var(--border-hairline);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-kicker {
+  color: var(--accent-terracotta);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-counter {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  color: var(--text-ink);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-beam-track-bar {
+  background: var(--border-hairline);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node {
+  background: var(--bg-parchment);
+  border-color: var(--border-hairline);
+  color: var(--text-ink);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node.lit {
+  border-color: rgba(140, 45, 25, 0.35);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node.current {
+  background: var(--bg-espresso);
+  border-color: var(--bg-espresso);
+  color: var(--text-cream);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node .stm-methodology-title {
+  color: inherit;
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node .stm-methodology-desc {
+  color: var(--muted);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node.current .stm-methodology-desc {
+  color: rgba(246, 241, 233, 0.78);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-num {
+  color: var(--accent-terracotta);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-node.current .stm-methodology-num {
+  color: var(--accent-gold);
+}
+
+.stm-methodology-beam-wrap.tone-light .stm-methodology-dot {
+  border-color: var(--border-hairline);
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-methodology-kicker {
+  color: var(--accent-gold);
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-methodology-counter {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  color: var(--text-cream);
+}
+
+/* 6. Full-Bleed Deep Espresso Selected Work Showcase */
+.showcase-espresso-section {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  padding: clamp(88px, 10vw, 148px) var(--page-gutter);
+  border-top: 1px solid var(--border-hairline-dark);
+}
+
+.showcase-espresso-section .showcase-filter-pills {
+  border-bottom-color: var(--border-hairline-dark);
+}
+
+.showcase-espresso-section .showcase-pill-btn {
+  border-color: var(--border-hairline-dark);
+  color: var(--text-cream);
+}
+
+.showcase-espresso-section .showcase-pill-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.showcase-espresso-section .showcase-pill-btn.active {
+  background: var(--accent-terracotta);
+  border-color: var(--accent-terracotta);
+  color: var(--text-cream);
+}
+
+.showcase-espresso-section .showcase-vertical-media {
+  border-color: var(--border-hairline-dark);
+  background: var(--bg-espresso-deep);
+}
+
+.showcase-espresso-section .showcase-vertical-title {
+  color: var(--text-cream);
+}
+
+.showcase-espresso-section .showcase-vertical-card:hover .showcase-vertical-title {
+  color: var(--accent-gold);
+}
+
+.showcase-espresso-section .showcase-vertical-cat {
+  color: rgba(246, 241, 233, 0.65);
+}
+
+.showcase-espresso-section .showcase-cta-footer {
+  border-top-color: var(--border-hairline-dark);
+}
+
+.showcase-espresso-section .video-reel-tag {
+  color: var(--accent-gold);
+}
+
+.showcase-espresso-section .video-reel-heading {
+  color: var(--text-cream);
+}
+
+.showcase-espresso-section .video-reel-desc {
+  color: rgba(246, 241, 233, 0.72);
+}
+
+/* 7. Full-Bleed Deep Espresso /work Hero */
+.work-hero-espresso {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  padding: clamp(140px, 16vw, 200px) var(--page-gutter) clamp(64px, 8vw, 104px);
+  border-bottom: 1px solid var(--border-hairline-dark);
+}
+
+.work-hero-espresso-title {
+  font-family: var(--font-editorial);
+  font-size: clamp(54px, 11.5vw, 168px);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  margin: 18px 0 24px;
+  color: var(--text-cream);
+}
+
+/* 8. Alternating Deep Espresso Band on /services */
+.services-band-espresso {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-top: 1px solid var(--border-hairline-dark);
+}
+
+.services-band-espresso .capability-pill-tag {
+  background: rgba(246, 241, 233, 0.06);
+  border-color: var(--border-hairline-dark);
+  color: var(--text-cream);
+}
+
+.services-band-espresso .capability-pill-tag:hover {
+  border-color: var(--accent-gold);
+  background: rgba(197, 155, 109, 0.14);
+  color: var(--accent-gold);
+}
+
+.services-band-espresso .capability-pill-dot {
+  background: var(--accent-gold);
+}
+
+.services-band-espresso .stm-demo-card {
+  background: rgba(23, 15, 12, 0.55);
+  border-color: var(--border-hairline-dark);
+}
+
+/* 9. Light Parchment Pill Contact Inputs (for /contact on Warm Parchment) */
+.stm-pill-input-light {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 999px !important;
+  border: 1px solid var(--border-hairline) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  color: var(--text-ink) !important;
+  padding: 14px 24px !important;
+  font-family: var(--font-body) !important;
+  font-size: 14.5px !important;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.stm-pill-input-light::placeholder {
+  color: var(--muted);
+}
+
+.stm-pill-input-light:focus {
+  border-color: var(--accent-terracotta) !important;
+  background: #ffffff !important;
+}
+
+.stm-pill-textarea-light {
+  width: 100%;
+  border-radius: 18px !important;
+  border: 1px solid var(--border-hairline) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  color: var(--text-ink) !important;
+  padding: 18px 24px !important;
+  font-family: var(--font-body) !important;
+  font-size: 14.5px !important;
+  line-height: 1.6;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.stm-pill-textarea-light::placeholder {
+  color: var(--muted);
+}
+
+.stm-pill-textarea-light:focus {
+  border-color: var(--accent-terracotta) !important;
+  background: #ffffff !important;
+}
+
+/* Accessible 44px+ Touch Targets on Mobile */
+@media (max-width: 767px) {
+  .showcase-pill-btn,
+  .stm-config-discipline-pill,
+  .stm-btn-terracotta,
+  .button {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-line-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   REFINEMENT: TIGHTER PACING, KINETIC MOTION & EDITORIAL SOUND CONTROLLER
+   ========================================================================== */
+
+/* 1. Tighter, Punchier Editorial Vertical Pacing (py-14 md:py-20 Rhythm) */
+.manifesto-editorial-section,
+.showcase-editorial-section,
+.showcase-espresso-section,
+.diagnostic-espresso-band,
+.transformation-parchment-band,
+.stm-configurator-section,
+.about-timeline-espresso {
+  padding-top: clamp(52px, 6vw, 84px) !important;
+  padding-bottom: clamp(52px, 6vw, 84px) !important;
+}
+
+.hero {
+  min-height: min(92svh, 860px);
+  padding-top: clamp(104px, 12vh, 132px);
+  padding-bottom: clamp(32px, 4vh, 52px);
+}
+
+.section-grid {
+  padding: clamp(56px, 6.5vw, 88px) var(--page-gutter);
+}
+
+.work-hero-espresso {
+  padding: clamp(118px, 13vw, 152px) var(--page-gutter) clamp(44px, 5vw, 68px);
+}
+
+.portfolio-section {
+  padding: clamp(44px, 5vw, 68px) var(--page-gutter) clamp(56px, 6vw, 88px);
+}
+
+.contact {
+  padding: clamp(56px, 6.5vw, 88px) var(--page-gutter) !important;
+}
+
+/* 2. Global Scroll Choreography (MotionWrapper + Animated Hairline) */
+.stm-motion-reveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.stm-motion-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.stm-animated-hairline {
+  width: 100%;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.stm-animated-hairline.tone-light {
+  background: var(--border-hairline);
+}
+
+.stm-animated-hairline.tone-dark {
+  background: var(--border-hairline-dark);
+}
+
+.stm-animated-hairline.is-expanded {
+  transform: scaleX(1);
+}
+
+/* 3. Site-Wide Tactile Micro-Interactions */
+.button,
+.stm-btn-terracotta,
+.showcase-pill-btn,
+.stm-config-discipline-pill,
+.stm-cap-tab-btn,
+.stm-sound-pill {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.22s ease,
+              border-color 0.22s ease,
+              color 0.22s ease;
+}
+
+.button:active,
+.stm-btn-terracotta:active,
+.showcase-pill-btn:active,
+.stm-config-discipline-pill:active,
+.stm-cap-tab-btn:active,
+.stm-sound-pill:active {
+  transform: scale(0.975) !important;
+}
+
+.button svg,
+.stm-btn-terracotta svg,
+.text-link svg,
+.showcase-vertical-title-row svg {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button:hover svg,
+.stm-btn-terracotta:hover svg,
+.text-link:hover svg,
+.showcase-vertical-card:hover .showcase-vertical-title-row svg {
+  transform: translate3d(3px, -2px, 0);
+}
+
+.manifesto-visual-frame img,
+.about-studio-photo-band img,
+.about-timeline-circular-media img,
+.selected-card-image img {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.manifesto-visual-frame:hover img,
+.about-studio-photo-band:hover img,
+.about-timeline-circular-media:hover img,
+.selected-card:hover .selected-card-image img {
+  transform: scale(1.03);
+}
+
+/* Subtle Ambient Floating on Hero 3D Atelier Stage */
+.stm-atelier-stage {
+  animation: stmAtelierAmbientFloat 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes stmAtelierAmbientFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0);
+  }
+}
+
+/* 4. Interactive Tabbed Capabilities Showcase (Compact & Punchy) */
+.stm-cap-section {
+  background: var(--bg-parchment);
+  color: var(--text-ink);
+  padding: clamp(52px, 6vw, 84px) var(--page-gutter);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.stm-cap-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.stm-cap-tabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 28px 0 24px;
+}
+
+.stm-cap-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--text-ink);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.stm-cap-tab-btn:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+.stm-cap-tab-btn.active {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-color: var(--bg-espresso);
+}
+
+.stm-cap-tab-idx {
+  font-family: var(--font-utility);
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.stm-cap-stage-panel {
+  border: 1px solid var(--border-hairline);
+  border-radius: 22px;
+  padding: clamp(24px, 3.5vw, 40px);
+  background: var(--bg-parchment-alt);
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+
+.stm-cap-stage-panel.no-demo {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+@media (max-width: 960px) {
+  .stm-cap-stage-panel,
+  .stm-cap-stage-panel.no-demo {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 5. Compact 2x2 Espresso Diagnostic Grid */
+.diagnostic-compact-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border-hairline-dark);
+  border-bottom: 1px solid var(--border-hairline-dark);
+}
+
+.diagnostic-compact-cell {
+  padding: 28px 28px;
+  border-right: 1px solid var(--border-hairline-dark);
+  border-bottom: 1px solid var(--border-hairline-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  transition: background-color 0.25s ease;
+}
+
+.diagnostic-compact-cell:nth-child(odd) {
+  padding-left: 0;
+}
+
+.diagnostic-compact-cell:nth-child(even) {
+  border-right: none;
+  padding-right: 0;
+}
+
+.diagnostic-compact-cell:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.diagnostic-compact-cell:hover {
+  background: rgba(246, 241, 233, 0.03);
+}
+
+@media (max-width: 720px) {
+  .diagnostic-compact-2x2 {
+    grid-template-columns: 1fr;
+  }
+  .diagnostic-compact-cell {
+    padding: 22px 0 !important;
+    border-right: none;
+    border-bottom: 1px solid var(--border-hairline-dark) !important;
+  }
+  .diagnostic-compact-cell:last-child {
+    border-bottom: none !important;
+  }
+}
+
+/* 6. Luxury Editorial Sound Pill & 4-Bar Animated Equalizer Waveform */
+.stm-sound-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.stm-sound-pill.is-compact {
+  padding: 7px 12px;
+  font-size: 9px;
+}
+
+.stm-sound-pill.tone-parchment {
+  background: rgba(246, 241, 233, 0.88);
+  color: var(--text-ink);
+  border: 1px solid var(--border-hairline);
+}
+
+.stm-sound-pill.tone-parchment.is-on {
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  border-color: var(--bg-espresso);
+}
+
+.stm-sound-pill.tone-espresso {
+  background: rgba(23, 15, 12, 0.78);
+  color: var(--text-cream);
+  border: 1px solid rgba(246, 241, 233, 0.28);
+}
+
+.stm-sound-pill.tone-espresso.is-on {
+  background: var(--accent-terracotta);
+  color: var(--text-cream);
+  border-color: var(--accent-gold);
+  box-shadow: 0 8px 22px rgba(140, 45, 25, 0.38);
+}
+
+.stm-eq-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 11px;
+  width: 14px;
+}
+
+.stm-eq-bar {
+  display: block;
+  width: 2px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: height 0.2s ease;
+}
+
+.stm-sound-pill.is-on .stm-eq-bar {
+  animation: stmEqWave 0.9s ease-in-out infinite;
+}
+
+.stm-sound-pill.is-on .stm-eq-bar.b1 { animation-delay: 0s; }
+.stm-sound-pill.is-on .stm-eq-bar.b2 { animation-delay: 0.18s; }
+.stm-sound-pill.is-on .stm-eq-bar.b3 { animation-delay: 0.34s; }
+.stm-sound-pill.is-on .stm-eq-bar.b4 { animation-delay: 0.12s; }
+
+@keyframes stmEqWave {
+  0%, 100% { height: 3px; }
+  50% { height: 11px; }
+}
+
+.stm-reel-interactive {
+  position: relative;
+}
+
+.stm-reel-sound-pin {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stm-motion-reveal,
+  .stm-animated-hairline,
+  .stm-atelier-stage,
+  .stm-sound-pill.is-on .stm-eq-bar {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   FLAGSHIP CASE STUDY SPOTLIGHTS (13ISU TIRAMISU & TRENDS STRATEGIC THESIS)
+   ========================================================================== */
+.stm-flagship-spotlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.stm-spotlight-card {
+  border-radius: 20px;
+  padding: clamp(22px, 2.8vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.stm-spotlight-card.tone-parchment {
+  background: var(--bg-parchment);
+  color: var(--text-ink);
+  border: 1px solid var(--border-hairline);
+}
+
+.stm-spotlight-card.tone-espresso-deep {
+  background: var(--bg-espresso-deep);
+  color: var(--text-cream);
+  border: 1px solid var(--border-hairline-dark);
+}
+
+.stm-spotlight-card:hover {
+  transform: translateY(-4px);
+}
+
+.stm-spotlight-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stm-spotlight-pill {
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(140, 45, 25, 0.1);
+  color: var(--accent-terracotta);
+  border: 1px solid rgba(140, 45, 25, 0.28);
+}
+
+.stm-spotlight-pill.dark {
+  background: rgba(197, 155, 109, 0.14);
+  color: var(--accent-gold);
+  border-color: rgba(197, 155, 109, 0.35);
+}
+
+.stm-spotlight-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.8vw, 36px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--text-ink);
+}
+
+.stm-spotlight-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.stm-spotlight-gallery-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stm-spotlight-thumb {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline);
+  aspect-ratio: 4 / 3;
+  background: var(--bg-parchment-alt);
+}
+
+.stm-spotlight-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stm-spotlight-card:hover .stm-spotlight-thumb img,
+.stm-home-tiramisu-spread:hover .stm-spotlight-thumb img {
+  transform: scale(1.04);
+}
+
+.stm-spotlight-quote-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-left: 2px solid var(--accent-gold);
+  background: rgba(246, 241, 233, 0.05);
+  border-radius: 0 12px 12px 0;
+}
+
+.stm-spotlight-quote-box p {
+  margin: 0;
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.38;
+  color: rgba(246, 241, 233, 0.9);
+}
+
+.stm-spotlight-thesis-visual {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline-dark);
+  aspect-ratio: 16 / 7;
+  background: rgba(246, 241, 233, 0.04);
+}
+
+.stm-spotlight-thesis-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stm-spotlight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.stm-spotlight-card.tone-espresso-deep .stm-spotlight-actions {
+  border-top-color: var(--border-hairline-dark);
+}
+
+.stm-spotlight-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-utility);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-terracotta);
+}
+
+.stm-spotlight-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-utility);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-ink);
+  text-decoration: none;
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline);
+  transition: background 0.2s ease;
+}
+
+.stm-spotlight-secondary:hover {
+  background: rgba(36, 25, 20, 0.06);
+}
+
+.stm-spotlight-secondary.dark {
+  color: var(--text-cream);
+  border-color: var(--border-hairline-dark);
+}
+
+.stm-spotlight-secondary.dark:hover {
+  background: rgba(246, 241, 233, 0.08);
+}
+
+/* Homepage 13ISU Tiramisu Editorial Spread inside #work */
+.stm-home-tiramisu-spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 36px);
+  align-items: center;
+  background: var(--bg-parchment);
+  color: var(--text-ink);
+  border: 1px solid var(--border-hairline);
+  border-radius: 20px;
+  padding: clamp(22px, 3vw, 34px);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stm-home-tiramisu-spread:hover {
+  transform: translateY(-3px);
+}
+
+/* Homepage #insights Dedicated Strategic Thesis Band */
+.stm-insights-editorial-band {
+  background: var(--bg-parchment);
+  color: var(--text-ink);
+  padding: clamp(52px, 6vw, 84px) var(--page-gutter);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.stm-insights-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+.stm-insights-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.stm-insights-pillars strong {
+  display: block;
+  font-family: var(--font-utility);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-terracotta);
+  margin-bottom: 5px;
+}
+
+.stm-insights-pillars span {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.stm-insights-visual-card {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-espresso);
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stm-insights-visual-card:hover {
+  transform: translateY(-4px);
+}
+
+.stm-insights-visual-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.stm-insights-visual-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  font-family: var(--font-utility);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-cream);
+  border-top: 1px solid var(--border-hairline-dark);
+}
+
+@media (max-width: 960px) {
+  .stm-flagship-spotlights-grid,
+  .stm-home-tiramisu-spread,
+  .stm-insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stm-insights-pillars {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .stm-spotlight-gallery-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+}
+
+
+/* ==========================================================================
+   ROTATING TERRACOTTA ATELIER WAX-SEAL STAMP (SOLE HERO START-A-PROJECT CTA)
+   ========================================================================== */
+.hero-stamp-badge.hero-stamp-seal {
+  width: 112px;
+  height: 112px;
+  background: var(--accent-terracotta);
+  color: var(--text-cream);
+  border: 1px solid rgba(246, 241, 233, 0.25);
+  box-shadow: 0 12px 28px rgba(140, 45, 25, 0.28), inset 0 0 0 4px rgba(36, 25, 20, 0.14);
+}
+
+.hero-stamp-badge.hero-stamp-seal:hover {
+  background: #722211;
+  color: var(--text-cream);
+  transform: scale(1.055);
+  box-shadow: 0 16px 36px rgba(140, 45, 25, 0.36), inset 0 0 0 4px rgba(197, 155, 109, 0.28);
+}
+
+.hero-stamp-seal-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(23, 15, 12, 0.24);
+  border: 1px solid rgba(246, 241, 233, 0.28);
+  color: var(--text-cream);
+}
+
+.hero-stamp-monogram {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  color: var(--accent-gold);
+}
+
+/* ==========================================================================
+   CINEMA-GRADE DEEP ESPRESSO SPLIT-CURTAIN LOADING SCREEN
+   ========================================================================== */
+html.stm-skip-preloader .stm-curtain-loader {
+  display: none !important;
+}
+
+.stm-curtain-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.stm-curtain-loader.is-exiting {
+  pointer-events: none;
+}
+
+.stm-curtain-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.2%;
+  background: var(--bg-espresso);
+  will-change: transform;
+  transition: transform 0.84s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.stm-curtain-top {
+  top: 0;
+  border-bottom: 1px solid rgba(197, 155, 109, 0.12);
+}
+
+.stm-curtain-bottom {
+  bottom: 0;
+  border-top: 1px solid rgba(197, 155, 109, 0.12);
+}
+
+.stm-curtain-loader.is-exiting .stm-curtain-top {
+  transform: translate3d(0, -102%, 0);
+}
+
+.stm-curtain-loader.is-exiting .stm-curtain-bottom {
+  transform: translate3d(0, 102%, 0);
+}
+
+.stm-curtain-seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  z-index: 2;
+  background: rgba(246, 241, 233, 0.08);
+  transition: opacity 0.28s ease;
+}
+
+.stm-curtain-seam-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(140, 45, 25, 0.6), #c59b6d, rgba(140, 45, 25, 0.6));
+  transform-origin: center;
+  will-change: transform;
+}
+
+.stm-curtain-loader.is-exiting .stm-curtain-seam {
+  opacity: 0;
+}
+
+.stm-curtain-frame {
+  position: absolute;
+  inset: clamp(18px, 3vw, 34px);
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity 0.32s ease;
+}
+
+.stm-curtain-loader.is-exiting .stm-curtain-frame {
+  opacity: 0;
+}
+
+.stm-curtain-corner {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-utility);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(197, 155, 109, 0.82);
+}
+
+.stm-curtain-corner.tl { top: 0; left: 0; }
+.stm-curtain-corner.tr { top: 0; right: 0; }
+.stm-curtain-corner.bl { bottom: 0; left: 0; }
+.stm-curtain-corner.br { bottom: 0; right: 0; pointer-events: auto; }
+
+.stm-curtain-cross {
+  color: var(--accent-gold);
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.stm-curtain-skip {
+  background: transparent;
+  border: 1px solid rgba(197, 155, 109, 0.3);
+  border-radius: 999px;
+  padding: 5px 12px;
+  color: rgba(246, 241, 233, 0.78);
+  font-family: var(--font-utility);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.stm-curtain-skip:hover {
+  background: rgba(197, 155, 109, 0.16);
+  border-color: var(--accent-gold);
+  color: var(--text-cream);
+}
+
+.stm-curtain-center {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  will-change: transform, opacity;
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.42s ease;
+}
+
+.stm-curtain-loader.is-exiting .stm-curtain-center {
+  opacity: 0;
+  transform: translate3d(0, -34px, 0) scale(0.96);
+}
+
+.stm-curtain-ring-wrap {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  display: grid;
+  place-items: center;
+}
+
+.stm-curtain-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.stm-curtain-inner-orbit {
+  transform-origin: center;
+  animation: stmCurtainSpin 16s linear infinite;
+}
+
+@keyframes stmCurtainSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.stm-curtain-logo {
+  position: relative;
+  z-index: 2;
+  width: 126px;
+  height: auto;
+  max-height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.35));
+}
+
+.stm-curtain-eyebrow {
+  margin: 0;
+  font-family: var(--font-utility);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 233, 0.72);
+}
+
+.stm-curtain-counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(32px, 4.5vw, 46px);
+  line-height: 1;
+  color: var(--text-cream);
+}
+
+.stm-curtain-pct {
+  font-size: 0.48em;
+  color: var(--accent-gold);
+  margin-left: 3px;
+}
+
+.stm-curtain-bottom-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  z-index: 5;
+  background: rgba(246, 241, 233, 0.08);
+  transition: opacity 0.3s ease;
+}
+
+.stm-curtain-bottom-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-terracotta), var(--accent-gold));
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.stm-curtain-loader.is-exiting .stm-curtain-bottom-bar {
+  opacity: 0;
+}
+
+@media (max-width: 640px) {
+  .stm-curtain-corner span:not(.stm-curtain-cross) {
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+  }
+
+  .stm-curtain-corner.bl span:not(.stm-curtain-cross) {
+    display: none;
+  }
+
+  .stm-curtain-ring-wrap {
+    width: 176px;
+    height: 176px;
+  }
+
+  .stm-curtain-logo {
+    width: 104px;
+  }
+
+  .stm-curtain-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 0 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stm-curtain-loader {
+    display: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   CRITICAL FIXES: STAMP CENTERING, GUARANTEED BEAM VISIBILITY & CLEAN LOADER
+   ========================================================================== */
+
+/* 1. Permanently center the inner ↗ arrow inside the rotating terracotta stamp */
+.hero-stamp-badge.hero-stamp-seal {
+  width: 112px;
+  height: 112px;
+  background: var(--accent-terracotta);
+  color: var(--text-cream);
+  border: 1px solid rgba(246, 241, 233, 0.28);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, box-shadow 0.3s ease;
+}
+
+.hero-stamp-badge.hero-stamp-seal:hover {
+  transform: scale(1.05);
+}
+
+.hero-stamp-badge.hero-stamp-seal .hero-stamp-svg {
+  width: 102px;
+  height: 102px;
+  display: block;
+}
+
+.hero-stamp-badge.hero-stamp-seal:hover .hero-stamp-svg {
+  animation-duration: 7s;
+}
+
+.hero-stamp-badge .hero-stamp-center,
+.hero-stamp-badge .hero-stamp-seal-core {
+  position: absolute;
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(23, 15, 12, 0.22);
+  border: 1px solid rgba(246, 241, 233, 0.28);
+  color: var(--text-cream);
+  pointer-events: none;
+}
+
+/* 2. Guarantee Methodology Progress Beam & /about content NEVER hide at opacity: 0 */
+.stm-methodology-beam-wrap,
+.stm-configurator-header,
+.stm-configurator-grid {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-methodology-node {
+  opacity: 1;
+  color: var(--text-cream);
+  border-color: rgba(246, 241, 233, 0.16);
+  background: rgba(246, 241, 233, 0.04);
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-methodology-title {
+  color: var(--text-cream);
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-methodology-desc {
+  color: rgba(246, 241, 233, 0.78);
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-methodology-num {
+  color: var(--accent-gold);
+}
+
+.stm-methodology-beam-wrap.tone-dark .stm-beam-track-bar {
+  background: rgba(246, 241, 233, 0.18);
+}
+
+/* 3. Clean, Effortless Deep Espresso Loading Screen (~0.9s total) */
+html.stm-skip-preloader .stm-clean-loader {
+  display: none !important;
+}
+
+.stm-clean-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-espresso);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: auto;
+}
+
+.stm-clean-loader.is-exiting {
+  transform: translate3d(0, -100%, 0);
+  pointer-events: none;
+}
+
+.stm-clean-loader-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.stm-clean-loader-logo {
+  width: 152px;
+  height: auto;
+  max-height: 46px;
+  object-fit: contain;
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.stm-clean-loader.is-entered .stm-clean-loader-logo {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.stm-clean-loader-track {
+  width: 140px;
+  height: 1px;
+  background: rgba(246, 241, 233, 0.14);
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.stm-clean-loader-fill {
+  width: 100%;
+  height: 100%;
+  background: #c59b6d;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  will-change: transform;
+}
+
+.stm-clean-loader.is-entered .stm-clean-loader-fill {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stm-clean-loader {
+    display: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   FINAL PRODUCTION POLISH: FOOTER WORDMARK FIT, ESPRESSO DRAWER & RESPONSIVE
+   ========================================================================== */
+
+/* 0. Zero Horizontal Overflow Guard Site-Wide */
+html,
+body,
+main.site-shell {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* 1. Full-Width Unclipped Footer Wordmark ("SOLE TRUST MEDIA") */
+.footer-giant-wordmark-wrap {
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(20px, 3vw, 34px) clamp(16px, 3vw, 32px) clamp(14px, 2.5vw, 26px);
+  border-top: 1px solid var(--border-hairline-dark);
+  text-align: center;
+  overflow: hidden;
+}
+
+.footer-giant-wordmark {
+  display: block;
+  width: 100%;
+  font-family: var(--font-editorial);
+  font-size: clamp(1.95rem, 8.2vw, 9.2rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  color: rgba(246, 241, 233, 0.14);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Keep oversized hero display words cleanly inside 100vw on all phones */
+.about-oversized-wordmark {
+  font-size: clamp(2.8rem, 13.8vw, 14.5rem);
+  max-width: 100%;
+}
+
+.work-hero-espresso-title {
+  font-size: clamp(2.4rem, 10vw, 7.2rem);
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* 2. Responsive Navigation + Full-Screen Deep Espresso Drawer (< 1024px) */
+.stm-nav-desktop-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 32px);
+  font-family: var(--font-utility);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stm-nav-desktop-links a {
+  color: var(--text-ink);
+  text-decoration: none;
+  padding: 6px 2px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.stm-nav-desktop-links a:hover,
+.stm-nav-desktop-links a.is-active {
+  color: var(--accent-terracotta);
+}
+
+.stm-nav-menu-trigger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--border-hairline);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.stm-mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: var(--bg-espresso);
+  color: var(--text-cream);
+  padding: 104px clamp(20px, 6vw, 48px) 36px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translate3d(0, -14px, 0);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.35s linear;
+  overflow-y: auto;
+}
+
+.stm-mobile-drawer.is-open {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.stm-mobile-drawer-inner {
+  max-width: 580px;
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.stm-mobile-drawer-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-hairline-dark);
+}
+
+.stm-mobile-drawer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 58px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-hairline-dark);
+  color: var(--text-cream);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 6vw, 34px);
+  letter-spacing: -0.02em;
+  transition: color 0.2s ease, padding-left 0.25s ease;
+}
+
+.stm-mobile-drawer-link:hover {
+  color: var(--accent-gold);
+  padding-left: 8px;
+}
+
+.stm-mobile-drawer-idx {
+  font-family: var(--font-utility);
+  font-size: 11px;
+  color: var(--accent-gold);
+  letter-spacing: 0.12em;
+}
+
+.stm-mobile-drawer-link > span:nth-child(2) {
+  flex: 1;
+}
+
+.stm-mobile-drawer-arrow {
+  color: rgba(246, 241, 233, 0.55);
+}
+
+.stm-mobile-drawer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.stm-mobile-drawer-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: var(--font-utility);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--accent-gold);
+  text-decoration: none;
+}
+
+@media (max-width: 1023px) {
+  .stm-nav-desktop-links,
+  .stm-nav-desktop-cta {
+    display: none !important;
+  }
+
+  .stm-nav-menu-trigger {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .stm-mobile-drawer {
+    display: none !important;
+  }
+}
+
+/* 3. Tablet Breakpoint Polish (768px — 1023px): Balanced 2-Column Grids */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .diagnostic-compact-2x2,
+  .selected-work-grid,
+  .stm-flagship-spotlights-grid,
+  .about-team-grid,
+  .about-values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .stm-methodology-five-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 4. Phone Breakpoint Polish (375px — 640px): Crisp 20px Padding, 16px Inputs, 44px+ Targets, Snap Scroll */
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: 20px;
+  }
+
+  input,
+  textarea,
+  select,
+  .stm-pill-input,
+  .stm-pill-input-light,
+  .stm-pill-textarea,
+  .stm-pill-textarea-light {
+    font-size: 16px !important;
+  }
+
+  .button,
+  .stm-btn-terracotta,
+  .showcase-pill-btn,
+  .stm-cap-tab-btn,
+  .stm-cap-tab,
+  .stm-sound-pill {
+    min-height: 44px;
+  }
+
+  .showcase-five-strip {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding-bottom: 10px;
+  }
+
+  .showcase-five-strip > .showcase-vertical-card {
+    flex: 0 0 78vw;
+    scroll-snap-align: start;
+  }
+
+  .stm-drawer-panel {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* 5. Guard Custom Cursor Strictly to Desktop Fine Hover Pointers */
+@media (hover: none), (pointer: coarse) {
+  .stm-cursor-aura,
+  .stm-cursor-ring,
+  .stm-cursor-dot {
+    display: none !important;
   }
 }

@@ -1,8 +1,12 @@
-import { ArrowUpRight, Mail, MapPin } from 'lucide-react'
+import { ArrowUpRight, MapPin } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import SiteNav from '@/components/site-nav'
 import SiteFooter from '@/components/site-footer'
+import { CapabilityMiniDemo } from '@/components/capability-demos'
+import { MethodologyProgressBeam } from '@/components/kinetic-scroll-polish'
+import { MotionWrapper, AnimatedHairline } from '@/components/MotionWrapper'
+import CopyEmailLink from '@/components/copy-email-link'
 
 export const metadata: Metadata = {
   title: 'Capabilities',
@@ -16,85 +20,90 @@ const serviceCategories = [
     heading: 'Brand Strategy & Identity',
     tagline: 'Positioning, visual architecture & brand foundations',
     description:
-      'We define why your brand matters, who it serves, and the singular positioning that makes competitors irrelevant. From visual identity systems and typography to packaging and unboxing.',
+      'We define why your brand matters, who it serves, and the singular positioning that makes competitors irrelevant — from visual identity systems and typography to tactile packaging.',
     services: [
-      'Brand Strategy & Market Positioning',
+      'Brand Positioning & Strategy',
       'Visual Identity & Logo Systems',
-      'Design Systems & Brand Guidelines',
+      'Design Systems & Guidelines',
       'Packaging & Product Presentation',
-      'Brand Voice, Messaging & Copywriting',
-      'Brand Audits & Identity Evolution',
+      'Brand Voice & Messaging',
+      'Identity Evolution',
     ],
     value:
-      'A brand that commands pricing power, builds unshakeable customer loyalty, and is impossible to ignore.',
+      'A brand that commands authority, builds unshakeable customer loyalty, and is impossible to ignore.',
+    hasDemo: true,
   },
   {
     index: '02',
-    heading: 'Creative Direction & Content Production',
+    heading: 'Creative Direction & Content',
     tagline: 'High-craft visuals, campaigns & editorial storytelling',
     description:
-      'Consistent, campaign-level creative direction and short-form video production that earn genuine attention. We plan, direct, and produce content that keeps your brand relevant and aspirational every single day.',
+      'Campaign-level creative direction and short-form video production engineered to earn genuine attention and keep your brand culturally aspirational every week.',
     services: [
-      'Creative Direction & Campaign Concepts',
-      'Viral Short-Form Video & Instagram Reels',
-      'Editorial Photography & Art Direction',
-      'Brand Films & Commercial Video Production',
-      'Social Media Visual Frameworks',
-      'Motion Design & Kinetic Assets',
+      'Creative Direction & Campaigns',
+      'Viral Short-Form Video & Reels',
+      'Editorial Photography',
+      'Brand Films & Motion',
+      'Social Visual Frameworks',
+      'Packaging Art Direction',
     ],
     value:
       'An engaged audience that converts because your content genuinely earns their respect and trust.',
+    hasDemo: false,
   },
   {
     index: '03',
     heading: 'Digital Experiences & Websites',
     tagline: 'Bespoke digital flagships & interactive web platforms',
     description:
-      'Websites and digital experiences built to earn immediate trust and drive commercial action. From micro-interactions to modern App Router architectures, we craft digital platforms that reflect the true caliber of your business.',
+      'High-contrast websites and Next.js platforms built to earn immediate authority and drive commercial action — blending sub-second performance with editorial craft.',
     services: [
-      'High-Performance Digital Flagships',
-      'Bespoke Web Applications (Next.js / React)',
-      'Creative E-commerce Stores (Shopify / Headless)',
-      'UI/UX Architecture & Design Systems',
-      'Interactive 3D & WebGL Experiences',
-      'Technical SEO, Core Web Vitals & Accessibility',
+      'High-Performance Flagships',
+      'Next.js & React Web Apps',
+      'Creative E-Commerce',
+      'UI/UX Design Systems',
+      'Interactive Motion & 3D',
+      'Technical SEO & Web Vitals',
     ],
     value:
       'A digital flagship that converts cold visitors into qualified, high-intent client enquiries.',
+    hasDemo: true,
   },
   {
     index: '04',
     heading: 'Marketing & Business Growth',
     tagline: 'Data-led acquisition, social commerce & funnel telemetry',
     description:
-      'Paid media and inbound acquisition architectures that actually convert. We run disciplined, telemetry-backed campaigns across the platforms that matter most — continuously optimized for measurable customer lifetime value.',
+      'Disciplined, telemetry-backed paid acquisition and inbound funnel architectures continuously optimized for qualified demand and customer lifetime value.',
     services: [
-      'Meta Ads (Instagram & Facebook Growth)',
-      'Google Search & High-Intent Performance',
-      'Social Commerce & Inbound Funnel Design',
-      'Funnel Telemetry & Conversion Rate Optimization (CRO)',
-      'Audience Segmentation & Retention Systems',
-      'Omnichannel Acquisition Strategy',
+      'Meta & Instagram Growth',
+      'Google High-Intent Search',
+      'Social Commerce Funnels',
+      'Conversion Optimization (CRO)',
+      'Retention Architecture',
+      'Omnichannel Telemetry',
     ],
     value:
-      'Every rupee tracked. Lower customer acquisition cost. Scalable, repeatable commercial return.',
+      'Every metric tracked. Lower acquisition friction. Scalable, repeatable commercial momentum.',
+    hasDemo: false,
   },
   {
     index: '05',
     heading: 'Technology & Business Automation',
     tagline: 'Intelligent systems, workflow automation & custom software',
     description:
-      'Smart operational pipelines that give your team time back. We eliminate repetitive friction, integrate your CRM and lead databases, and deploy AI assistants that ensure no prospective customer is ever left waiting.',
+      'Smart operational pipelines that give your team time back — integrating CRM routing, AI qualification workflows, and custom dashboards so no enquiry is ever dropped.',
     services: [
-      'Inbound Lead Capture & CRM Routing',
-      'WhatsApp & Email Qualification Workflows',
-      'AI Assistants & Custom Agentic Workflows',
-      'Custom SaaS & Internal Operations Portals',
-      'API Integrations & Webhook Telemetry',
-      'Automated Reporting & Client Dashboards',
+      'Inbound Lead Capture & CRM',
+      'WhatsApp & Email Workflows',
+      'AI Assistants & Agent Flows',
+      'Custom Operations Portals',
+      'API & Webhook Telemetry',
+      'Automated Client Dashboards',
     ],
     value:
-      'Zero dropped enquiries. Sub-one-hour lead response times. Scalable infrastructure without bloated headcount.',
+      'Zero dropped enquiries. Sub-one-hour response times. Scalable infrastructure without bloated headcount.',
+    hasDemo: true,
   },
 ]
 
@@ -103,146 +112,377 @@ export default function ServicesPage() {
     <main className="site-shell">
       <SiteNav />
 
-      {/* Hero */}
-      <section className="services-page-hero" style={{ paddingTop: '170px' }}>
-        <p className="eyebrow">01 / Capabilities &amp; Services</p>
-        <h1 className="services-page-title">
-          Many disciplines.
-          <br />
-          <i>One point of view.</i>
-        </h1>
-        <p className="services-page-description">
-          From brand strategy and visual craft to digital engineering and automated growth pipelines — we build connected brand systems that work with uncompromising authority in the real world.
-        </p>
-      </section>
-
-      {/* Service Categories */}
-      {serviceCategories.map((cat) => (
-        <section
-          key={cat.index}
-          className="section-grid"
-          style={{ alignItems: 'start', padding: '100px 4vw' }}
-        >
-          <div className="section-label">
-            <span style={{ fontSize: '13px', fontFamily: 'var(--font-utility)', color: 'var(--brown)', fontWeight: 700 }}>
-              {cat.index}
-            </span>
-          </div>
-          <div>
-            <span style={{ fontSize: '11px', fontFamily: 'var(--font-utility)', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--muted)', display: 'block', marginBottom: '8px' }}>
-              {cat.tagline}
-            </span>
-            <h2 className="services-category-title" style={{ fontSize: 'clamp(32px, 4.5vw, 60px)', margin: '0 0 20px', lineHeight: 1.1 }}>
-              {cat.heading}
-            </h2>
-            <p className="services-category-description" style={{ fontSize: '16px', lineHeight: 1.7, color: 'var(--muted)', maxWidth: '640px', margin: '0 0 40px' }}>
-              {cat.description}
-            </p>
-
-            {/* Compact pill-shaped deliverables */}
-            <div style={{ marginBottom: '36px' }}>
-              <span
-                className="editorial-label"
-                style={{ fontSize: '10px', color: 'var(--muted)', display: 'block', marginBottom: '14px' }}
-              >
-                Deliverables &amp; Core Output
-              </span>
-              <ul className="capability-pill-list" aria-label={`${cat.heading} deliverables`}>
-                {cat.services.map((service) => (
-                  <li key={service} className="capability-pill-tag">
-                    <span className="capability-pill-dot" aria-hidden="true" />
-                    <span>{service}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Value proposition */}
-            <div
-              className="service-value"
-              style={{
-                background: 'var(--cream-deep)',
-                border: '1px solid rgba(75, 48, 39, 0.15)',
-                borderRadius: '16px',
-                padding: '24px 28px',
-                maxWidth: '700px',
-              }}
-            >
-              <span
-                className="service-value-label"
-                style={{
-                  fontFamily: 'var(--font-utility)',
-                  fontSize: '10px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  color: 'var(--brown)',
-                  fontWeight: 700,
-                  display: 'block',
-                  marginBottom: '6px',
-                }}
-              >
-                The Commercial Impact
-              </span>
-              <p
-                className="service-value-copy"
-                style={{
-                  margin: 0,
-                  fontSize: '15px',
-                  lineHeight: 1.6,
-                  color: 'var(--dark)',
-                  fontStyle: 'italic',
-                }}
-              >
-                &ldquo;{cat.value}&rdquo;
-              </p>
-            </div>
-          </div>
-        </section>
-      ))}
-
-      {/* CTA */}
-      <section className="statement services-cta" style={{ background: 'var(--bg-olive)', color: 'var(--text-cream)', padding: '140px 4vw 120px', textAlign: 'center' }}>
-        <p className="editorial-label" style={{ opacity: 0.82 }}>
-          * Ready to build something? *
-        </p>
-        <h2 className="services-cta-title" style={{ fontSize: 'clamp(44px, 7vw, 96px)', margin: '24px 0 36px', lineHeight: 1.05 }}>
-          Let&apos;s make it{' '}
-          <i style={{ fontFamily: 'var(--font-editorial)', fontWeight: 400 }}>enduring.</i>
-        </h2>
-        <div className="services-cta-actions" style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-          <Link className="stm-btn-terracotta" href="/contact">
-            Start a project <ArrowUpRight size={14} />
-          </Link>
-          <Link
-            className="button button-outline"
-            href="/work"
-            style={{ color: 'var(--text-cream)', borderColor: 'rgba(246, 241, 233, 0.4)' }}
-          >
-            Explore Selected Work <ArrowUpRight size={14} />
-          </Link>
-        </div>
-      </section>
-
-      {/* Contact detail strip */}
+      {/* Compact Editorial Hero (Warm Parchment) */}
       <section
         style={{
-          background: 'var(--dark)',
-          color: 'var(--cream)',
-          padding: '45px 4vw',
-          borderTop: '1px solid rgba(243, 235, 221, 0.12)',
+          padding: 'clamp(110px, 11vw, 144px) var(--page-gutter) clamp(40px, 5vw, 60px)',
+          background: 'var(--bg-parchment)',
+          color: 'var(--text-ink)',
         }}
       >
-        <div
-          className="contact-details"
-          style={{ maxWidth: 1100, margin: 'auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px', fontSize: '12px', fontFamily: 'var(--font-utility)' }}
-        >
-          <a href="mailto:soletrustmedia@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'inherit' }}>
-            <Mail size={14} /> soletrustmedia@gmail.com
-          </a>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <MapPin size={14} /> 560066, Whitefield, Bengaluru, India
-          </span>
+        <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
+          <MotionWrapper>
+            <p className="editorial-label" style={{ color: 'var(--accent-terracotta)', margin: '0 0 12px' }}>
+              * 01 / Capabilities &amp; Disciplines
+            </p>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                gap: '20px',
+              }}
+            >
+              <h1
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(44px, 6.4vw, 92px)',
+                  lineHeight: 0.94,
+                  letterSpacing: '-0.04em',
+                  margin: 0,
+                  color: 'var(--text-ink)',
+                }}
+              >
+                Many disciplines.{' '}
+                <i
+                  style={{
+                    fontFamily: 'var(--font-editorial)',
+                    fontWeight: 400,
+                    color: 'var(--accent-terracotta)',
+                  }}
+                >
+                  One point of view.
+                </i>
+              </h1>
+              <p style={{ maxWidth: '420px', fontSize: '15px', lineHeight: 1.6, color: 'var(--muted)', margin: 0 }}>
+                Five integrated creative-technology disciplines with interactive studio specimens — engineered to move brands from invisible to unforgettable.
+              </p>
+            </div>
+          </MotionWrapper>
+          <AnimatedHairline style={{ marginTop: '28px' }} />
         </div>
+      </section>
+
+      {/* Tight Alternating Warm Parchment & Deep Espresso 5-Pillar Bands */}
+      {serviceCategories.map((cat, idx) => {
+        const isDark = idx % 2 === 1
+        return (
+          <section
+            key={cat.index}
+            style={{
+              padding: 'clamp(42px, 5vw, 68px) var(--page-gutter)',
+              background: isDark ? 'var(--bg-espresso)' : idx === 0 ? 'var(--bg-parchment)' : 'var(--bg-parchment-alt)',
+              color: isDark ? 'var(--text-cream)' : 'var(--text-ink)',
+              borderTop: isDark ? '1px solid var(--border-hairline-dark)' : '1px solid var(--border-hairline)',
+            }}
+          >
+            <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
+              <MotionWrapper>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: cat.hasDemo ? 'repeat(auto-fit, minmax(320px, 1fr))' : 'minmax(120px, 160px) 1fr',
+                    gap: 'clamp(24px, 4vw, 52px)',
+                    alignItems: 'start',
+                  }}
+                >
+                  {/* Left Copy Column (or Index + Content) */}
+                  {cat.hasDemo ? (
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                        <span
+                          style={{
+                            fontSize: '11px',
+                            fontFamily: 'var(--font-utility)',
+                            color: isDark ? 'var(--accent-gold)' : 'var(--accent-terracotta)',
+                            fontWeight: 700,
+                          }}
+                        >
+                          {cat.index} / 05
+                        </span>
+                        <span
+                          className="editorial-label"
+                          style={{
+                            fontSize: '10px',
+                            color: isDark ? 'rgba(246, 241, 233, 0.65)' : 'var(--muted)',
+                          }}
+                        >
+                          * {cat.tagline}
+                        </span>
+                      </div>
+                      <h2
+                        style={{
+                          fontFamily: 'var(--font-display)',
+                          fontSize: 'clamp(28px, 3.6vw, 46px)',
+                          margin: '0 0 14px',
+                          lineHeight: 1.02,
+                          letterSpacing: '-0.03em',
+                          color: isDark ? 'var(--text-cream)' : 'var(--text-ink)',
+                        }}
+                      >
+                        {cat.heading}
+                      </h2>
+                      <p
+                        style={{
+                          fontSize: '14.5px',
+                          lineHeight: 1.65,
+                          color: isDark ? 'rgba(246, 241, 233, 0.74)' : 'var(--muted)',
+                          margin: '0 0 20px',
+                        }}
+                      >
+                        {cat.description}
+                      </p>
+
+                      <ul className="capability-pill-list" aria-label={`${cat.heading} deliverables`} style={{ marginBottom: '20px' }}>
+                        {cat.services.map((service) => (
+                          <li
+                            key={service}
+                            className="capability-pill-tag"
+                            style={
+                              isDark
+                                ? {
+                                    background: 'rgba(246, 241, 233, 0.06)',
+                                    borderColor: 'var(--border-hairline-dark)',
+                                    color: 'var(--text-cream)',
+                                  }
+                                : undefined
+                            }
+                          >
+                            <span
+                              className="capability-pill-dot"
+                              style={isDark ? { background: 'var(--accent-gold)' } : undefined}
+                              aria-hidden="true"
+                            />
+                            <span>{service}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '13.5px',
+                          lineHeight: 1.55,
+                          fontStyle: 'italic',
+                          color: isDark ? 'var(--accent-gold)' : 'var(--text-ink)',
+                          borderLeft: `2px solid ${isDark ? 'var(--accent-gold)' : 'var(--accent-terracotta)'}`,
+                          paddingLeft: '14px',
+                        }}
+                      >
+                        &ldquo;{cat.value}&rdquo;
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <span
+                          style={{
+                            fontSize: '12px',
+                            fontFamily: 'var(--font-utility)',
+                            color: isDark ? 'var(--accent-gold)' : 'var(--accent-terracotta)',
+                            fontWeight: 700,
+                            display: 'block',
+                          }}
+                        >
+                          {cat.index} / 05
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                          gap: '24px',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <div>
+                          <span
+                            className="editorial-label"
+                            style={{
+                              fontSize: '10px',
+                              color: isDark ? 'var(--accent-gold)' : 'var(--muted)',
+                              display: 'block',
+                              marginBottom: '8px',
+                            }}
+                          >
+                            * {cat.tagline}
+                          </span>
+                          <h2
+                            style={{
+                              fontFamily: 'var(--font-display)',
+                              fontSize: 'clamp(28px, 3.6vw, 46px)',
+                              margin: '0 0 12px',
+                              lineHeight: 1.02,
+                              letterSpacing: '-0.03em',
+                              color: isDark ? 'var(--text-cream)' : 'var(--text-ink)',
+                            }}
+                          >
+                            {cat.heading}
+                          </h2>
+                          <p
+                            style={{
+                              fontSize: '14.5px',
+                              lineHeight: 1.65,
+                              color: isDark ? 'rgba(246, 241, 233, 0.74)' : 'var(--muted)',
+                              margin: 0,
+                            }}
+                          >
+                            {cat.description}
+                          </p>
+                        </div>
+
+                        <div>
+                          <ul className="capability-pill-list" aria-label={`${cat.heading} deliverables`} style={{ marginBottom: '16px' }}>
+                            {cat.services.map((service) => (
+                              <li
+                                key={service}
+                                className="capability-pill-tag"
+                                style={
+                                  isDark
+                                    ? {
+                                        background: 'rgba(246, 241, 233, 0.06)',
+                                        borderColor: 'var(--border-hairline-dark)',
+                                        color: 'var(--text-cream)',
+                                      }
+                                    : undefined
+                                }
+                              >
+                                <span
+                                  className="capability-pill-dot"
+                                  style={isDark ? { background: 'var(--accent-gold)' } : undefined}
+                                  aria-hidden="true"
+                                />
+                                <span>{service}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <p
+                            style={{
+                              margin: 0,
+                              fontSize: '13.5px',
+                              lineHeight: 1.55,
+                              fontStyle: 'italic',
+                              color: isDark ? 'var(--accent-gold)' : 'var(--text-ink)',
+                              borderLeft: `2px solid ${isDark ? 'var(--accent-gold)' : 'var(--accent-terracotta)'}`,
+                              paddingLeft: '14px',
+                            }}
+                          >
+                            &ldquo;{cat.value}&rdquo;
+                          </p>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Embedded Interactive Live Mini-Demo (Pillars 01, 03, 05) */}
+                  {cat.hasDemo && (
+                    <div>
+                      <CapabilityMiniDemo pillarIndex={cat.index} />
+                    </div>
+                  )}
+                </div>
+              </MotionWrapper>
+            </div>
+          </section>
+        )
+      })}
+
+      {/* Deep Espresso Delivery Architecture & Animated 1px Methodology Progress Beam */}
+      <section
+        style={{
+          background: 'var(--bg-espresso)',
+          color: 'var(--text-cream)',
+          padding: 'clamp(52px, 6vw, 84px) var(--page-gutter)',
+          borderTop: '1px solid var(--border-hairline-dark)',
+        }}
+      >
+        <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
+          <MotionWrapper>
+            <p className="editorial-label" style={{ color: 'var(--accent-gold)', margin: '0 0 10px' }}>
+              * 02 / Studio Delivery Architecture
+            </p>
+            <h2
+              style={{
+                fontSize: 'clamp(36px, 4.8vw, 66px)',
+                lineHeight: 0.96,
+                margin: 0,
+                fontFamily: 'var(--font-display)',
+                color: 'var(--text-cream)',
+              }}
+            >
+              How strategy becomes{' '}
+              <i style={{ fontFamily: 'var(--font-editorial)', fontWeight: 400, color: 'var(--accent-gold)' }}>
+                velocity.
+              </i>
+            </h2>
+          </MotionWrapper>
+          <MethodologyProgressBeam tone="dark" />
+        </div>
+      </section>
+
+      {/* Compact Warm Parchment Sand CTA + Direct Studio Contact */}
+      <section
+        style={{
+          background: 'var(--bg-parchment-alt)',
+          color: 'var(--text-ink)',
+          padding: 'clamp(52px, 6vw, 84px) var(--page-gutter)',
+          textAlign: 'center',
+          borderTop: '1px solid var(--border-hairline)',
+        }}
+      >
+        <MotionWrapper>
+          <p className="editorial-label" style={{ color: 'var(--accent-terracotta)', margin: '0 0 12px' }}>
+            * 03 / Ready to build something?
+          </p>
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(40px, 6vw, 84px)',
+              margin: '0 0 26px',
+              lineHeight: 0.98,
+              color: 'var(--text-ink)',
+            }}
+          >
+            Let&apos;s make it{' '}
+            <i style={{ fontFamily: 'var(--font-editorial)', fontWeight: 400, color: 'var(--accent-terracotta)' }}>
+              enduring.
+            </i>
+          </h2>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap', marginBottom: '32px' }}>
+            <Link className="stm-btn-terracotta" href="/contact">
+              Request Custom Proposal <ArrowUpRight size={14} />
+            </Link>
+            <Link
+              className="button button-outline"
+              href="/work"
+              style={{ color: 'var(--text-ink)', borderColor: 'var(--border-hairline)' }}
+            >
+              Explore Selected Work <ArrowUpRight size={14} />
+            </Link>
+          </div>
+
+          <div
+            style={{
+              maxWidth: '720px',
+              margin: '0 auto',
+              paddingTop: '22px',
+              borderTop: '1px solid var(--border-hairline)',
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: '24px',
+              fontSize: '12px',
+              fontFamily: 'var(--font-utility)',
+              color: 'var(--muted)',
+            }}
+          >
+            <CopyEmailLink tone="light" size="sm" />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <MapPin size={13} /> 560066, Whitefield, Bengaluru, India
+            </span>
+          </div>
+        </MotionWrapper>
       </section>
 
       <SiteFooter />
