@@ -189,7 +189,7 @@ export default function ServicesPage() {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: cat.hasDemo ? 'repeat(auto-fit, minmax(320px, 1fr))' : 'minmax(120px, 160px) 1fr',
+                    gridTemplateColumns: cat.hasDemo ? 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))' : 'minmax(120px, 160px) 1fr',
                     gap: 'clamp(24px, 4vw, 52px)',
                     alignItems: 'start',
                   }}
@@ -298,7 +298,7 @@ export default function ServicesPage() {
                       <div
                         style={{
                           display: 'grid',
-                          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
                           gap: '24px',
                           alignItems: 'center',
                         }}

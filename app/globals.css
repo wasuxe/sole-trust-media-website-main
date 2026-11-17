@@ -10317,3 +10317,44 @@ main.site-shell {
     text-align: center !important;
   }
 }
+
+
+/* ==========================================================================
+   FINAL UNIVERSAL AUDIT GUARDRAILS (VAR ALIASES, Z-INDEX & CASE STUDY MOBILE)
+   ========================================================================== */
+:root {
+  --pad: var(--page-gutter);
+  --font-serif: var(--font-editorial);
+}
+
+.stm-clean-loader {
+  z-index: 10050 !important;
+}
+
+@media (max-width: 767px) {
+  /* Ensure individual case study pages (/work/[slug]) stack cleanly with zero squeeze */
+  .case-hero,
+  .case-overview,
+  .case-challenge,
+  .case-strategy,
+  .case-creative,
+  .case-execution,
+  .case-results,
+  .case-gallery,
+  .case-sources,
+  .trends-full-paper > section,
+  .case-13isu-article > section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .case-hero {
+    padding-top: 96px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .section-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+}

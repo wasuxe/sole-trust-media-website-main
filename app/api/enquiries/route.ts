@@ -310,7 +310,7 @@ export async function POST(request: NextRequest) {
     const submittedAt =
       new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST'
 
-    // Dispatch email notification to soltresmedia@gmail.com
+    // Dispatch email notification to soletrustmedia@gmail.com
     const emailDelivered = await dispatchEmailNotification(payload, submittedAt)
 
     // Save to Supabase (if configured)

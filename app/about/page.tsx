@@ -165,7 +165,7 @@ export default function AboutPage() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
                 gap: 'clamp(28px, 4vw, 64px)',
                 alignItems: 'start',
               }}

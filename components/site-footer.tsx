@@ -154,7 +154,7 @@ export default function SiteFooter() {
           color: 'var(--beige)',
         }}
       >
-        <span>&copy; {new Date().getFullYear()} Sole Trust Media. All rights reserved.</span>
+        <span suppressHydrationWarning>&copy; {new Date().getFullYear()} Sole Trust Media. All rights reserved.</span>
         <span style={{ fontStyle: 'italic', letterSpacing: '0.06em', fontFamily: 'var(--font-editorial)', fontSize: '15px', color: 'var(--text-cream)' }}>
           Not Just Seen. Remembered.
         </span>

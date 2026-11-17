@@ -33,6 +33,15 @@ export default function SiteNav() {
     setMenuOpen(false)
   }, [pathname])
 
+  // Auto-close mobile drawer if viewport resizes to desktop (>= 1024px)
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setMenuOpen(false)
+    }
+    window.addEventListener('resize', onResize, { passive: true })
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   useEffect(() => {
     if (!menuOpen) return
     const prevOverflow = document.body.style.overflow

@@ -2675,41 +2675,43 @@ export default async function CaseStudyPage({
       {nextProject && (
         <section
           style={{
-            padding: "80px var(--pad)",
-            borderTop: "1px solid var(--border)",
-            background: "rgba(230, 220, 207, 0.25)",
+            padding: "clamp(48px, 5vw, 76px) var(--page-gutter)",
+            borderTop: "1px solid var(--border-hairline)",
+            background: "var(--bg-parchment-alt)",
           }}
         >
           <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-            <p className="eyebrow" style={{ marginBottom: 16 }}>Next Case Study</p>
+            <p className="editorial-label" style={{ color: "var(--accent-terracotta)", marginBottom: 14 }}>
+              * Next Case Study
+            </p>
             <div
               style={{
                 display: "flex",
                 flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "space-between",
-                gap: 24,
+                gap: 20,
               }}
             >
               <div>
-                <span style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--muted)" }}>
+                <span style={{ fontSize: 12, fontFamily: "var(--font-utility)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--muted)" }}>
                   {nextProject.type || nextProject.category}
                 </span>
-                <h3 style={{ fontSize: "clamp(24px, 3.5vw, 44px)", margin: "8px 0 12px", fontFamily: "var(--font-serif)" }}>
-                  <a href={`/work/${nextProject.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+                <h3 style={{ fontSize: "clamp(26px, 3.6vw, 46px)", margin: "8px 0 12px", fontFamily: "var(--font-editorial)", fontWeight: 400 }}>
+                  <a href={`/work/${nextProject.slug}`} style={{ textDecoration: "none", color: "var(--text-ink)" }}>
                     {nextProject.name}
                   </a>
                 </h3>
-                <p style={{ maxWidth: 560, color: "var(--muted)", margin: 0 }}>
+                <p style={{ maxWidth: 560, color: "var(--muted)", margin: 0, fontSize: 14.5, lineHeight: 1.6 }}>
                   {nextProject.description || nextProject.note}
                 </p>
               </div>
               <a
                 href={`/work/${nextProject.slug}`}
                 className="button button-outline"
-                style={{ alignSelf: "center" }}
+                style={{ alignSelf: "center", color: "var(--text-ink)", borderColor: "var(--border-hairline)" }}
               >
-                View Case Study <ArrowUpRight data-icon="inline-end" />
+                View Case Study <ArrowUpRight size={14} />
               </a>
             </div>
           </div>
