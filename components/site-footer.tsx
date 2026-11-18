@@ -159,8 +159,8 @@ export default function SiteFooter() {
           Not Just Seen. Remembered.
         </span>
         <div style={{ display: 'flex', gap: '20px' }}>
-          <Link href="/contact" style={{ color: 'inherit' }}>Privacy Policy</Link>
-          <Link href="/contact" style={{ color: 'inherit' }}>Terms of Engagement</Link>
+          <Link href="/privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy Policy</Link>
+          <Link href="/terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms of Engagement</Link>
         </div>
       </div>
 
