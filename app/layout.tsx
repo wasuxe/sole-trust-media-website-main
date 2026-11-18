@@ -9,8 +9,14 @@ import './globals.css'
 
 const SITE_URL = 'https://soletrustmedia.agency'
 
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+
+  verification: {
+    google: 'kDFV3gKfgYUZB85ssnVU14zy33fJd3iJMw4QRjZQerw',
+  },
+
   applicationName: 'Sole Trust Media',
   title: {
     default: 'Sole Trust Media — Creative Technology & Brand Studio',
