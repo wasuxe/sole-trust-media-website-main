@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import nodemailer from 'nodemailer'
 
+export const runtime = 'nodejs'
+
 const TARGET_NOTIFICATION_EMAIL =
   process.env.CONTACT_NOTIFICATION_EMAIL || 'soletrustmedia@gmail.com'
 
@@ -217,16 +219,19 @@ async function dispatchEmailNotification(data: EnquiryData, submittedAt: string)
         Accept: 'application/json',
         Origin: 'https://soletrustmedia.agency',
         Referer: 'https://soletrustmedia.agency/',
+        'User-Agent': 'Mozilla/5.0 (compatible; SoleTrustMedia/1.0; +https://soletrustmedia.agency)',
       },
       body: JSON.stringify({
-        _subject: `[STM Project Query] ${data.full_name}${data.company_name ? ` (${data.company_name})` : ''} — ${data.budget || 'Custom Scope'}`,
+        _subject: `[STM Project Query] ${data.full_name}${data.company_name ? ` (${data.company_name})` : ''}`,
         _replyto: data.email,
+        _captcha: 'false',
         _template: 'table',
+        name: data.full_name,
+        email: data.email,
         'Client Name': data.full_name,
         'Client Email': data.email,
         Company: data.company_name || 'N/A',
         'Phone / WhatsApp': data.phone || 'N/A',
-        'Budget Scope': data.budget || 'Not specified',
         'Services Required': (data.services_required || []).join(', ') || 'None specified',
         'Project Description': data.project_description,
         'Submitted At': submittedAt,
@@ -234,10 +239,13 @@ async function dispatchEmailNotification(data: EnquiryData, submittedAt: string)
     })
 
     if (formSubmitRes.ok) {
-      const resJson = await formSubmitRes.json().catch(() => ({}))
-      console.info(`[EMAIL DISPATCH]: FormSubmit forwarder delivered to ${targetEmail}:`, resJson)
-      delivered = true
-      return true
+      const resJson = (await formSubmitRes.json().catch(() => ({}))) as { success?: string | boolean; message?: string }
+      const isSuccess = resJson.success === true || String(resJson.success).toLowerCase() === 'true'
+      console.info(`[EMAIL DISPATCH]: FormSubmit response for ${targetEmail}:`, resJson)
+      if (isSuccess) {
+        delivered = true
+        return true
+      }
     } else {
       console.warn(`[EMAIL DISPATCH]: FormSubmit returned status ${formSubmitRes.status}`)
     }
@@ -310,8 +318,10 @@ export async function POST(request: NextRequest) {
     const submittedAt =
       new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST'
 
-    // Dispatch email notification to soletrustmedia@gmail.com
-    const emailDelivered = await dispatchEmailNotification(payload, submittedAt)
+    // Dispatch email notification to soletrustmedia@gmail.com (skip duplicate FormSubmit if browser already delivered)
+    const emailDelivered = body.client_emailed
+      ? true
+      : await dispatchEmailNotification(payload, submittedAt)
 
     // Save to Supabase (if configured)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL

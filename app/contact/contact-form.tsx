@@ -136,9 +136,10 @@ export default function ContactForm() {
     }
 
     try {
-      // 1. Direct FormSubmit AJAX dispatch to soletrustmedia@gmail.com + /api/enquiries sync in parallel
-      await Promise.allSettled([
-        fetch('https://formsubmit.co/ajax/soletrustmedia@gmail.com', {
+      // 1. Direct browser FormSubmit AJAX dispatch to soletrustmedia@gmail.com (_captcha: "false")
+      let browserEmailed = false
+      try {
+        const fsRes = await fetch('https://formsubmit.co/ajax/soletrustmedia@gmail.com', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -147,7 +148,10 @@ export default function ContactForm() {
           body: JSON.stringify({
             _subject: `[Start a Project] ${fullName}${companyName ? ` (${companyName})` : ''}`,
             _replyto: email,
+            _captcha: 'false',
             _template: 'table',
+            name: fullName,
+            email,
             Name: fullName,
             Email: email,
             Company: companyName || 'N/A',
@@ -156,21 +160,38 @@ export default function ContactForm() {
             'Selected Disciplines': disciplinesText,
             Message: projectDesc,
           }),
-        }),
-        fetch('/api/enquiries', {
+        })
+        if (fsRes.ok) {
+          const fsJson = (await fsRes.json().catch(() => ({}))) as { success?: string | boolean }
+          browserEmailed = fsJson.success === true || String(fsJson.success).toLowerCase() === 'true'
+        }
+      } catch {
+        browserEmailed = false
+      }
+
+      // 2. Sync to internal /api/enquiries (Supabase + server backup if browser FormSubmit failed)
+      let serverEmailed = false
+      try {
+        const apiRes = await fetch('/api/enquiries', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        }),
-      ])
+          body: JSON.stringify({ ...payload, client_emailed: browserEmailed }),
+        })
+        if (apiRes.ok) {
+          const apiJson = (await apiRes.json().catch(() => ({}))) as { emailed?: boolean }
+          serverEmailed = Boolean(apiJson.emailed)
+        }
+      } catch {
+        serverEmailed = false
+      }
 
       setSubmittedInfo({ fullName, mailtoUrl, gmailWebUrl })
       setSent(true)
       setProjectBrief('')
       setScopeBanner(null)
 
-      // 2. Instant mailto:soletrustmedia@gmail.com compose redirect pre-filled with exact inquiry & scope
-      if (typeof window !== 'undefined') {
+      // 3. Only trigger automatic mailto fallback if both automated channels failed
+      if (!browserEmailed && !serverEmailed && typeof window !== 'undefined') {
         window.location.href = mailtoUrl
       }
     } catch {
