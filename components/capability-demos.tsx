@@ -10,6 +10,7 @@ const BRAND_SPECIMENS = {
   twine: {
     id: 'twine',
     label: 'Twine — Tactile Atelier',
+    shortLabel: 'TWINE ATELIER',
     tagline: 'Editorial Warmth & Material Craft',
     swatches: [
       { name: 'Parchment', hex: '#F6F1E9', darkText: true },
@@ -31,6 +32,7 @@ const BRAND_SPECIMENS = {
   lumora: {
     id: 'lumora',
     label: 'Lumora — Spatial Light',
+    shortLabel: 'LUMORA LIGHT',
     tagline: 'Architectural Minimalism & Kinetic Luminance',
     swatches: [
       { name: 'Obsidian', hex: '#181412', darkText: false },
@@ -63,7 +65,7 @@ export function BrandDnaSpecimenDemo() {
         <span className="editorial-label" style={{ fontSize: '9.5px', color: 'var(--accent-terracotta)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <Sparkles size={11} /> Live Specimen · Brand DNA
         </span>
-        <div className="stm-demo-switcher" role="tablist" aria-label="Toggle brand DNA specimen">
+        <div className="stm-demo-switcher stm-segmented-pill-switcher" role="tablist" aria-label="Toggle brand DNA specimen">
           {(Object.keys(BRAND_SPECIMENS) as SpecimenKey[]).map((key) => {
             const item = BRAND_SPECIMENS[key]
             const active = activeKey === key
@@ -76,7 +78,8 @@ export function BrandDnaSpecimenDemo() {
                 onClick={() => setActiveKey(key)}
                 className={`stm-demo-tab ${active ? 'active' : ''}`}
               >
-                {item.label}
+                <span className="stm-demo-label-desktop">{item.label}</span>
+                <span className="stm-demo-label-mobile">{item.shortLabel}</span>
               </button>
             )
           })}
@@ -227,7 +230,7 @@ export function FlagshipBeforeAfterDemo() {
         <span className="editorial-label" style={{ fontSize: '9.5px', color: 'var(--accent-terracotta)', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
           <Zap size={11} /> Live Upgrade · Flagship Preview
         </span>
-        <div className="stm-demo-switcher" role="tablist" aria-label="Toggle template versus flagship preview">
+        <div className="stm-demo-switcher stm-segmented-pill-switcher" role="tablist" aria-label="Toggle template versus flagship preview">
           <button
             type="button"
             role="tab"
@@ -235,7 +238,8 @@ export function FlagshipBeforeAfterDemo() {
             onClick={() => handleToggle('template')}
             className={`stm-demo-tab ${mode === 'template' ? 'active' : ''}`}
           >
-            Generic Template
+            <span className="stm-demo-label-desktop">Generic Template</span>
+            <span className="stm-demo-label-mobile">TEMPLATE</span>
           </button>
           <button
             type="button"
@@ -244,7 +248,8 @@ export function FlagshipBeforeAfterDemo() {
             onClick={() => handleToggle('flagship')}
             className={`stm-demo-tab ${mode === 'flagship' ? 'active' : ''}`}
           >
-            Sole Trust Flagship
+            <span className="stm-demo-label-desktop">Sole Trust Flagship</span>
+            <span className="stm-demo-label-mobile">FLAGSHIP</span>
           </button>
         </div>
       </div>
@@ -279,45 +284,60 @@ export function FlagshipBeforeAfterDemo() {
           </div>
         </div>
 
-        {/* Overlay Layer: High-Contrast Sole Trust Flagship */}
+        {/* Overlay Layer: High-Contrast Bespoke Mini-Website Showcase */}
         <div
-          className="stm-flagship-layer stm-flagship-upgraded"
+          className="stm-flagship-layer stm-flagship-upgraded stm-flagship-mini-browser"
           style={{ clipPath: `inset(0 ${100 - splitPercent}% 0 0)` }}
           aria-hidden={splitPercent < 15}
         >
-          <div className="stm-flagship-bar">
-            <span style={{ fontFamily: 'var(--font-editorial)', fontSize: '14px', letterSpacing: '0.06em', color: '#F6F1E9' }}>
-              SOLE TRUST
-            </span>
+          {/* Ambient Warm Gold Radial Glow */}
+          <div className="stm-flagship-ambient-glow" aria-hidden="true" />
+
+          {/* Top Atelier / Browser Bar */}
+          <div className="stm-flagship-bar" style={{ position: 'relative', zIndex: 2 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontFamily: 'var(--font-editorial)', fontSize: '14px', letterSpacing: '0.06em', color: '#F6F1E9' }}>
+                SOLE TRUST
+              </span>
+              <span className="stm-flagship-blr-tag">BLR // GLOBAL</span>
+            </div>
             <span className="stm-flagship-perf-badge">
               <Zap size={10} /> 0.6s LCP · 99 Lighthouse
             </span>
           </div>
-          <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px', flexWrap: 'wrap' }}>
-            <div>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#e49581', display: 'block', marginBottom: '6px' }}>
-                * BESPOKE NEXT.JS DIGITAL FLAGSHIP
+
+          {/* Rich Split-Grid Mini-Website Composition (Zero Empty Void) */}
+          <div className="stm-flagship-split-body">
+            {/* Left Side: Editorial Micro-Nav + Headline + Terracotta CTA */}
+            <div className="stm-flagship-split-left">
+              <span className="stm-flagship-micronav">WORK · STUDIO · CONTACT</span>
+              <div className="stm-flagship-headline">
+                Built to earn{' '}
+                <i style={{ fontFamily: 'var(--font-editorial)', fontWeight: 400, color: '#C59B6D' }}>
+                  immediate authority.
+                </i>
+              </div>
+              <span className="stm-flagship-cta-pill">
+                3.1x Enquiries ↗
               </span>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(19px, 2.2vw, 24px)', fontWeight: 600, lineHeight: 1.06, color: '#F6F1E9', letterSpacing: '-0.03em' }}>
-                Built to earn <i style={{ fontFamily: 'var(--font-editorial)', fontWeight: 400, color: '#e49581' }}>immediate authority.</i>
+            </div>
+
+            {/* Right Side: Layered Floating Miniature Visual Card + Telemetry Badge */}
+            <div className="stm-flagship-split-right">
+              <div className="stm-flagship-mini-preview-card">
+                <img
+                  src="/assets/work/future-luxe/future-luxe-01.png"
+                  alt="Sole Trust Flagship miniature website showcase"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="stm-flagship-mini-telemetry">
+                  <span>CONVERSION +142%</span>
+                  <span className="stm-flagship-mini-dot" aria-hidden="true" />
+                  <span>0.6s LCP</span>
+                </div>
               </div>
             </div>
-            <span
-              style={{
-                padding: '7px 14px',
-                borderRadius: '999px',
-                background: 'var(--accent-terracotta)',
-                color: '#F6F1E9',
-                fontFamily: 'var(--font-display)',
-                fontSize: '9.5px',
-                fontWeight: 600,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                boxShadow: '0 8px 20px rgba(140, 45, 25, 0.35)',
-              }}
-            >
-              3.1x Enquiries ↗
-            </span>
           </div>
         </div>
 

@@ -10612,3 +10612,220 @@ main.site-shell {
     padding-right: 24px !important;
   }
 }
+
+
+/* ==========================================================================
+   UI POLISH: FLAGSHIP MINI-BROWSER SHOWCASE, SEGMENTED MOBILE PILLS & SENSOR
+   ========================================================================== */
+
+/* 1. Bespoke Split-Grid Mini-Website Showcase inside Sole Trust Flagship Card */
+.stm-flagship-compare-stage {
+  min-height: 238px !important;
+}
+
+.stm-flagship-mini-browser {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  background: var(--bg-espresso) !important;
+}
+
+.stm-flagship-ambient-glow {
+  position: absolute;
+  inset: -20% -10%;
+  background: radial-gradient(circle at 72% 48%, rgba(197, 155, 109, 0.2), transparent 62%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stm-flagship-blr-tag {
+  font-family: var(--font-utility);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: rgba(197, 155, 109, 0.78);
+  padding-left: 10px;
+  border-left: 1px solid rgba(246, 241, 233, 0.18);
+}
+
+.stm-flagship-split-body {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 14px;
+  flex: 1;
+}
+
+.stm-flagship-split-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.stm-flagship-micronav {
+  font-family: var(--font-utility);
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(197, 155, 109, 0.85);
+}
+
+.stm-flagship-headline {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-cream);
+}
+
+.stm-flagship-cta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--accent-terracotta);
+  color: var(--text-cream);
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 20px rgba(140, 45, 25, 0.36);
+}
+
+.stm-flagship-split-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.stm-flagship-mini-preview-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 155, 109, 0.38);
+  box-shadow: 0 14px 30px rgba(12, 7, 5, 0.52);
+  background: var(--bg-espresso-deep);
+}
+
+.stm-flagship-mini-preview-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.stm-flagship-mini-telemetry {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(23, 15, 12, 0.84);
+  border: 1px solid rgba(197, 155, 109, 0.34);
+  color: var(--text-cream);
+  font-family: var(--font-utility);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.stm-flagship-mini-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+}
+
+/* 2. Desktop vs Mobile Segmented Pill Labels */
+.stm-demo-label-mobile {
+  display: none;
+}
+
+.stm-demo-label-desktop {
+  display: inline;
+}
+
+@media (max-width: 767px) {
+  .stm-demo-label-desktop {
+    display: none !important;
+  }
+
+  .stm-demo-label-mobile {
+    display: inline !important;
+  }
+
+  /* Clean 2-column single-row segmented pill switcher on mobile (< 768px) */
+  .stm-segmented-pill-switcher {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    padding: 4px !important;
+    width: 100% !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(30, 24, 21, 0.15) !important;
+    background: rgba(237, 229, 216, 0.72) !important;
+  }
+
+  .stm-segmented-pill-switcher .stm-demo-tab {
+    width: 100% !important;
+    min-height: 36px !important;
+    padding: 8px 8px !important;
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-align: center !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    justify-content: center !important;
+  }
+
+  /* Compact Flagship mini-browser split on narrow 335px phone cards */
+  .stm-flagship-compare-stage {
+    min-height: 290px !important;
+  }
+
+  .stm-flagship-blr-tag {
+    display: none;
+  }
+
+  .stm-flagship-split-body {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-top: 10px !important;
+  }
+
+  .stm-flagship-mini-preview-card {
+    aspect-ratio: 16 / 8.5;
+  }
+
+  /* 3. Tuck Floating Scroll Compass Pill Cleanly Above Mobile Dock (bottom-20 right-4 z-30) */
+  .stm-scroll-compass-pill {
+    top: auto !important;
+    bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+    right: 16px !important;
+    z-index: 30 !important;
+    transform: translate3d(0, 8px, 0);
+  }
+
+  .stm-scroll-compass-pill.is-visible {
+    transform: translate3d(0, 0, 0);
+  }
+}
