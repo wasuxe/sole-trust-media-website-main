@@ -1,0 +1,21 @@
+{
+  "name": "Sole Trust Media",
+  "short_name": "Sole Trust",
+  "description": "Independent creative technology studio crafting brand strategy, digital flagships, and automated growth systems for ambitious brands worldwide.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F1E9",
+  "theme_color": "#241914",
+  "icons": [
+    {
+      "src": "/icon-light-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

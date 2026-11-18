@@ -9,6 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/admin/',
       },
     ],
-    sitemap: 'https://soletrustmedia.vercel.app/sitemap.xml',
+    sitemap: 'https://soletrustmedia.agency/sitemap.xml',
+    host: 'https://soletrustmedia.agency',
   }
 }

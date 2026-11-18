@@ -84,7 +84,7 @@ export default function ReelVideoCard({ id, src, category, title }: ReelVideoCar
         muted={!isUnmuted}
         loop
         autoPlay
-        preload="auto"
+        preload="metadata"
       />
       <div className="stm-reel-sound-pin">
         <SoundTogglePill

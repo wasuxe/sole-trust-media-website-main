@@ -10,6 +10,7 @@ import SiteFooter from "@/components/site-footer"
 import CaseStudyDrawer, { type CaseDrawerProject } from "@/components/case-study-drawer"
 import { MotionWrapper, AnimatedHairline } from "@/components/MotionWrapper"
 import { useSound } from "@/components/sound-provider"
+import Tilt3DCard from "@/components/tilt-3d-card"
 
 interface Project {
   slug: string
@@ -292,9 +293,10 @@ export default function WorkPage() {
 
             <div className="stm-flagship-spotlights-grid">
               {/* Flagship Spotlight 01: Tiramisu (13ISU) */}
-              <article
+              <Tilt3DCard
                 className="stm-spotlight-card tone-parchment"
-                data-magnetic-case="true"
+                magneticCase
+                maxTilt={5}
                 onClick={open13isuDrawer}
                 role="button"
                 tabIndex={0}
@@ -309,7 +311,7 @@ export default function WorkPage() {
                   <span className="editorial-label" style={{ color: "var(--accent-terracotta)", fontSize: "10px" }}>
                     01 / Flagship Culinary Brand · 13ISU
                   </span>
-                  <span className="stm-spotlight-pill">100K+ Views · 3 Days</span>
+                  <span className="stm-spotlight-pill stm-mobile-hide-decor">100K+ Views · 3 Days</span>
                 </div>
 
                 <h2 className="stm-spotlight-title">
@@ -318,20 +320,20 @@ export default function WorkPage() {
                     sensory ritual.
                   </i>
                 </h2>
-                <p className="stm-spotlight-desc">
+                <p className="stm-spotlight-desc stm-mobile-clamp-3">
                   End-to-end naming (&ldquo;Terah&rdquo; + ISU), tactile packaging craft, night-market spatial direction, and viral short-form launch reels that ignited organic demand from day one.
                 </p>
 
                 {/* 3-Image Gallery Strip */}
                 <div className="stm-spotlight-gallery-3">
                   <div className="stm-spotlight-thumb">
-                    <img src="/13isu-creative-1.png" alt="13ISU night-market booth activation" loading="lazy" />
+                    <img src="/13isu-creative-1.png" alt="13ISU night-market booth activation" loading="lazy" decoding="async" />
                   </div>
                   <div className="stm-spotlight-thumb">
-                    <img src="/13isu-creative-2.png" alt="13ISU tactile packaging design" loading="lazy" />
+                    <img src="/13isu-creative-2.png" alt="13ISU tactile packaging design" loading="lazy" decoding="async" />
                   </div>
                   <div className="stm-spotlight-thumb">
-                    <img src="/13isu-creative-3.png" alt="13ISU large-format event display" loading="lazy" />
+                    <img src="/13isu-creative-3.png" alt="13ISU large-format event display" loading="lazy" decoding="async" />
                   </div>
                 </div>
 
@@ -350,12 +352,13 @@ export default function WorkPage() {
                     Full Spread <ArrowUpRight size={12} />
                   </a>
                 </div>
-              </article>
+              </Tilt3DCard>
 
               {/* Flagship Spotlight 02: Trends Are a Tool, Not a Strategy */}
-              <article
+              <Tilt3DCard
                 className="stm-spotlight-card tone-espresso-deep"
-                data-magnetic-case="true"
+                magneticCase
+                maxTilt={5}
                 onClick={openTrendsDrawer}
                 role="button"
                 tabIndex={0}
@@ -370,7 +373,7 @@ export default function WorkPage() {
                   <span className="editorial-label" style={{ color: "var(--accent-gold)", fontSize: "10px" }}>
                     02 / Featured Strategic Thesis
                   </span>
-                  <span className="stm-spotlight-pill dark">+140% Enquiry Lift</span>
+                  <span className="stm-spotlight-pill dark stm-mobile-hide-decor">+140% Enquiry Lift</span>
                 </div>
 
                 <h2 className="stm-spotlight-title" style={{ color: "var(--text-cream)" }}>
@@ -382,7 +385,7 @@ export default function WorkPage() {
 
                 <div className="stm-spotlight-quote-box">
                   <Quote size={14} style={{ color: "var(--accent-gold)", flexShrink: 0, marginTop: "3px" }} />
-                  <p>
+                  <p className="stm-mobile-clamp-3">
                     &ldquo;Views are coming. Customers are not. If people only recognise your brand when it uses viral audio, you do not have an identity yet.&rdquo;
                   </p>
                 </div>
@@ -392,6 +395,7 @@ export default function WorkPage() {
                     src="/assets/work/trends-are-a-tool/trends-cover.svg"
                     alt="Trends Are a Tool, Not a Strategy — Strategic Framework Cover"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -410,7 +414,7 @@ export default function WorkPage() {
                     Full Thesis <ArrowUpRight size={12} />
                   </a>
                 </div>
-              </article>
+              </Tilt3DCard>
             </div>
           </MotionWrapper>
 

@@ -10358,3 +10358,257 @@ main.site-shell {
     gap: 18px !important;
   }
 }
+
+
+/* ==========================================================================
+   MASTER UPGRADE: 3D TACTILE DEPTH, MOBILE TOUCH SENSOR, SPEED & DE-CLUTTER
+   ========================================================================== */
+
+/* 1. Ultra-Fast Non-Blocking Loader Timing (450ms hold -> 420ms exit) */
+.stm-clean-loader {
+  transition: transform 0.42s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.stm-clean-loader-logo {
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stm-clean-loader-fill {
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1) 0.04s;
+}
+
+/* 2. Real CSS 3D Tilt & Dynamic Glare Sheen (Desktop & Mobile Cards) */
+.stm-tilt-3d-shell {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.stm-tilt-3d-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 4;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .showcase-vertical-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  }
+
+  .showcase-vertical-card:hover {
+    transform: perspective(1200px) translate3d(0, -6px, 0) rotateX(2.5deg) rotateY(-2deg);
+    box-shadow: 0 22px 44px rgba(14, 9, 7, 0.45);
+  }
+}
+
+/* 3. Mobile Touch-Ripple Trail & Edge Scroll Telemetry Sensor (< 1024px) */
+.stm-mobile-sensor-root {
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.stm-scroll-filament-track {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(197, 155, 109, 0.14);
+  z-index: 121;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .stm-scroll-filament-track {
+    top: 80px;
+  }
+}
+
+.stm-scroll-filament-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-terracotta), var(--accent-gold));
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.stm-scroll-compass-pill {
+  position: fixed;
+  top: 74px;
+  right: 16px;
+  z-index: 106;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(36, 25, 20, 0.9);
+  border: 1px solid rgba(197, 155, 109, 0.34);
+  color: var(--text-cream);
+  font-family: var(--font-utility);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate3d(0, -6px, 0);
+  transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .stm-scroll-compass-pill {
+    top: 90px;
+    right: 24px;
+  }
+}
+
+.stm-scroll-compass-pill.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.stm-scroll-compass-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 8px rgba(197, 155, 109, 0.7);
+}
+
+/* Concentric Terracotta & Warm Gold Touch Ripple / Trail */
+.stm-touch-ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) scale(0.25);
+  will-change: transform, opacity;
+}
+
+.stm-touch-ripple.is-tap {
+  width: 52px;
+  height: 52px;
+  border: 1.5px solid rgba(197, 155, 109, 0.85);
+  box-shadow: 0 0 0 1px rgba(140, 45, 25, 0.45), inset 0 0 12px rgba(197, 155, 109, 0.25);
+  animation: stmTouchTapPulse 0.54s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.stm-touch-ripple.is-trail {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, rgba(197, 155, 109, 0.85) 0%, rgba(140, 45, 25, 0.45) 60%, transparent 100%);
+  animation: stmTouchTrailFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes stmTouchTapPulse {
+  0% {
+    opacity: 0.9;
+    transform: translate3d(-50%, -50%, 0) scale(0.22);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(1.25);
+  }
+}
+
+@keyframes stmTouchTrailFade {
+  0% {
+    opacity: 0.75;
+    transform: translate3d(-50%, -50%, 0) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(1.6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .stm-mobile-sensor-root {
+    display: none !important;
+  }
+}
+
+/* 4. Mobile De-Clutter, Generous Breathing Room (px-6 py-14) & Zero GPU Blur Lag (< 768px) */
+@media (max-width: 767px) {
+  :root {
+    --page-gutter: 24px;
+  }
+
+  /* Replace heavy GPU backdrop-blur on full-width mobile layers with crisp solid/high-opacity fills */
+  .nav.site-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(246, 241, 233, 0.98) !important;
+  }
+
+  .nav.site-header.is-menu-open {
+    background: var(--bg-espresso) !important;
+  }
+
+  .stm-mobile-quick-dock {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(36, 25, 20, 0.96) !important;
+  }
+
+  /* Generous px-6 (24px) & py-14 (56px) mobile editorial rhythm */
+  .hero {
+    padding: 92px 24px 44px !important;
+  }
+
+  .manifesto-editorial-section,
+  .showcase-espresso-section,
+  .stm-cap-section,
+  .diagnostic-espresso-band,
+  .transformation-parchment-band,
+  .stm-insights-editorial-band,
+  .stm-configurator-section,
+  .portfolio-section,
+  .contact {
+    padding: 56px 24px !important;
+  }
+
+  /* Strip overlapping micro-badges & secondary decorative clutter on mobile */
+  .stm-mobile-hide-decor,
+  .hero-eyebrow,
+  .studio-intro-badge,
+  .about-studio-photo-caption {
+    display: none !important;
+  }
+
+  /* Crisp 3-line max clamping on dense mobile card copy */
+  .stm-mobile-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Clean mobile carousel bleed matching px-6 (24px) */
+  .showcase-five-strip,
+  .diagnostic-compact-2x2,
+  .video-reel-strip {
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .showcase-filter-pills {
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}

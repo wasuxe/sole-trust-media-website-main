@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 const ATELIER_CARDS = [
@@ -52,6 +53,7 @@ export default function HeroEditorialVisual() {
   const touchStartXRef = useRef<number | null>(null)
   const [activeIndex, setActiveIndex] = useState<number>(0)
   const [mobileIndex, setMobileIndex] = useState<number>(0)
+  const [swipeDelta, setSwipeDelta] = useState<number>(0)
   const [isPaused, setIsPaused] = useState<boolean>(false)
   const [tilt, setTilt] = useState<{ rx: number; ry: number }>({ rx: 0, ry: 0 })
 
@@ -87,6 +89,15 @@ export default function HeroEditorialVisual() {
     touchStartXRef.current = e.touches[0]?.clientX ?? null
   }
 
+  const handleMobileTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const startX = touchStartXRef.current
+    const curX = e.touches[0]?.clientX ?? null
+    if (startX !== null && curX !== null) {
+      const clamped = Math.max(-70, Math.min(70, curX - startX))
+      setSwipeDelta(clamped)
+    }
+  }
+
   const handleMobileTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     const startX = touchStartXRef.current
     const endX = e.changedTouches[0]?.clientX ?? null
@@ -100,34 +111,44 @@ export default function HeroEditorialVisual() {
         }
       }
     }
+    setSwipeDelta(0)
     touchStartXRef.current = null
     window.setTimeout(() => setIsPaused(false), 3200)
   }
 
   const activeMobileCard = MOBILE_DECK_CARDS[mobileIndex] ?? MOBILE_DECK_CARDS[0]
+  const mobileRotateY = (swipeDelta / 70) * 9
+  const mobileScale = 1 - Math.abs(swipeDelta) * 0.0006
 
   return (
     <>
       {/* ====================================================================
-          MOBILE (< 768px): SLEEK SWIPEABLE 4:5 EDITORIAL CARD DECK
+          MOBILE (< 768px): CLEAN SWIPEABLE 4:5 3D EDITORIAL CARD DECK
           ==================================================================== */}
       <div
         className="stm-atelier-mobile-deck"
         onTouchStart={handleMobileTouchStart}
+        onTouchMove={handleMobileTouchMove}
         onTouchEnd={handleMobileTouchEnd}
         aria-label="Swipeable featured projects deck"
       >
-        <div className="stm-mobile-deck-card">
+        <div
+          className="stm-mobile-deck-card"
+          style={{
+            transform: `perspective(1200px) translate3d(${(swipeDelta * 0.32).toFixed(1)}px, 0, 0) rotateY(${mobileRotateY.toFixed(2)}deg) scale(${mobileScale.toFixed(3)})`,
+            transition: swipeDelta === 0 ? 'transform 0.42s cubic-bezier(0.16, 1, 0.3, 1)' : 'none',
+          }}
+        >
           <div className="stm-mobile-deck-media">
-            <img
+            <Image
               key={activeMobileCard.id}
               src={activeMobileCard.image}
               alt={`${activeMobileCard.title} — ${activeMobileCard.discipline}`}
+              fill
+              sizes="(max-width: 767px) 90vw, 420px"
+              priority={mobileIndex === 0}
+              style={{ objectFit: 'cover' }}
             />
-            <span className="stm-mobile-deck-idx">
-              {activeMobileCard.index} / 0{MOBILE_DECK_CARDS.length}
-            </span>
-            <span className="stm-mobile-deck-metric">{activeMobileCard.metric}</span>
           </div>
 
           <Link href={activeMobileCard.href} className="stm-mobile-deck-foot">
@@ -141,7 +162,7 @@ export default function HeroEditorialVisual() {
           </Link>
         </div>
 
-        {/* Pagination Dots */}
+        {/* Clean Pagination Dots */}
         <div className="stm-mobile-deck-dots" role="tablist" aria-label="Featured commission slides">
           {MOBILE_DECK_CARDS.map((card, idx) => (
             <button
@@ -161,7 +182,7 @@ export default function HeroEditorialVisual() {
       </div>
 
       {/* ====================================================================
-          DESKTOP / TABLET (>= 768px): 3D ATELIER STAGE (UNTOUCHED)
+          DESKTOP / TABLET (>= 768px): 3D ATELIER STAGE WITH PRIORITY HERO LCP
           ==================================================================== */}
       <div
         ref={stageRef}
@@ -222,8 +243,16 @@ export default function HeroEditorialVisual() {
                 aria-label={`Bring ${card.title} to front`}
                 aria-pressed={isFront}
               >
-                <div className="stm-atelier-card-media">
-                  <img src={card.image} alt={`${card.title} — ${card.discipline}`} />
+                <div className="stm-atelier-card-media" style={{ position: 'relative' }}>
+                  <Image
+                    src={card.image}
+                    alt={`${card.title} — ${card.discipline}`}
+                    fill
+                    sizes="(max-width: 1024px) 45vw, 380px"
+                    priority={idx === 0}
+                    loading={idx === 0 ? undefined : 'lazy'}
+                    style={{ objectFit: 'cover' }}
+                  />
                   <span className="stm-atelier-card-index">{card.index}</span>
                   <span className="stm-atelier-card-metric">{card.metric}</span>
                 </div>

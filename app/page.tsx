@@ -16,6 +16,7 @@ import { MotionWrapper, AnimatedHairline, CountUpMetric } from "@/components/Mot
 import ReelVideoCard from "@/components/reel-video-card"
 import { useSound } from "@/components/sound-provider"
 import CopyEmailLink from "@/components/copy-email-link"
+import Tilt3DCard from "@/components/tilt-3d-card"
 
 // ============================================================================
 // CORE DATA STRUCTURES
@@ -760,6 +761,7 @@ export default function Page() {
                 src="/assets/work/twine/twine-01.jpeg"
                 alt="Sole Trust Media Craft & Visual Direction — Twine"
                 loading="lazy"
+                decoding="async"
                 style={{ aspectRatio: "5 / 4" }}
               />
               <div className="studio-intro-badge">
@@ -844,7 +846,7 @@ export default function Page() {
                 aria-label={`Inspect ${card.name} case study`}
               >
                 <div className="showcase-vertical-media">
-                  <img src={card.image} alt={`${card.name} preview`} loading="lazy" />
+                  <img src={card.image} alt={`${card.name} preview`} loading="lazy" decoding="async" />
                   <span className="showcase-vertical-index">{card.index}</span>
                 </div>
                 <div className="showcase-vertical-meta">
@@ -860,9 +862,10 @@ export default function Page() {
 
           {/* Flagship Case Study 01 Editorial Spotlight: Tiramisu (13ISU) */}
           <MotionWrapper delay={100} style={{ marginTop: "36px" }}>
-            <div
+            <Tilt3DCard
               className="stm-home-tiramisu-spread"
-              data-magnetic-case="true"
+              magneticCase
+              maxTilt={4.5}
               role="button"
               tabIndex={0}
               onClick={() =>
@@ -894,7 +897,7 @@ export default function Page() {
                   <span className="editorial-label" style={{ color: "var(--accent-terracotta)", fontSize: "10px" }}>
                     * Flagship Spotlight 01 · Tiramisu (13ISU)
                   </span>
-                  <span className="stm-spotlight-pill">100K+ Organic Views · 3 Days</span>
+                  <span className="stm-spotlight-pill stm-mobile-hide-decor">100K+ Organic Views · 3 Days</span>
                 </div>
                 <h3
                   style={{
@@ -911,7 +914,7 @@ export default function Page() {
                     sensory brand ritual.
                   </i>
                 </h3>
-                <p style={{ fontSize: "14px", lineHeight: 1.62, color: "var(--muted)", margin: "0 0 18px" }}>
+                <p className="stm-mobile-clamp-3" style={{ fontSize: "14px", lineHeight: 1.62, color: "var(--muted)", margin: "0 0 18px" }}>
                   From typographic naming (&ldquo;Terah&rdquo; + ISU) to tactile packaging, night-market spatial presence, and viral launch reels — crafted to earn immediate cultural obsession without paid ad bloat.
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px" }}>
@@ -933,16 +936,16 @@ export default function Page() {
 
               <div className="stm-spotlight-gallery-3">
                 <div className="stm-spotlight-thumb">
-                  <img src="/13isu-creative-1.png" alt="13ISU tiramisu night-market activation" loading="lazy" />
+                  <img src="/13isu-creative-1.png" alt="13ISU tiramisu night-market activation" loading="lazy" decoding="async" />
                 </div>
                 <div className="stm-spotlight-thumb">
-                  <img src="/13isu-creative-2.png" alt="13ISU custom packaging design" loading="lazy" />
+                  <img src="/13isu-creative-2.png" alt="13ISU custom packaging design" loading="lazy" decoding="async" />
                 </div>
                 <div className="stm-spotlight-thumb">
-                  <img src="/13isu-creative-3.png" alt="13ISU event display architecture" loading="lazy" />
+                  <img src="/13isu-creative-3.png" alt="13ISU event display architecture" loading="lazy" decoding="async" />
                 </div>
               </div>
-            </div>
+            </Tilt3DCard>
           </MotionWrapper>
 
           {/* Compact Short-Form Video Reel Strip with Luxury Sound Controller */}
@@ -1348,9 +1351,10 @@ export default function Page() {
                 </div>
               </div>
 
-              <div
+              <Tilt3DCard
                 className="stm-insights-visual-card"
-                data-magnetic-case="true"
+                magneticCase
+                maxTilt={6}
                 role="button"
                 tabIndex={0}
                 onClick={() =>
@@ -1381,12 +1385,13 @@ export default function Page() {
                   src="/assets/work/trends-are-a-tool/trends-cover.svg"
                   alt="Trends Are a Tool, Not a Strategy — Strategic Visual Thesis"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="stm-insights-visual-foot">
                   <span>WHITEPAPER · SOCIAL COMMERCE ARCHITECTURE</span>
                   <ArrowUpRight size={14} style={{ color: "var(--accent-gold)" }} />
                 </div>
-              </div>
+              </Tilt3DCard>
             </div>
           </MotionWrapper>
         </div>
